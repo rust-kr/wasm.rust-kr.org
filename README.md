@@ -2,67 +2,61 @@
 
   <h1>The Rust and WebAssembly Book</h1>
 
-  <strong>This small book describes how to use Rust and WebAssembly together.  It also consists of tutorials with cool exercises.</strong>
+  <strong>이 작은 책은 어떻게 러스트와 웹어셈블리를 같이 사용할수 있는지 설명해줍니다. 튜토리얼과 알찬 연습 예제들로 구성돼 있습니다.</strong>
 
   <h3>
     <a href="https://rustwasm.github.io/docs/book/">Read the Book</a>
+    <a href="https://rustwasm.github.io/docs/book/">책 읽기</a>
     <span> | </span>
-    <a href="https://github.com/rustwasm/book/blob/master/CONTRIBUTING.md">Contributing</a>
+    <a href="https://github.com/rustwasm/book/blob/master/CONTRIBUTING.md">기여하기</a>
     <span> | </span>
-    <a href="https://discordapp.com/channels/442252698964721669/443151097398296587">Chat</a>
+    <a href="https://discordapp.com/channels/442252698964721669/443151097398296587">채팅</a>
   </h3>
 
-  <sub>Built with 🦀🕸 by <a href="https://rustwasm.github.io/">The Rust and WebAssembly Working Group</a></sub>
+  <sub><a href="https://rustwasm.github.io/">The Rust and WebAssembly 그룹</a>이 🦀🕸 으로 만듬.</sub>
 </div>
 
-## About
+## 소개
 
-This repo contains documentation on using Rust for wasm, common workflows, how
-to get started and more as you dive deeper. It acts as a guide for doing some really neat things with rust.
+이 레포지토리는 어떻게 wasm 개발에 러스트와 일반적인 작업환경을 사용하여 시작ㅎ 하는 문서를 포함하고 있습니다.
 
-If you would like to start learning how to use Rust and WebAssembly together,
- you can read the book [online here][book].
+이 레포지토리는 러스트를 wasm에 사용하는것, 주로 사용되는 작업환경 구성, 어떻게 시작하는지, 깊에 들어갈수록 더 많은 내용을 포함합니다. 이 책은 러스트 언어로 엄청 멋진 것들을 할수있는 가이드의 역할을 합니다.
 
-[Open issues for improving the Rust and WebAssembly book.][book-issues]
+러스트와 웹어셈블리를 어떻게 같이 사용하는지 배우고 싶다면, 책을 [여기서 온라인으로][book] 읽어보세요.
 
-[book-issues]: https://github.com/rustwasm/book/issues
+["The Rust and WebAssembly book" 개선을 위해 이슈 열기.][book-issues]
 
-## Building the Book
+[책 이슈]: https://github.com/rustwasm/book/issues
 
-The book is made using [`mdbook`][mdbook]. To install it you'll need `cargo`
-installed. If you don't have any Rust tooling installed, you'll need to install
-[`rustup`][rustup] first. Follow the instructions on the site in order to get
-setup.
+## 책 빌드하기
 
-Once you have that done then just do the following:
+이 책은 [`mdbook`][mdbook] 으로 만들어졌습니다. `mdbook`을 설치하려면 `cargo` 가 설치되어 있어야 합니다. 어떤 러스트 툴링이라도 설치되어 있지 않다면, [`rustup`][rustup]을 먼저 설치해야 합니다. 설치를 위해 웹사이트에 있는 지침을 따라주세요.
+
+설치가 완료됐다면 다음 과정을 계속 따라가주세요:
 
 ```bash
 $ cargo install mdbook
 ```
 
-Make sure the `cargo install` directory is in your `$PATH` so that you can run
-the binary.
+바이너리를 실행하기 위해 `cargo install` 경로가 `$PATH` 에 있는지 확인해주세요.
 
-Now just run this command from this directory:
+이제 이 경로에서 이 명령어를 실행하세요:
 
 ```bash
 $ mdbook build
 ```
 
-This will build the book and output files into a directory called `book`. From
-there you can navigate to the `index.html` file to view it in your browser. You
-could also run the following command to automatically generate changes if you
-want to look at changes you might be making to it:
+이 명렁어는 책을 빌드하고 `book` 이라는 경로로 파일을 생성합니다. 이 경로에서 `index.html` 파일을 찾아 브라우저로 열수 있습니다. 
+
+변경중인 내용을 보고 싶다면 다음 명령어를 실행하여 다음 명령어를 실행하여 변경된 내용을 자동으로 생성할수도 있습니다:
 
 ```bash
 $ mdbook serve
 ```
 
-This will automatically generate the files as you make changes and serves them
-locally so you can view them easily without having to call `build` every time.
+이 명령어는 로컬 환경에서 구동하고 파일을 자동으로 생성합니다. 이렇게 `build`를 매번 실행할 필요 없이 변경된 내용을 쉽게 확인할수 있습니다.
 
-The files are all written in Markdown so if you don't want to generate the book
-to read them then you can read them from the `src` directory.
+이러한 파일들은 모두 마크다운 문법으로 작성되며, 책을 읽기 위해 파일을 생성을 하고싶지 않다면 `src` 경로에서 볼수 있습니다.
 
 [mdbook]: https://github.com/rust-lang-nursery/mdBook
 [rustup]: https://github.com/rust-lang-nursery/rustup.rs/
