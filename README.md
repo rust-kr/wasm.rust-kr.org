@@ -22,7 +22,7 @@
 
 이 레포지토리는 Rust를 wasm에 사용하는 것, 주로 사용되는 작업환경 구성, 어떻게 시작하는지, 그리고 더 깊게 들어갈수록 더 심층적인 내용을 포함합니다. 이 책은 Rust로 놀라운 것들을 할수있도록 도와주는 가이드의 역할을 합니다.
 
-Rust와 웹어셈블리를 함께 사용하는 방법을 배우고 싶다면, 책을 [여기서 온라인으로](https://rustwasm.github.io/book/game-of-life/introduction.html) 읽어보세요.
+Rust와 WebAssembly를 함께 사용하는 방법을 배우고 싶다면, 책을 [여기서 온라인으로](https://rustwasm.github.io/book/game-of-life/introduction.html) 읽어보세요.
 
 ["The Rust and WebAssembly book" 개선을 위해 이슈 열기.](https://github.com/rustwasm/book/issues)
 
