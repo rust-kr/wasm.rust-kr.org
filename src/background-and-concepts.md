@@ -1,4 +1,2 @@
-# Background and Concepts
-
-This section provides the context necessary for diving into Rust and WebAssembly
-development.
+# 배경과 컨셉
+이 섹션은 러스트와 웹어셈블리 개발에 뛰어들 때 필요한 맥락을 설명해줍니다.
