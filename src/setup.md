@@ -6,7 +6,7 @@ Rust로 wasm 개발을 하기 전에 개발 환경을 먼저 설정해야 합니
 $ rustup default nightly
 ```
 
-설치가 완료됐다면 `wasm32-unknown-unknown` 툴 체인이 필요합니다.
+설치가 완료됐다면 `wasm32-unknown-unknown` 툴체인이 필요합니다.
 
 ```bash
 $ rustup target add wasm32-unknown-unknown --toolchain nightly
