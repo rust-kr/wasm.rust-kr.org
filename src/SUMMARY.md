@@ -1,4 +1,4 @@
-# Summary
+# 요약
 
 - [Introduction](./introduction.md)
 - [Why Rust and WebAssembly?](./why-rust-and-webassembly.md)
