@@ -18,13 +18,13 @@
 
 ## 소개
 
-이 레포지토리는 어떻게 wasm 개발에 러스트와 일반적인 작업환경을 사용하여 시작ㅎ 하는 문서를 포함하고 있습니다.
+이 레포지토리는 어떻게 wasm 개발에 러스트와 일반적인 작업환경을 사용하여 시작하는 문서를 포함하고 있습니다.
 
 이 레포지토리는 러스트를 wasm에 사용하는것, 주로 사용되는 작업환경 구성, 어떻게 시작하는지, 깊에 들어갈수록 더 많은 내용을 포함합니다. 이 책은 러스트 언어로 엄청 멋진 것들을 할수있는 가이드의 역할을 합니다.
 
-러스트와 웹어셈블리를 어떻게 같이 사용하는지 배우고 싶다면, 책을 [여기서 온라인으로][book] 읽어보세요.
+러스트와 웹어셈블리를 어떻게 같이 사용하는지 배우고 싶다면, 책을 [여기서 온라인으로](https://rustwasm.github.io/book/game-of-life/introduction.html) 읽어보세요.
 
-["The Rust and WebAssembly book" 개선을 위해 이슈 열기.][book-issues]
+["The Rust and WebAssembly book" 개선을 위해 이슈 열기.](https://github.com/rustwasm/book/issues)
 
 [책 이슈]: https://github.com/rustwasm/book/issues
 
