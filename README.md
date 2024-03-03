@@ -13,7 +13,7 @@
     <a href="https://discordapp.com/channels/442252698964721669/443151097398296587">채팅</a>
   </h3>
 
-  <sub><a href="https://rustwasm.github.io/">The Rust and WebAssembly 그룹</a>이 🦀🕸 으로 만듬.</sub>
+  <sub><a href="https://rustwasm.github.io/">The Rust and WebAssembly Group</a>이 🦀🕸 으로 만듬.</sub>
 </div>
 
 ## 소개
