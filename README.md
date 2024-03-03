@@ -2,7 +2,7 @@
 
   <h1>The Rust and WebAssembly Book</h1>
 
-  <strong>이 간결한 책은 어떻게 Rust와 웹어셈블리를 함께 사용하는 방법을 설명해줍니다. 튜토리얼과 알찬 연습 예제들로 구성돼 있습니다.</strong>
+  <strong>이 간결한 책은 어떻게 Rust와 WebAssembly를 함께 사용하는 방법을 설명해줍니다. 튜토리얼과 알찬 연습 예제들로 구성돼 있습니다.</strong>
 
   <h3>
     <a href="https://rustwasm.github.io/docs/book/">Read the Book</a>
