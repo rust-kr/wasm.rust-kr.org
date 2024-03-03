@@ -16,7 +16,7 @@ Rust는 JavaScript를 병들게 만든 비결정적인 가비지 콜렉션 중�
 
 ## 다른 툴과 잘 작동합니다
 
-Rust와 WebAssembly는 기존에 존재하는 자바스크립트 툴링과 함께 가장 잘 작동합니다. WebAssembly는 ECMAScript 모듈을 지원하고 npm과 Webpack처럼 기존에 사랑받던 툴링을 계속 사용할수 있게 해줍니다.
+Rust와 WebAssembly는 기존에 존재하는 JavaScript 툴링과 함께 가장 잘 작동합니다. WebAssembly는 ECMAScript 모듈을 지원하고 npm과 Webpack처럼 기존에 사랑받던 툴링을 계속 사용할수 있게 해줍니다.
 
 ## 기대할수 있는 강점들
 

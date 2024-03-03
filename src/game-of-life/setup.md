@@ -1,6 +1,6 @@
 # 셋업하기
 
-이 섹션은 어떻게 Rust 프로그램들을 WebAssembly로 컴파일하고 자바스크립트 환경과 통합시키는지 설명해줍니다.
+이 섹션은 어떻게 Rust 프로그램들을 WebAssembly로 컴파일하고 JavaScript 환경과 통합시키는지 설명해줍니다.
 
 ## Rust 툴체인
 
