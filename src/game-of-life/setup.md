@@ -1,32 +1,26 @@
-# Setup
+# 셋업하기
 
-This section describes how to set up the toolchain for compiling Rust programs
-to WebAssembly and integrate them into JavaScript.
+이 섹션은 어떻게 Rust 프로그램들을 WebAssembly로 컴파일하고 자바스크립트 환경과 통합시키는지 설명해줍니다.
 
-## The Rust Toolchain
+## Rust 툴체인
 
-You will need the standard Rust toolchain, including `rustup`, `rustc`, and
-`cargo`.
+진행을 위해 `rustup`, `rustc`, `cargo`를 포함한 스탠다드 Rust 툴체인이 필요합니다.
 
-[Follow these instructions to install the Rust toolchain.][rust-install]
+[Rust 툴체인을 설치하려면 이 지침을 따라주세요.][rust-install]
 
-The Rust and WebAssembly experience is riding the Rust release trains to stable!
-That means we don't require any experimental feature flags. However, we do
-require Rust 1.30 or newer.
+Rust와 WebAssembly 개발 경험이 stable 버전의 러스트에 포함될만큼 안정화되고 있습니다! 그러므로 어떤 실험적 기능 flag도 요구되지 않습니다. 하지만 Rust 1.30이나 그 이후 버전이 요구됩니다.
 
 ## `wasm-pack`
 
-`wasm-pack` is your one-stop shop for building, testing, and publishing
-Rust-generated WebAssembly.
+`wasm-pack`은 Rust로 생성된 WebAssembly를 개발, 테스팅, 배포하도록 도와주는 원스톱 샵입니다.
 
-[Get `wasm-pack` here!][wasm-pack-install]
+[여기서 `wasm-pack` 다운로드 해보세요!][wasm-pack-install]
 
 ## `cargo-generate`
 
-[`cargo-generate` helps you get up and running quickly with a new Rust project
-by leveraging a pre-existing git repository as a template.][cargo-generate]
+[`cargo-generate`는 기존에 존재하는 git 레포지토리를 템플릿으로 사용하면서 새 Rust 프로젝트를 시작하고 빠르게 돌릴수 있도록 도와줍니다.]
 
-Install `cargo-generate` with this command:
+이 명령어로 `cargo-generate`를 설치해보세요:
 
 ```
 cargo install cargo-generate
@@ -34,14 +28,11 @@ cargo install cargo-generate
 
 ## `npm`
 
-`npm` is a package manager for JavaScript. We will use it to install and run a
-JavaScript bundler and development server. At the end of the tutorial, we will
-publish our compiled `.wasm` to the `npm` registry.
+`npm`은 JavaScript와 함께 사용되는 패키지 매니저입니다. 이 책을 진행하면서 JavaScript 번들러와 개발 서버를 설치하고 돌리는데 사용될 예정입니다. 이 튜토리얼 끝에서 컴파일된 `.wasm`을 `npm` 레지스트리로 배포해봅니다.
 
-[Follow these instructions to install `npm`.][npm-install]
+[`npm` 을 설치하려면 이 지침을 따라주세요.][npm-install]
 
-If you already have `npm` installed, make sure it is up to date with this
-command:
+이미 `npm`이 설치돼 있다면, 이 명령어로 최신 버전으로 업데이트가 돼 있는지 확인해주세요:
 
 ```
 npm install npm@latest -g
