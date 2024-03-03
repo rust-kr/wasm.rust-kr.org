@@ -1,41 +1,29 @@
-# Why Rust and WebAssembly?
+# 왜 Rust로 WebAssembly 개발을 해야 하나요?
 
-## Low-Level Control with High-Level Ergonomics
+## 저레벨 컨트롤과 고레벨 개발자 경험
 
-JavaScript Web applications struggle to attain and retain reliable performance.
-JavaScript's dynamic type system and garbage collection pauses don't help.
-Seemingly small code changes can result in drastic performance regressions if
-you accidentally wander off the JIT's happy path.
+JavaScript 웹 앱들은 믿을수 있는 성능을 확보하고 유지하는데 어려움을 겪습니다. JavaScript 동적 타입 시스템과 가비지 콜렉션 (Garbage Collection)을 잠시 중단하는 것만으로는 크게 도움이 되지 않습니다. 보기에는 작은 내용의 코드를 수정하더라도 JIT에 치명적인 코드를 작성한다면 드라마틱한 성능 저하를 일으킬수도 있습니다.
 
-Rust gives programmers low-level control and reliable performance. It is free
-from the non-deterministic garbage collection pauses that plague JavaScript.
-Programmers have control over indirection, monomorphization, and memory layout.
+Rust는 JavaScript를 병들게 만든 비결정적인 가비지 콜렉션 중단으로부터 자유로울 뿐 아니라, 프로그래머들이 간접지정과 단일화, 메모리 레이아웃을 컨트롤할수 있도록 함으로 저레벨 컨트롤과 믿을수 있는 성능을 제공합니다.
 
-## Small `.wasm` Sizes
+## 작은 `.wasm` 사이즈
 
-Code size is incredibly important since the `.wasm` must be downloaded over the
-network. Rust lacks a runtime, enabling small `.wasm` sizes because there is no
-extra bloat included like a garbage collector. You only pay (in code size) for
-the functions you actually use.
+`.wasm` 파일이 네트워크로 전송돼야 하는 점 때문에 코드의 파일 사이즈는 매우 중요합니다. Rust는 런타임이 작고 가비지 콜렉터와 같은 불필요한 요소가 없어 `.wasm` 사이즈를 효과적으로 줄일수 있도록 해줍니다. 이는 코드 파일 사이즈의 관점에서 실제로 사용하는 기능만 포함할 수 있도록 해줍니다.
 
-## Do *Not* Rewrite Everything
+## 모든 내용을 다시 작성하지 **말아주세요**
 
-Existing code bases don't need to be thrown away. You can start by porting your
-most performance-sensitive JavaScript functions to Rust to gain immediate
-benefits. And you can even stop there if you want to.
+기존에 존재하는 코드 베이스를 버릴 필요는 없습니다. 바로 효과를 볼수 있도록, 성능이 중요한 JavaScript 함수들을 Rust로 옮기는 것으로 시작해볼수도 있습니다. 원한다면 거기서 멈춰도 괜찮습니다.
 
-## Plays Well With Others
+## 다른 툴과 잘 작동합니다
 
-Rust and WebAssembly integrates with existing JavaScript tooling. It supports
-ECMAScript modules and you can continue using the tooling you already love, like
-npm and Webpack.
+Rust와 WebAssembly는 기존에 존재하는 자바스크립트 툴링과 함께 가장 잘 작동합니다. WebAssembly는 ECMAScript 모듈을 지원하고 npm과 Webpack처럼 기존에 사랑받던 툴링을 계속 사용할수 있게 해줍니다.
 
-## The Amenities You Expect
+## 기대할수 있는 강점들
 
-Rust has the modern amenities that developers have come to expect, such as:
+Rust는 개발자들이 기대하는 현대적인 편의 기능을 갖추고 있습니다. 예를 들어서:
 
-* strong package management with `cargo`,
+* `cargo`로 강력한 패키지 관리하기
 
-* expressive (and zero-cost) abstractions,
+* (추가 비용 없이) 이해하기 쉬운 코드를 쓸수 있게 해주는 추상화
 
-* and a welcoming community! 😊
+* 그리고 환영해주는 커뮤니티! 😊
