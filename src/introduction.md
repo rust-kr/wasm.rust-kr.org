@@ -1,6 +1,8 @@
 # Rust 🦀 와 WebAssembly 🕸
 이 간결한 책은 [Rust][]와 [WebAssembly][]를 함께 사용하는 방법을 설명해줍니다.
 
+> 번역된 버전에 이슈나 풀 리퀘스트를 생성하고자 하시나요? [번역 버전의 레포지토리](https://github.com/polyecho/rust-wasm-book-ko)를 확인해주세요.
+
 ## 누구를 위한 책인가요?
 이 책은 Rust 코드를 웹에서 작동하는 빠르고 믿을수 있는 WebAssembly 코드로 컴파일하는데에 관심이 있는 사람들을 위해 작성됐습니다.
 꼭 전문가가 돼야할 필요는 없지만, Rust를 조금이라도 알아야 하고 JavaScript와 HTML, CSS에 익숙하면 더 좋습니다.
