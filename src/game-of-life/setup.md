@@ -18,7 +18,7 @@ Rust와 WebAssembly 개발 경험이 stable 버전의 러스트에 포함될만�
 
 ## `cargo-generate`
 
-[`cargo-generate`는 기존에 존재하는 git 레포지토리를 템플릿으로 사용하면서 새 Rust 프로젝트를 시작하고 빠르게 돌릴수 있도록 도와줍니다.]
+[`cargo-generate`는 기존에 존재하는 git 레포지토리를 템플릿으로 사용하면서 새 Rust 프로젝트를 시작하고 빠르게 돌릴수 있도록 도와줍니다.][cargo-generate]
 
 이 명령어로 `cargo-generate`를 설치해보세요:
 

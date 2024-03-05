@@ -12,7 +12,7 @@ JavaScript나 HTML, CSS를 모르시나요? [MDN에서 더 알아보세요.][mdn
 ## 이 책을 읽는 방법
 [Rust와 WebAssembly를 사용하는 동기부여][why-rust-wasm] 를 읽어보면 좋고, [배경과 컨셉][background] 과 먼저 친숙해져보는것도 좋습니다.
 
-이 [튜토리얼][] 은 처음부터 끝까지 읽도록 작성됐습니다. 튜토리얼에 있는 코드를 작성, 컴파일링하고 직접 실행해보세요. Rust와 WebAssembly를 같이 사용해본적이 없다면, 튜토리얼을 활용해보세요!
+이 [튜토리얼][tutorial] 은 처음부터 끝까지 읽도록 작성됐습니다. 튜토리얼에 있는 코드를 작성, 컴파일링하고 직접 실행해보세요. Rust와 WebAssembly를 같이 사용해본적이 없다면, 튜토리얼을 활용해보세요!
 
 [레퍼런스 섹션][reference] 은 아무 순서로 정독해도 괜찮습니다.
 
@@ -30,3 +30,4 @@ JavaScript나 HTML, CSS를 모르시나요? [MDN에서 더 알아보세요.][mdn
 [tutorial]: ./game-of-life/introduction.html
 [reference]: ./reference/index.html
 [repo]: https://github.com/rustwasm/book
+[wat2wasm demo]: https://webassembly.github.io/wabt/demo/wat2wasm/
