@@ -2,7 +2,7 @@
 
 - [소개](./introduction.md)
 - [왜 Rust로 WebAssembly 개발을 해야 하나요?](./why-rust-and-webassembly.md)
-- [배경 및 개념](./background-and-concepts.md)
+- [배경 지식](./background-and-concepts.md)
   - [WebAssembly가 뭔가요?](./what-is-webassembly.md)
 --------------------------------------------------------------------------------
 - [튜토리얼](./game-of-life/introduction.md)

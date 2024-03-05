@@ -1,6 +1,6 @@
 # Hello, World!
 
-이 섹션은 어떻게 Rust와 WebAssembly 프로그램을 처음 돌려보는지 보여줍니다. "Hello, World!" 메세지를 보여주는 웹페이지를 만들어봅시다.
+이 섹션은 어떻게 Rust와 WebAssembly 프로그램을 처음 실행하는지 보여줍니다. "Hello, World!" 메세지를 보여주는 웹페이지를 만들어봅시다.
 
 시작하기 전에 [셋업 가이드](setup.html)을 읽고 따라왔는지 확인해주세요.
 
@@ -80,7 +80,7 @@ pub fn greet() {
 
 `wasm-pack`을 사용하여 다음 빌드 과정을 자동화하게 됩니다:
 
-* Rust 1.30나 그 이후 버전을 사용하고 있는지, `wasm32-unknown-unknown` 타겟이 `rustup`으로 설치돼 있는지 확인합니다.
+* Rust 1.30나 그 이후 버전을 사용하고 있는지, `wasm32-unknown-unknown` 타겟이 `rustup`을 통해 설치돼 있는지 확인합니다.
 * `cargo`를 사용하여 Rust 소스 코드를 WebAssembly `.wasm` 바이너리로 컴파일합니다.
 * `wasm-bindgen`을 사용하여 Rust로 만든 WebAssembly에서 사용 가능한 JavaScript API를 생성합니다.
 

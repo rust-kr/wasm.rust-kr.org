@@ -31,14 +31,14 @@ WebAssembly(wasm)는 [포괄적인 사양][extensive specification]이 있는 �
 
 위 예제가 `.wasm` 파일로는 어떻게 보일지 궁금하다면, [wat2wasm 데모][wat2wasm demo] 웹사이트를 이용해보세요.
 
-## 선형 메모리
+## 선형 메모리 (Linear Memory)
 WebAssembly 매우 간단한 [메모리 모델][memory model]을 가지고 있고, 하나의 wasm 모듈은 하나의 "선형 메모리" 에 접근할수 있습니다.
 
 이 메모리는 페이지 사이즈 (64K)의 곱만큼 [커질수 있으며][memory can be grown] 이 사이즈는 줄어들 수 없습니다. 
 
 ## 웹에서만 WebAssembly를 사용할 수 있나요?
 
-현재로써는 JavaScript 웹 커뮤니티에서 주목을 받고 있지만, wasm은 특정 실행 환경을 필요로 하지 않습니다. 그러므로, wasm이 미래에 다양한 맥락에서 사용할수 있는 "휴대 가능한 실행할수 있는" 포맷이라고 여겨질수도 있습니다. 하지만 오늘날 wasm은 대부분 (웹과 [Node.js]을 포함한) 다양한 형태로 존재하는 JavaScript(JS)와 함께 언급됩니다.
+현재로써는 JavaScript 웹 커뮤니티에서 주목을 받고 있지만, wasm은 특정 실행 환경을 필요로 하지 않습니다. 그러므로, wasm이 미래에 다양한 맥락에서 사용할수 있는 "휴대 가능한 실행할수 있는" 포맷이라고 여겨질수도 있습니다. 하지만 오늘날 wasm은 대부분 (웹과 [Node.js]을 포함한) 다양한 형태로 존재하는 JavaScript (JS)와 함께 언급됩니다.
 
 [memory model]: https://webassembly.github.io/spec/core/syntax/modules.html#syntax-mem
 [memory can be grown]: https://webassembly.github.io/spec/core/syntax/instructions.html#syntax-instr-memory

@@ -8,17 +8,17 @@
 
 [Rust 툴체인을 설치하려면 이 지침을 따라주세요.][rust-install]
 
-Rust와 WebAssembly 개발 경험이 stable 버전의 러스트에 포함될만큼 안정화되고 있습니다! 그러므로 어떤 실험적 기능 flag도 요구되지 않습니다. 하지만 Rust 1.30이나 그 이후 버전이 요구됩니다.
+Rust와 WebAssembly 개발 경험이 stable 버전의 러스트에 포함될 만큼 안정화 되고 있습니다! 그러므로 어떤 실험적 기능 flag도 요구되지 않습니다. 하지만 Rust 1.30이나 그 이후 버전이 요구됩니다.
 
 ## `wasm-pack`
 
-`wasm-pack`은 Rust로 생성된 WebAssembly를 개발, 테스팅, 배포하도록 도와주는 원스톱 샵입니다.
+`wasm-pack`은 Rust로 생성된 WebAssembly를 개발, 테스팅, 배포하도록 도와주는 원스톱 샵 (one-stop shop)입니다.
 
 [여기서 `wasm-pack` 다운로드 해보세요!][wasm-pack-install]
 
 ## `cargo-generate`
 
-[`cargo-generate`는 기존에 존재하는 git 레포지토리를 템플릿으로 사용하면서 새 Rust 프로젝트를 시작하고 빠르게 돌릴수 있도록 도와줍니다.][cargo-generate]
+[`cargo-generate`는 기존에 존재하는 git 레포지토리를 템플릿으로 사용하면서 새 Rust 프로젝트를 시작하고 빠르게 구동할수 있도록 도와줍니다.][cargo-generate]
 
 이 명령어로 `cargo-generate`를 설치해보세요:
 
@@ -28,7 +28,7 @@ cargo install cargo-generate
 
 ## `npm`
 
-`npm`은 JavaScript와 함께 사용되는 패키지 매니저입니다. 이 책을 진행하면서 JavaScript 번들러와 개발 서버를 설치하고 돌리는데 사용될 예정입니다. 이 튜토리얼 끝에서 컴파일된 `.wasm`을 `npm` 레지스트리로 배포해봅니다.
+`npm`은 JavaScript와 함께 사용되는 패키지 매니저입니다. 이 책을 진행하면서 JavaScript 번들러와 개발 서버를 설치하고 구동하는데 사용될 예정입니다. 이 튜토리얼 끝에서 컴파일된 `.wasm`을 `npm` 레지스트리로 배포해봅니다.
 
 [`npm` 을 설치하려면 이 지침을 따라주세요.][npm-install]
 
