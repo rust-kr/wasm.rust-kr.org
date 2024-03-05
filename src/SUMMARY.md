@@ -1,12 +1,12 @@
 # 요약
 
-- [Introduction](./introduction.md)
-- [Why Rust and WebAssembly?](./why-rust-and-webassembly.md)
-- [Background And Concepts](./background-and-concepts.md)
-  - [What is WebAssembly?](./what-is-webassembly.md)
+- [소개](./introduction.md)
+- [왜 Rust로 WebAssembly 개발을 해야 하나요?](./why-rust-and-webassembly.md)
+- [배경 및 개념](./background-and-concepts.md)
+  - [WebAssembly가 뭔가요?](./what-is-webassembly.md)
 --------------------------------------------------------------------------------
-- [Tutorial](./game-of-life/introduction.md)
-    - [Setup](./game-of-life/setup.md)
+- [튜토리얼](./game-of-life/introduction.md)
+    - [셋업하기](./game-of-life/setup.md)
     - [Hello, World!](./game-of-life/hello-world.md)
     - [Rules](./game-of-life/rules.md)
     - [Implementing Life](./game-of-life/implementing.md)
