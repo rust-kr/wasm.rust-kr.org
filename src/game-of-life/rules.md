@@ -4,7 +4,7 @@
 
 [Wikipedia에 Conway's Game of Life의 규칙이 아주 잘 설명돼 있습니다.][wikipedia]
 
-> Game of Life의 세상은 사각형 세포로 이루어진 무한한 사이즈의 2차원 [정사각형_테셀레이션](https://ko.wikipedia.org/wiki/정사각형_테셀레이션)인데,
+> Game of Life의 세상(universe)은 사각형 세포로 이루어진 무한한 사이즈의 2차원 [정사각형_테셀레이션](https://ko.wikipedia.org/wiki/정사각형_테셀레이션)인데,
 > 각각의 세포는 살아있거나 죽어있거나, 혹은 "주거"나 "무주거" 중 한 상태일수 있습니다.
 > 각 세포은 수평, 수직, 혹은 대각선으로 이웃하는 여덟개의 이웃 세포과 상호 작용합니다.
 > 매 단계마다, 다음 전이가 발생합니다.
