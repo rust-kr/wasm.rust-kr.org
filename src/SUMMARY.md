@@ -9,7 +9,7 @@
     - [셋업하기](./game-of-life/setup.md)
     - [Hello, World!](./game-of-life/hello-world.md)
     - [규칙](./game-of-life/rules.md)
-    - [Implementing Life](./game-of-life/implementing.md)
+    - [Game of Life 구현하기](./game-of-life/implementing.md)
     - [Testing Life](./game-of-life/testing.md)
     - [Debugging](./game-of-life/debugging.md)
     - [Adding Interactivity](./game-of-life/interactivity.md)
