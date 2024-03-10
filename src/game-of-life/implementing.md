@@ -462,7 +462,7 @@ npm run start
 
 ## 연습해보기
 
-* "space ship" 패턴 하나를 표시하는 세상을 만들어보세요.
+* [space ship](https://conwaylife.com/wiki/Spaceship) 패턴 하나를 표시하는 세상을 만들어보세요.
 
 * 초기 세상을 하드코딩 하는 대신, 각 세포가 50% 확률로 살아있거나 죽어있는 상태로 랜덤하게 생성될수 있도록 해보세요.
 
