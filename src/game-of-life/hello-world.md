@@ -293,7 +293,7 @@ npm run start
   <details>
     <summary>정답</summary>
 
-    `wasm-game-of-life/src/lib.rs` 디렉토리의 수정된 새 `greet` 함수:
+    `wasm-game-of-life/src/lib.rs` 파일에서 새롭게 수정된 `greet` 함수:
 
     ```rust
     #[wasm_bindgen]
@@ -302,7 +302,7 @@ npm run start
     }
     ```
     
-    `wasm-game-of-life/www/index.js` 디렉토리에서 수정된 `greet` 부르기:
+    `wasm-game-of-life/www/index.js` 파일에서 수정된 `greet` 함수 호출:
 
     ```js
     wasm.greet("Your Name");
