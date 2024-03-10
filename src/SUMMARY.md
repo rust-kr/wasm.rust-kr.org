@@ -10,7 +10,7 @@
     - [Hello, World!](./game-of-life/hello-world.md)
     - [규칙](./game-of-life/rules.md)
     - [Game of Life 구현하기](./game-of-life/implementing.md)
-    - [Testing Life](./game-of-life/testing.md)
+    - [Game of Life 테스팅하기](./game-of-life/testing.md)
     - [Debugging](./game-of-life/debugging.md)
     - [Adding Interactivity](./game-of-life/interactivity.md)
     - [Time Profiling](./game-of-life/time-profiling.md)
