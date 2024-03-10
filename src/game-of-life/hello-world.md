@@ -109,7 +109,7 @@ pkg/
 
 ### `wasm-game-of-life/pkg/wasm_game_of_life.js`
 
-이러한 `.js` 파일은 `wasm-bindgen`에 의해 생성됩니다. DOM과 JavaScript 함수를 Rust에서 부를수 있게 해주고, JavaScript 환경에서도 WebAssembly 함수를 부를수 있도록 도와주는 유용한 API를 노출시켜줍니다. 예를 들어서, `greet` 이라는 JavaScript 함수를 통해 WebAssembly에 있는 해당하는 함수를 부를수 있습니다. 현재로서는 이러한 파일들이 큰 역할을 하지는 않지만, 더 복잡한 값들을 wasm과 JavaScript 사이에서 주고받을 때 도움이 많이 됩니다.
+이러한 `.js` 파일은 `wasm-bindgen`에 의해 생성됩니다. DOM과 JavaScript 함수를 Rust에서 부를수 있게 해주고, JavaScript 환경에서도 WebAssembly 함수를 부를수 있도록 도와주는 유용한 API를 노출시켜줍니다. 예를 들어서, `greet` 이라는 JavaScript 함수를 통해 WebAssembly에 있는 해당하는 함수를 부를수 있습니다. 현재로서는 이러한 파일(bindings glue)들이 큰 역할을 하지는 않지만, 더 복잡한 값들을 wasm과 JavaScript 사이에서 주고받을 때 도움이 많이 됩니다.
 
 ```js
 import * as wasm from './wasm_game_of_life_bg';
