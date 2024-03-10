@@ -470,6 +470,7 @@ npm run start
 
   <details>
     <summary>정답</summary>
+    
     *먼저, `wasm-game-of-life/Cargo.toml` 파일을 열고 `js-sys`를 종속성으로 추가해주세요:*
 
     ```toml
