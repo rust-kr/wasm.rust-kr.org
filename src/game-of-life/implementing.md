@@ -60,7 +60,7 @@ index(row, column, universe) = row * width(universe) + column
 
 직전 챕터에서 초기 프로젝트 템플릿을 클론했는데, 이 템플릿을 수정해보도록 합시다.
 
-`alert`를 임포트하는 줄과 `greet` 함수를 `wasm-game-of-life/src/lib.rs` 파일에서 지워보고, 세포 타입 정의를 대신 추가해 주는 것으로 시작해보겠습니다:
+`alert`를 임포트하는 줄과 `greet` 함수를 `wasm-game-of-life/src/lib.rs` 파일에서 지워보고, 세포의 타입 정의를 대신 추가해 주는 것으로 시작해보겠습니다:
 
 ```rust
 #[wasm_bindgen]
@@ -164,8 +164,7 @@ impl Universe {
 }
 ```
 
-지금까지는 세상의 상태를 세포들의 벡터로 표시했습니다. 조금 더 사람이 읽기 쉽도록 텍스트 렌더러 (text renderer)를 구현해보도록 합시다. 세상을 한줄 한줄씩 텍스트로 표현을 해보는데, 살아있는 세포들을 유니코드 문자 `◼` ("black medium square")로 나타내고 죽은 세포들을 `◻`
-(a "white medium square")로 표현하겠습니다.
+지금까지는 세상의 상태를 세포들의 벡터로 표시했습니다. 조금 더 사람이 읽기 쉽도록 텍스트 렌더러 (text renderer)를 구현해보도록 합시다. 세상을 한줄 한줄씩 텍스트로 표현을 해보는데, 살아있는 세포들을 유니코드 문자 `◼` ("black medium square")로 나타내고 죽은 세포들을 `◻` ("white medium square")로 표현하겠습니다.
 
 Rust 스탠다드 라이브러리의 [`Display`] 트레이트를 구현해서 사람이 읽기 쉬운 방식으로 포맷할수 있도록 메서드를 추가해봅시다. 이 트레이트를 구현하면 자동적으로 Universe의 인스턴스(instance)들이 [`to_string`] 메서드를 사용할수 있게 됩니다.
 
@@ -296,7 +295,7 @@ requestAnimationFrame(renderLoop);
 
 ## 메모리에서 바로 캔버스로 렌더링하기
 
-Rust 코드에서 `String`을 생성 (및 할당)하고 `wasm-bindgen`로 이 생성한 값을 유효한 JavaScript 문자열로 변환하게 되면 세포들을 불필요하게 복사하게 됩니다. JavaScript 코드에서 세상의 너비와 높이를 이미 알고 있고, 세포를 만드는 처리가 이루어지는 WebAssembly 선형 메모리를 읽을 수 있기 때문에, `render` 메서드를 수정하여 `cells` 배열의 시작을 가리키는 포인터를 반환하도록 하겠습니다.
+Rust 코드에서 `String`을 생성 (및 할당)하고 `wasm-bindgen`로 이 생성한 값을 유효한 JavaScript 문자열로 변환하게 되면 세포들을 불필요하게 복사하게 됩니다. JavaScript 코드에서 세상의 너비와 높이를 이미 알고 있고, 세포를 만드는 처리가 이루어지는 WebAssembly 선형 메모리를 읽을 수 있기 때문에, `render` 메서드를 수정하여 `cells` 배열의 시작을 가리키는 포인터를 반환하도록 합시다.
 
 그리고 유니코드 문자를 렌더링하지 않고 [Canvas API] 를 대신 사용해봅시다. 이 API를 이 부분 이후부터 계속 사용하겠습니다.
 
@@ -438,7 +437,7 @@ drawCells();
 requestAnimationFrame(renderLoop);
 ```
 
-`drawGrid()`와 `drawCells()`를 `requestAnimationFrame()` 호출 __이전에__ 호출해야 한다는 점을 꼭 기억해주세요. _초기_ 상태의 세상이 그려진 이후에 수정사항을 만들어야 합니다. `requestAnimationFrame(renderLoop)` 만 부르게 된다면 `universe.tick()`이 호출된 _이후_ 시점의 두번째 틱이 그려지게 됩니다.
+`drawGrid()`와 `drawCells()`를 `requestAnimationFrame()` 호출 _이전에_ 호출해야 한다는 점을 꼭 기억해주세요. _초기_ 상태의 세상이 그려진 이후에 수정사항을 만들어야 합니다. `requestAnimationFrame(renderLoop)` 만 부르게 된다면 `universe.tick()`이 호출된 _이후_ 시점의 두번째 틱이 그려지게 됩니다.
 
 ## 다 됐어요!
 

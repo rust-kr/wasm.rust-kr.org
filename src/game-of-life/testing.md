@@ -1,10 +1,10 @@
 # Game of Life 테스팅하기
 
-이제 브라우저 JavaScript 환경에서 실행할 수 있도록 Game of Life를 Rust로 구현했으니 Rust 코드에서 WebAssembly 함수를 테스팅하는 방법에 대해 알아봅시다.
+이제 브라우저 JavaScript 환경에서 실행할 수 있도록 Game of Life를 구현했으니 Rust 코드에서 WebAssembly 함수를 테스팅하는 방법에 대해 알아봅시다.
 
-`tick` 함수로 예상하는 올바른 값을 불러올수 있는지 테스팅 해보겠습니다.
+`tick` 함수로 예상값과 일치하는 올바른 값을 불러올수 있는지 테스팅 해보겠습니다.
 
-우선 테스팅을 작성하기 전에 `wasm_game_of_life/src/lib.rs` 파일에 작성한 `impl Universe` 블럭 안에 setter 함수와 getter 함수를 조금 더 만들어보겠습니다. `set_width`와 `set_height` 함수를 만들어서 다른 사이즈의 `Universe`들을 만들어볼수 있게 해봅시다.
+우선 테스팅을 작성하기 전에 `wasm_game_of_life/src/lib.rs` 파일에 작성한 `impl Universe` 블럭 안에 setter 함수와 getter 함수들을 조금 더 만들어보겠습니다. `set_width`와 `set_height` 함수를 만들어서 다른 사이즈의 `Universe`들을 만들어볼수 있게 해봅시다.
 
 ```rust
 #[wasm_bindgen]
@@ -54,7 +54,7 @@ impl Universe {
 
 이제 `wasm_game_of_life/tests/web.rs` 파일에 테스팅 코드를 작성해보도록 하겠습니다.
 
-진행하기 전에, 이미 완성된 테스팅 코드가 있으니 한번 살펴봅시다. `wasm-game-of-life` 디렉토리에서 `wasm-pack test --chrome --headless` 명령어를 실행하여 Rust로 작성된 WebAssembly 테스팅 코드가 잘 작동하는지 확인할수 있습니다. `--firefox`, `--safari`, `--node` 옵션을 사용하여 특정 브라우저 환경에서 코드를 테스트해볼수도 있습니다.
+진행하기 전에, 이미 완성된 테스팅 코드가 있으니 한번 살펴봅시다. `wasm-game-of-life` 디렉토리에서 `wasm-pack test --chrome --headless` 명령어를 실행하여 Rust로 작성된 WebAssembly 테스팅 코드가 잘 작동하는지 확인할 수 있습니다. `--firefox`, `--safari`, `--node` 옵션을 사용하여 특정 브라우저 환경에서 코드를 테스트해볼수도 있습니다.
 
 우선 `wasm_game_of_life/tests/web.rs` 파일에서, `wasm_game_of_life` 크레이트와 `Universe`를 익스포트 해줍시다.
 
@@ -103,4 +103,4 @@ pub fn test_tick() {
 }
 ```
 
-이제 `wasm-game-of-life` 디렉토리에서 `wasm-pack test --firefox --headless` 명령어를 실행하여 테스팅 코드를 실행해주세요.
+이제 `wasm-game-of-life` 디렉토리에서 `wasm-pack test --firefox --headless` 명령어를 실행하여 테스팅 코드를 실행해주면 됩니다.

@@ -2,7 +2,7 @@
 
 이 섹션은 어떻게 Rust와 WebAssembly 프로그램을 처음 실행하는지 보여줍니다. "Hello, World!" 메세지를 보여주는 웹페이지를 만들어봅시다.
 
-시작하기 전에 [셋업 가이드](setup.html)을 읽고 따라왔는지 확인해주세요.
+시작하기 전에 [셋업 가이드](setup.html)을 읽고 잘 따라왔는지 한번 더 확인해주세요.
 
 ## 프로젝트 템플릿 클론하기
 
@@ -22,7 +22,7 @@ wasm-game-of-life
 
 ## 어떻게 구성돼 있나요?
 
-새로 생성한 `wasm-game-of-life` 프로젝트를 열어봅시다.
+새로 생성한 `wasm-game-of-life` 프로젝트를 열어보도록 합시다.
 
 ```
 cd wasm-game-of-life
@@ -45,11 +45,11 @@ wasm-game-of-life/
 
 ### `wasm-game-of-life/Cargo.toml`
 
-`Cargo.toml` 파일은 Rust의 패키지 매니저이자 빌드 툴인 `cargo`와 함께 사용되는 의존성과 메타데이터를 지정합니다. 이 파일은 `wasm-bindgen` 의존성과 `wasm` 라이브러리 생성에 사용될 올바르게 설정된 `crate-type`이 함께 사전에 미리 설정되어 포함돼 있습니다. 몇가지 필수가 아닌 의존성은 나중에 살펴보겠습니다.
+`Cargo.toml` 파일은 Rust의 패키지 매니저이자 빌드 툴인 `cargo`와 함께 사용되는데, 의존성과 메타데이터를 지정하는 역할을 합니다. 이 파일은 `wasm-bindgen` 의존성과 `wasm` 라이브러리 생성에 사용될 올바르게 설정된 `crate-type`이 함께 사전에 미리 설정되어 포함돼 있습니다. 몇가지 필수가 아닌 의존성은 나중에 살펴보겠습니다.
 
 ### `wasm-game-of-life/src/lib.rs`
 
-`src/lib.rs` 파일은 WebAssembly로 컴파일하는 Rust 크레이트의 핵심 코드입니다. `wasm-bindgen`이 자바스크립트를 조작하기 위해 사용되고, `window.alert` 자바스크립트 함수를 불러온 다음에 `greet` Rust 함수를 자바스크립트로 보냅니다. 이렇게 인사 메세지를 작동시키게 됩니다.
+`src/lib.rs` 파일은 WebAssembly로 컴파일하는 Rust 크레이트의 핵심 코드입니다. `wasm-bindgen`이 JavaScript를 조작하기 위해 사용되고, `window.alert` 자바스크립트 함수를 불러온 다음에 `greet` Rust 함수를 자바스크립트로 보냅니다. 이렇게 인사 메세지를 표시시키게 됩니다.
 
 ```rust
 mod utils;
@@ -74,7 +74,7 @@ pub fn greet() {
 
 ### `wasm-game-of-life/src/utils.rs`
 
-`src/utils.rs` 모듈은 WebAssembly로 컴파일된 Rust 코드와 더 쉽게 작업하도록 도와도록 주로 사용되는 유틸리티를 포함합니다. [debugging our wasm code](debugging.html)와 같은 튜토리얼 후반 부분에서 이러한 유틸리티들을 더 자세히 살펴보겠습니다. 지금은 이 파일을 무시해도 괜찮습니다.
+`src/utils.rs` 모듈은 WebAssembly로 컴파일된 Rust 코드와 더 쉽게 작업하도록 도와도록 주로 사용되는 유틸리티를 제공합니다. [wasm 코드 디버깅하기](debugging.html)와 같은 튜토리얼 후반 부분에서 이러한 유틸리티들을 더 자세히 살펴보겠습니다. 지금은 이 파일을 무시해도 괜찮습니다.
 
 ## 프로젝트 빌드하기
 
@@ -82,7 +82,7 @@ pub fn greet() {
 
 * Rust 1.30나 그 이후 버전을 사용하고 있는지, `wasm32-unknown-unknown` 타겟이 `rustup`을 통해 설치돼 있는지 확인합니다.
 * `cargo`를 사용하여 Rust 소스 코드를 WebAssembly `.wasm` 바이너리로 컴파일합니다.
-* `wasm-bindgen`을 사용하여 Rust로 만든 WebAssembly에서 사용 가능한 JavaScript API를 생성합니다.
+* `wasm-bindgen`을 사용하여 Rust로 생성한 WebAssembly를 사용할수 있도록 JavaScript API를 생성합니다.
 
 위 작업을 시작하려면, 프로젝트 디렉토리에서 다음 명령어를 실행해주세요:
 
@@ -109,7 +109,7 @@ pkg/
 
 ### `wasm-game-of-life/pkg/wasm_game_of_life.js`
 
-이러한 `.js` 파일은 `wasm-bindgen`에 의해 생성됩니다. DOM과 JavaScript 함수를 Rust에서 부를수 있게 해주고, JavaScript 환경에서도 WebAssembly 함수를 부를수 있도록 도와주는 유용한 API를 노출시켜줍니다. 예를 들어서, `greet` 이라는 JavaScript 함수를 통해 WebAssembly에 있는 해당하는 함수를 부를수 있습니다. 현재로서는 이러한 파일(bindings glue)들이 큰 역할을 하지는 않지만, 더 복잡한 값들을 wasm과 JavaScript 사이에서 주고받을 때 도움이 많이 됩니다.
+이러한 `.js` 파일은 `wasm-bindgen`에 의해 생성됩니다. DOM과 JavaScript 함수를 Rust에서 부를수 있게 해주고, JavaScript 환경에서도 WebAssembly 함수를 부를수 있도록 도와주는 유용한 API를 노출시켜줍니다. 예를 들어서, `greet` 이라는 JavaScript 함수를 통해 WebAssembly에 있는 해당하는 함수를 부를수 있습니다. 현재로서는 이러한 파일(bindings glue)들이 큰 역할을 하지는 않지만, 더 복잡한 값들을 wasm과 JavaScript 사이에서 주고받을 때 도움이 정말 많이 됩니다.
 
 ```js
 import * as wasm from './wasm_game_of_life_bg';
@@ -123,7 +123,7 @@ export function greet() {
 
 ### `wasm-game-of-life/pkg/wasm_game_of_life.d.ts`
 
-`.d.ts` 파일은 생성된 JavaScript 파일과 함께 사용할수 있는 [TypeScript][] 타입 정의를 포함합니다. TypeScript를 사용한다면 정적 타입을 사용하면서 IDE가 제공하는 자동 완성과 같은 기능과 함께 WebAssembly 함수를 호출할 수 있게 됩니다. TypeScript를 사용하지 않는다면, 이 파일을 무시해도 괜찮습니다.
+`.d.ts` 파일은 생성한 JavaScript 파일과 함께 사용할수 있는 [TypeScript][] 타입 정의를 포함합니다. TypeScript를 사용한다면 정적 타입을 사용하면서 IDE가 제공하는 자동 완성과 같은 기능과 함께 WebAssembly 함수를 호출할 수 있게 됩니다. TypeScript를 사용하지 않는다면, 이 파일을 무시해도 괜찮습니다.
 
 ```typescript
 export function greet(): void;
@@ -191,7 +191,7 @@ wasm-game-of-life/www/
 
 ### `wasm-game-of-life/www/webpack.config.js`
 
-이 파일은 webpack과 로컬 개발 서버를 설정해줍니다. 미리 설정돼어 있으며 webpack 과 로컬 개발 서버를 사용하기 위해 따로 수정할 필요가 전혀 없습니다.
+이 파일은 webpack과 로컬 개발 서버를 설정해줍니다. 미리 설정돼어 있으며 webpack과 로컬 개발 서버를 사용하기 위해 따로 수정할 필요가 전혀 없습니다.
 
 ### `wasm-game-of-life/www/index.html`
 
@@ -228,7 +228,7 @@ wasm.greet();
 npm install
 ```
 
-이 커맨드는 한번만 실행돼야 합니다. 실행하면 `webpack` JavaScript 번들러와 개발 서버를 설치할수 있습니다.
+이 커맨드는 한번만 실행돼야 합니다. 실행하면 `webpack` JavaScript 번들러와 개발 서버를 설치할 수 있습니다.
 
 > `webpack`이 Rust와 WebAssembly 작업에 필수가 아니라는 점을 기억해주세요.
 > 단순히 간편하게 책을 진행하기 위해 이 번들러와 개발 서버를 사용하고 있습니다.
@@ -280,7 +280,7 @@ npm run start
 
 웹 브라우저를 열고 [http://localhost:8080/](http://localhost:8080/) 를 열면 표시되는 인사 메세지를 확인할수 있습니다:
 
-[![Screenshot of the "Hello, wasm-game-of-life!" Web page alert](../images/game-of-life/hello-world.png)](../images/game-of-life/hello-world.png)
+[!["Hello, wasm-game-of-life!" 웹 페이지 알림(alert) 메세지 스크린샷](../images/game-of-life/hello-world.png)](../images/game-of-life/hello-world.png)
 
 파일을 저장할때마다 [http://localhost:8080/](http://localhost:8080/) 페이지에 반영되게 하고 싶다면, `wasm-pack build` 명령어를 `wasm-game-of-life` 디렉토리에서 다시 실행해주시면 됩니다.
 
@@ -288,7 +288,7 @@ npm run start
 
 * `wasm-game-of-life/src/lib.rs` 디렉토리에 있는 `greet` 함수를
   수정해서 표시되는 메세지를 커스터마이징 할수 있도록 `name: &str` 매개변수를 추가해보고, `wasm-game-of-life/www/index.js` 파일에서 `greet` 함수를 이름과 함께 불러보세요.
-  `wasm-pack build` 명령어로 `.wasm` 바이너리를 다시 빌드하고, [http://localhost:8080/](http://localhost:8080/) 페이지를 새로고침하면 브라우저에서 커스터마이징 된 인사하기 기능을 확인할수 있습니다.
+  `wasm-pack build` 명령어로 `.wasm` 바이너리를 다시 빌드하고, [http://localhost:8080/](http://localhost:8080/) 페이지를 새로고침하면 브라우저에서 수정된 알림 메세지를 확인할 수 있습니다.
 
   <details>
     <summary>정답</summary>
