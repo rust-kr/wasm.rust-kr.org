@@ -1,33 +1,27 @@
-# Testing Conway's Game of Life
+# Game of Life 테스팅하기
 
-Now that we have our Rust implementation of the Game of Life rendering in the 
-browser with JavaScript, let's talk about testing our Rust-generated 
-WebAssembly functions.
+이제 브라우저 JavaScript 환경에서 실행할 수 있도록 Game of Life를 Rust로 구현했으니 Rust 코드에서 WebAssembly 함수를 테스팅하는 방법에 대해 알아봅시다.
 
-We are going to test our `tick` function to make sure that it gives us the 
-output that we expect.
+`tick` 함수로 예상하는 올바른 값을 불러올수 있는지 테스팅 해보겠습니다.
 
-Next, we'll want to create some setter and getter 
-functions inside our existing `impl Universe` block in the
-`wasm_game_of_life/src/lib.rs` file. We are going to create a `set_width`
-and a `set_height` function so we can create `Universe`s of different sizes.
+우선 테스팅을 작성하기 전에 `wasm_game_of_life/src/lib.rs` 파일에 작성한 `impl Universe` 블럭 안에 setter 함수와 getter 함수를 조금 더 만들어보겠습니다. `set_width`와 `set_height` 함수를 만들어서 다른 사이즈의 `Universe`들을 만들어볼수 있게 해봅시다.
 
 ```rust
 #[wasm_bindgen]
 impl Universe { 
     // ...
 
-    /// Set the width of the universe.
+    /// 세상의 너비를 설정합니다.
     ///
-    /// Resets all cells to the dead state.
+    /// 모든 세포를 죽은 상태로 리셋합니다.
     pub fn set_width(&mut self, width: u32) {
         self.width = width;
         self.cells = (0..width * self.height).map(|_i| Cell::Dead).collect();
     }
 
-    /// Set the height of the universe.
+    /// 세상의 넓이를 설정합니다.
     ///
-    /// Resets all cells to the dead state.
+    /// 모든 세포를 죽은 상태로 리셋합니다.
     pub fn set_height(&mut self, height: u32) {
         self.height = height;
         self.cells = (0..self.width * height).map(|_i| Cell::Dead).collect();
@@ -36,26 +30,18 @@ impl Universe {
 }
 ```
 
-We are going to create another `impl Universe` block inside our
-`wasm_game_of_life/src/lib.rs` file without the `#[wasm_bindgen]` attribute.
-There are a few functions we need for testing that we don't want to expose to
-our JavaScript. Rust-generated WebAssembly functions cannot return
-borrowed references. Try compiling the Rust-generated WebAssembly with the
-attribute and take a look at the errors you get.
+`wasm_game_of_life/src/lib.rs` 파일에 `#[wasm_bindgen]` 속성 없이 `impl Universe` 블럭을 하나 더 만들어봅시다. 테스팅에 사용하는데 필요한 함수가 몇개 있는데, 이 함수들은 JavaScript로 노출시키지 않아야 합니다. Rust로 생성한 WebAssembly 함수는 대여한 참조를 반환하지 못하는데, 이 함수들 위에 `#[wasm_bindgen]` 속성을 추가해보고 어떤 에러를 확인할 수 있는지 살펴봅시다.
 
-We are going to write the implementation of `get_cells` to get the contents of
-the `cells` of a `Universe`. We'll also write a `set_cells` function so we can
-set `cells` in a specific row and column of a `Universe` to be `Alive.`
+`get_cells` 함수를 구현해서 `Universe`의 `cells` 필드 값을 가져와보겠습니다. `set_cells`도 작성해서 주어진 행과 열에 위치한 `Universe`의 세포를 `Alive` 상태로 업데이트 할수 있도록 해봅시다.
 
 ```rust
 impl Universe {
-    /// Get the dead and alive values of the entire universe.
+    /// 세상에 존재하는 모든 죽어있는 세포와 살아있는 세포를 반환합니다.
     pub fn get_cells(&self) -> &[Cell] {
         &self.cells
     }
 
-    /// Set cells to be alive in a universe by passing the row and column
-    /// of each cell as an array.
+    /// 배열로 주어진 행과 열들을 확인하고 세포들을 살아있는 상태로 업데이트합니다.
     pub fn set_cells(&mut self, cells: &[(u32, u32)]) {
         for (row, col) in cells.iter().cloned() {
             let idx = self.get_index(row, col);
@@ -66,32 +52,20 @@ impl Universe {
 }
 ```
 
-Now we're going to create our test in the `wasm_game_of_life/tests/web.rs` file.
+이제 `wasm_game_of_life/tests/web.rs` 파일에 테스팅 코드를 작성해보도록 하겠습니다.
 
-Before we do that, there is already one working test in the file. You can
-confirm that the Rust-generated WebAssembly test is working by running
-`wasm-pack test --chrome --headless` in the `wasm-game-of-life` directory.
-You can also use the `--firefox`, `--safari`, and `--node` options to
-test your code in those browsers.
+진행하기 전에, 이미 완성된 테스팅 코드가 있으니 한번 살펴봅시다. `wasm-game-of-life` 디렉토리에서 `wasm-pack test --chrome --headless` 명령어를 실행하여 Rust로 작성된 WebAssembly 테스팅 코드가 잘 작동하는지 확인할수 있습니다. `--firefox`, `--safari`, `--node` 옵션을 사용하여 특정 브라우저 환경에서 코드를 테스트해볼수도 있습니다.
 
-In the `wasm_game_of_life/tests/web.rs` file, we need to export our
-`wasm_game_of_life` crate and the `Universe` type.
+우선 `wasm_game_of_life/tests/web.rs` 파일에서, `wasm_game_of_life` 크레이트와 `Universe`를 익스포트 해줍시다.
 
 ```rust
 extern crate wasm_game_of_life;
 use wasm_game_of_life::Universe;
 ```
 
-In the `wasm_game_of_life/tests/web.rs` file we'll want to create some
-spaceship builder functions.
+`wasm_game_of_life/tests/web.rs` 파일에서 spaceship 예시 패턴을 만드는 함수들을 만들어봅시다.
 
-We'll want one for our input spaceship that we'll call the `tick` function on
-and we'll want the expected spaceship we will get after one tick. We picked the
-cells that we want to initialize as `Alive` to create our spaceship in the
-`input_spaceship` function. The position of the spaceship in the
-`expected_spaceship` function after the tick of the `input_spaceship` was
-calculated manually. You can confirm for yourself that the cells of the input
-spaceship after one tick is the same as the expected spaceship.
+`tick` 함수를 부를 때 사용할 패턴과 한 틱 이후의 결과값과 비교할 예상 값이 필요한데, 우선은 `input_spaceship` 함수에서 `Alive` 상태로 생성할 세포들을 정해줍시다. `expected_spaceship` 함수에서는 `input_spaceship` 호출 이후 시점의 틱에 표시될 spaceship 패턴을 직접 계산해서 적어주도록 하겠습니다.
 
 ```rust
 #[cfg(test)]
@@ -112,31 +86,21 @@ pub fn expected_spaceship() -> Universe {
     universe
 }
 ```
-
-Now we will write the implementation for our `test_tick` function. First, we
-create an instance of our `input_spaceship()` and our `expected_spaceship()`.
-Then, we call `tick` on the `input_universe`. Finally, we use the `assert_eq!`
-macro to call `get_cells()` to ensure that `input_universe` and
-`expected_universe` have the same `Cell` array values. We add the
-`#[wasm_bindgen_test]` attribute to our code block so we can test our
-Rust-generated WebAssembly code and use `wasm-pack test` to test the
-WebAssembly code.
+마지막으로 `test_tick` 함수를 구현해주도록 하겠습니다. 먼저 `input_spaceship()`와 `expected_spaceship()`를 호출해서 인스턴스들을 만들어줍시다. 그 다음에 `input_universe` 인스턴스의 `tick` 함수를 호출해주도록 합시다. 마지막으로, `assert_eq!` 매크로를 사용해서 `get_cells()`를 부른 다음에 `input_universe`와 `expected_universe` 가 동일한 `Cell` 타입 배열 값을 가지고 있는지 확인합니다. 이 코드 블럭 위에 `#[wasm_bindgen_test]` 속성을 추가해서 `wasm-pack test` 명령어로 Rust로 생성한 WebAssembly 코드를 테스트할수 있도록 해줍시다.
 
 ```rust
 #[wasm_bindgen_test]
 pub fn test_tick() {
-    // Let's create a smaller Universe with a small spaceship to test!
+    // 작은 사이즈의 Universe과 spaceship 패턴을 생성해봅시다.
     let mut input_universe = input_spaceship();
 
-    // This is what our spaceship should look like
-    // after one tick in our universe.
+    // `input_universe` 인스턴스의 다음 틱 결과값과 비교하게 될 spaceship 패턴입니다.
     let expected_universe = expected_spaceship();
 
-    // Call `tick` and then see if the cells in the `Universe`s are the same.
+    // `tick` 함수를 실행하고 두 `Universe`의 세포들이 동일한지 확인합니다.
     input_universe.tick();
     assert_eq!(&input_universe.get_cells(), &expected_universe.get_cells());
 }
 ```
 
-Run the tests within the `wasm-game-of-life` directory by running
-`wasm-pack test --firefox --headless`.
+이제 `wasm-game-of-life` 디렉토리에서 `wasm-pack test --firefox --headless` 명령어를 실행하여 테스팅 코드를 실행해주세요.
