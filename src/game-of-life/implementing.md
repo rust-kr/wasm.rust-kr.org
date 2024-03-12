@@ -44,7 +44,7 @@ WebAssembly와 JavaScript 사이의 인터페이스를 설계할 때, 다음 내
 
 4 x 4 사이즈의 우주를 메모리 이미지로 표현해보겠습니다:
 
-![Screenshot of a 4 by 4 universe](../images/game-of-life/universe.png)
+![4 x 4 사이즈 세상의 스크린샷](../images/game-of-life/universe.png)
 
 주어진 열과 행에 해당하는 배열 인덱스를 찾을 때는 이 공식을 사용할 수 있습니다:
 
@@ -291,7 +291,7 @@ requestAnimationFrame(renderLoop);
 
 다시 한번 (`npm run`을 `wasm-game-of-life/www` 디렉토리에서 실행한) 개발 서버가 아직 구동중인지 확인해주세요. [http://localhost:8080/](http://localhost:8080/) 페이지를 열면 다음 내용을 확인할 수 있습니다:
 
-[![Screenshot of the Game of Life implementation with text rendering](../images/game-of-life/initial-game-of-life-pre.png)](../images/game-of-life/initial-game-of-life-pre.png)
+[![텍스트를 렌더하는 Game of Life 구현 스크린샷](../images/game-of-life/initial-game-of-life-pre.png)](../images/game-of-life/initial-game-of-life-pre.png)
 
 ## 메모리에서 바로 캔버스로 렌더링하기
 
@@ -455,7 +455,7 @@ npm run start
 
 [http://localhost:8080/](http://localhost:8080/) 페이지를 웹 브라우저에서 새로고침하면 구현된 흥미진진한 Game of Life가 시작되게 됩니다.
 
-[![Screenshot of the Game of Life implementation](../images/game-of-life/initial-game-of-life.png)](../images/game-of-life/initial-game-of-life.png)
+[![Game of Life 구현 스크린샷](../images/game-of-life/initial-game-of-life.png)](../images/game-of-life/initial-game-of-life.png)
 
 추가로 관심이 있다면, [hashlife](https://en.wikipedia.org/wiki/Hashlife) 라는 엄청 멋진 Game of Life 알고리즘 구현도 있으니 한번 확인해보세요. 이 알고리즘은 공격적인 메모이제이션(aggressive memoizing)을 사용하여 코드가 더 오래 구동될수록 미래 세대들을 *기하급수적으로 더 빠르게* 계산할수 있게 해줍니다. hashlife를 이 튜토리얼에서 구현해보면 정말 재밌겠지만, 이 책은 Rust와 WebAssembly 사용에 중점을 두고 있으므로 다루지 않도록 하겠습니다. 하지만 hashlife에 대해 배워보길 적극적으로 권장합니다.
 

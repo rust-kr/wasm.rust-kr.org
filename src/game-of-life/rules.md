@@ -35,7 +35,7 @@
 
 위에서 다룬 내용을 토대로, 다음 틱의 세상은 이렇게 보이게 됩니다:
 
-<img src='../images/game-of-life/next-universe.png' alt='Next Universe' width=80 />
+<img src='../images/game-of-life/next-universe.png' alt='다음 세상' width=80 />
 
 이러한 간단하고 결정적인 규칙을 적용하는 것으로 다음과 같은 이상하지만 흥미로운 동작을 볼수 있습니다:
 
@@ -56,7 +56,7 @@
 
     초기 상태의 우주로 다시 돌아가게 됩니다.
 
-    <img src='../images/game-of-life/initial-universe.png' alt='Initial Universe' width=80 />
+    <img src='../images/game-of-life/initial-universe.png' alt='초기 상태의 우주' width=80 />
 
     이 패턴은 주기적입니다. 그러므로 두 틱마다 처음 상태로 돌아가게 됩니다.
 
