@@ -1,17 +1,13 @@
-# Time Profiling
+# 타임 프로파일링 하기
 
-In this chapter, we will improve the performance of our Game of Life
-implementation. We will use time profiling to guide our efforts.
+이 챕터에서는 타임 프로파일링 작업을 해보면서 전에 구현한 Game of Life의 성능을 개선시켜보겠습니다.
 
-Familiarize yourself with [the available tools for time profiling Rust and
-WebAssembly code](../reference/time-profiling.md) before continuing.
+시작하기 전에, [Rust와 WebAssembly 코드에 사용해볼수 있는 타임 프로파일링 툴들](../reference/time-profiling.md)을 살펴보고 익숙해져 보세요.
 
-## Creating a Frames Per Second Timer with the `window.performance.now` Function
+## `window.performance.now` 함수를 사용하여 초당 프레임 (FPS, Frames Per Second) 타이머 만들기
+이 FPS 타이머는 구현한 게임의 렌더링 속도를 어떻게 개선하는지 살펴볼 때 매우 유용하게 사용될 예정입니다.
 
-This FPS timer will be useful as we investigate speeding up our Game of Life's
-rendering.
-
-We start by adding an `fps` object to `wasm-game-of-life/www/index.js`:
+`wasm-game-of-life/www/index.js` 파일에 `fps` 객체를 추가하는 것으로 시작해봅시다:
 
 ```js
 const fps = new class {
@@ -22,20 +18,19 @@ const fps = new class {
   }
 
   render() {
-    // Convert the delta time since the last frame render into a measure
-    // of frames per second.
+    // 마지막 프레임 렌더부터의 델타 시간을 fps 단위로 변환합니다.
     const now = performance.now();
     const delta = now - this.lastFrameTimeStamp;
     this.lastFrameTimeStamp = now;
     const fps = 1 / delta * 1000;
 
-    // Save only the latest 100 timings.
+    // 마지막 100개의 타이밍만 저장합니다.
     this.frames.push(fps);
     if (this.frames.length > 100) {
       this.frames.shift();
     }
 
-    // Find the max, min, and mean of our 100 latest timings.
+    // 최대, 최소 타이밍과 마지막 100개 타이밍의 평균을 찾습니다.
     let min = Infinity;
     let max = -Infinity;
     let sum = 0;
@@ -46,7 +41,7 @@ const fps = new class {
     }
     let mean = sum / this.frames.length;
 
-    // Render the statistics.
+    // 통계를 렌더합니다.
     this.fps.textContent = `
 Frames per Second:
          latest = ${Math.round(fps)}
@@ -58,7 +53,7 @@ max of last 100 = ${Math.round(max)}
 };
 ```
 
-Next we call the `fps` `render` function on each iteration of `renderLoop`:
+`fps` 객체의 `render` 함수를 매 `renderLoop` 반복마다 불러보겠습니다:
 
 ```js
 const renderLoop = () => {
@@ -72,14 +67,13 @@ const renderLoop = () => {
 };
 ```
 
-Finally, don't forget to add the `fps` element to
-`wasm-game-of-life/www/index.html`, just above the `<canvas>`:
+마지막으로, `fps` 요소를 잊지 말고 `wasm-game-of-life/www/index.html` 파일에 추가해줍시다. `<canvas>` 바로 위에 추가해주세요:
 
 ```html
 <div id="fps"></div>
 ```
 
-And add CSS to make its formatting nice:
+그리고 CSS 프로퍼티를 추가해서 깔끔하게 포맷해주겠습니다:
 
 ```css
 #fps {
@@ -88,17 +82,15 @@ And add CSS to make its formatting nice:
 }
 ```
 
-And voila! Refresh [http://localhost:8080](http://localhost:8080) and now we
-have an FPS counter!
+짜잔! 이제 [http://localhost:8080](http://localhost:8080) 페이지를 새로고침 하면 FPS 카운터를 확인할 수 있게 됐습니다!
 
 [perf-now]: https://developer.mozilla.org/en-US/docs/Web/API/Performance/now
 
-### Time Each `Universe::tick` with `console.time` and `console.timeEnd`
+### `Universe::tick`과 `console.time`, `console.timeEnd` 시간 측정하기
 
-To measure how long each invocation of `Universe::tick` takes, we can use
-`console.time` and `console.timeEnd` via the `web-sys` crate.
+각 `Universe::tick`이 호출되는데 시간이 얼마나 걸리는지 확인해볼려면 `web-sys` 크레이트의 `console.time`, `console.timeend` 를 활용해볼수 있습니다.
 
-First, add `web-sys` as a dependency to `wasm-game-of-life/Cargo.toml`:
+먼저, `wasm-game-of-life/Cargo.toml` 파일을 열고 `web-sys` 를 종속성으로 추가해주세요:
 
 ```toml
 [dependencies.web-sys]
@@ -108,8 +100,7 @@ features = [
 ]
 ```
 
-Because there should be a corresponding `console.timeEnd` invocation for every
-`console.time` call, it is convenient to wrap them both up in an [RAII][] type:
+`console.time`를 호출할 때 마다 `console.timeEnd`도 같이 호출될 예정이기 때문에, [RAII][] 타입으로 묶어서 간편하게 사용할수도 있습니다:
 
 ```rust
 extern crate web_sys;
@@ -133,71 +124,49 @@ impl<'a> Drop for Timer<'a> {
 }
 ```
 
-Then, we can time how long each `Universe::tick` takes by adding this snippet to
-the top of the method:
+그 다음에, 메소드 최상단에 이 코드를 추가해서 얼마나 각 `Universe::tick` 호출이 오래 걸리는지 측정해볼수 있습니다:
 
 ```rust
 let _timer = Timer::new("Universe::tick");
 ```
 
-The time of how long each call to `Universe::tick` took are now logged in the
-console:
+콘솔에 `Universe::tick`를 호출하는데 얼마나 오래 걸렸는지 로그를 표시합니다:
 
-[![Screenshot of console.time logs](../images/game-of-life/console-time.png)](../images/game-of-life/console-time.png)
+[![console.time 로그 스크린샷](../images/game-of-life/console-time.png)](../images/game-of-life/console-time.png)
 
-Additionally, `console.time` and `console.timeEnd` pairs will show up in your
-browser's profiler's "timeline" or "waterfall" view:
+추가로, 브라우저 프로파일러(profiler)의 timeline 혹은 waterfall 뷰에서 `console.time`과 `console.timeEnd`가 같이 실행된 부분을 확인할 수 있습니다:
 
-[![Screenshot of console.time logs](../images/game-of-life/console-time-in-profiler.png)](../images/game-of-life/console-time-in-profiler.png)
+[![console.time 로그 스크린샷](../images/game-of-life/console-time-in-profiler.png)](../images/game-of-life/console-time-in-profiler.png)
 
 [RAII]: https://en.wikipedia.org/wiki/Resource_acquisition_is_initialization
 
-## Growing our Game of Life Universe
+## Game of Life 세상의 사이즈 키워보기
 
-> ⚠️ This section utilizes example screenshots from Firefox. While all modern
-> browsers have similar tools, there might be slight nuances to working with
-> different developer tools. The profile information you extract will be
-> essentially the same, but your mileage might vary in terms of the views you
-> see and the naming of different tools.
+> ⚠️ 이 섹션은 FireFox의 스크린샷을 예시로 보여줍니다. 거의 모든 모던 브라우저가 비슷한 기능들을 가지고 있지만, 개발자 도구에 브라우저마다 약간의 차이가 있을 수 있습니다. 추출하게 될 프로파일 정보는 기본적으로 같지만, 보게 될 뷰나 도구 이름 등이 다를수 있는 점을 확인해주세요.
 
-What happens if we make our Game of Life universe larger? Replacing the 64 by 64
-universe with a 128 by 128 universe (by modifying `Universe::new` in
-`wasm-game-of-life/src/lib.rs`) results in FPS dropping from a smooth 60 to a
-choppy 40-ish on my machine.
+구현한 Game of Life 세상을 더 크게 만들어보면 어떨까요? 64 x 64 사이즈의 세상을 128 x 128 사이즈로 늘려봅시다. (`wasm-game-of-life/src/lib.rs` 파일에서 `Universe::new`를 수정해주세요.) 제 컴퓨터에서는 사이즈를 이렇게 늘리게 되면 부드럽게 작동하던 60fps 화면이 버벅이면서 40fps 처럼 보이는 것 같습니다.
 
-If we record a profile and look at the waterfall view, we see that each
-animation frame is taking over 20 milliseconds. Recall that 60 frames per second
-leaves sixteen milliseconds for the whole process of rendering a frame. That's
-not just our JavaScript and WebAssembly, but also everything else the browser is
-doing, such as painting.
+프로파일을 기록하고 waterfall 뷰를 확인하면, 각 애니메이션이 20 밀리초 이상 걸리는 것을 확인할 수 있습니다. 60fps로 작동했을 때 프레임 전체를 렌더하는데 16 밀리초가 걸린 것을 떠올려보면 확실히 차이가 있습니다. 참고로, JavaScript와 WebAssembly외에도 페이지를 그리는 등 브라우저가 수행하는 작업의 영향도 있습니다.
 
-[![Screenshot of a waterfall view of rendering a frame](../images/game-of-life/drawCells-before-waterfall.png)](../images/game-of-life/drawCells-before-waterfall.png)
+[![페이지 렌더링 처리의 waterfall 뷰 스크린샷](../images/game-of-life/drawCells-before-waterfall.png)](../images/game-of-life/drawCells-before-waterfall.png)
 
-If we look at what happens within a single animation frame, we see that the
-`CanvasRenderingContext2D.fillStyle` setter is very expensive!
+한 애니메이션 프레임동안 어떤 일이 일어나는지 확인해보면, `CanvasRenderingContext2D.fillStyle` setter가 성능 차원에서 많은 비용을 요구하는 것을 확인할 수 있습니다.
 
-> ⚠️ In Firefox, if you see a line that simply says "DOM" instead of the
-> `CanvasRenderingContext2D.fillStyle` mentioned above, you may need to turn on
-> the option for "Show Gecko Platform Data" in your performance developer tools
-> options:
->
-> [![Turning on Show Gecko Platform Data](../images/game-of-life/profiler-firefox-show-gecko-platform.png)](../images/game-of-life/profiler-firefox-show-gecko-platform.png)
+> ⚠️ FireFox 브라우저에서 위에서 언급된 `CanvasRenderingContext2D.fillStyle` 대신에 "DOM"이 표시된다면, 성능 개발자 도구(performance developer tools)에서 "Gecko 플랫폼 데이터 표시하기 (Show Gecko Platform Data)" 옵션을 활성화해줘야 합니다:
+> 
+> [!["Gecko 플랫폼 데이터 표시하기 (Show Gecko Platform Data)" 옵션 활성화하기](../images/game-of-life/profiler-firefox-show-gecko-platform.png)](../images/game-of-life/profiler-firefox-show-gecko-platform.png)
 
-[![Screenshot of a flamegraph view of rendering a frame](../images/game-of-life/drawCells-before-flamegraph.png)](../images/game-of-life/drawCells-before-flamegraph.png)
+[![페이지 렌더링 처리의 flamegraph 뷰 스크린샷](../images/game-of-life/drawCells-before-flamegraph.png)](../images/game-of-life/drawCells-before-flamegraph.png)
 
-And we can confirm that this isn't an abnormality by looking at the call tree's
-aggregation of many frames:
+많이 표시되는 호출 트리의 집계(call tree's aggregation)를 살펴보면 이게 전혀 이상한 동작이 아님을 확인할 수 있습니다:
 
-[![Screenshot of a flamegraph view of rendering a frame](../images/game-of-life/drawCells-before-calltree.png)](../images/game-of-life/drawCells-before-calltree.png)
+[![페이지 렌더링 처리의 flamegraph 뷰 스크린샷](../images/game-of-life/drawCells-before-calltree.png)](../images/game-of-life/drawCells-before-calltree.png)
 
-Nearly 40% of our time is spent in this setter!
+거의 40% 분량을 이 setter에 사용해버렸네요!
 
-> ⚡ We might have expected something in the `tick` method to be the performance
-> bottleneck, but it wasn't. Always let profiling guide your focus, since time
-> may be spent in places you don't expect it to be.
+> ⚡ `tick` 메소드가 성능 병목을 일으키는데 특별한 이유가 있을 것 같았지만, 사실 그렇지 않은 부분을 확인했습니다. 작업을 하다 보면 예상치 못한 부분에서 시간을 많이 쓰게 될수도 있으니, 항상 **정말 중요한** 프로파일링 도구를 먼저 살펴보도록 합시다.
 
-In the `drawCells` function in `wasm-game-of-life/www/index.js`, the `fillStyle`
-property is set once for every cell in the universe, on every animation frame:
+`wasm-game-of-life/www/index.js` 파일 내의 `drawCells` 함수에서 `fillStyle` 프로퍼티가 한번 정해지고 세상 내의 모든 세포와 모든 애니메이션에 이 프로퍼티가 사용되게 됩니다.
 
 ```js
 for (let row = 0; row < height; row++) {
@@ -218,15 +187,10 @@ for (let row = 0; row < height; row++) {
 }
 ```
 
-Now that we have discovered that setting `fillStyle` is so expensive, what can
-we do to avoid setting it so often? We need to change `fillStyle` depending on
-whether a cell is alive or dead. If we set `fillStyle = ALIVE_COLOR` and then
-draw every alive cell in one pass, and then set `fillStyle = DEAD_COLOR` and
-draw every dead cell in another pass, then we only end setting `fillStyle`
-twice, rather than once for every cell.
+`fillStyle`가 많은 성능을 요구하는 부분을 확인했는데, 대신에 어떤 식으로 코드를 작성해야 할까요? 세포의 생존 여부에 따라 `fillStyle`를 사용하도록 바꿔봅시다. `fillStyle = ALIVE_COLOR`를 적어줘서 살아있는 세포만 그리게 하고 `fillStyle = DEAD_COLOR`를 적어줘서 죽은 세포도 동일한 방식으로 처리를 해준다면, 세포들을 모두 한번에 그리지 않고 `fillStyle`을 두번만 설정할수 있게 됩니다.
 
 ```js
-// Alive cells.
+// 살아있는 세포 처리.
 ctx.fillStyle = ALIVE_COLOR;
 for (let row = 0; row < height; row++) {
   for (let col = 0; col < width; col++) {
@@ -244,7 +208,7 @@ for (let row = 0; row < height; row++) {
   }
 }
 
-// Dead cells.
+// 죽어있는 세포 처리.
 ctx.fillStyle = DEAD_COLOR;
 for (let row = 0; row < height; row++) {
   for (let col = 0; col < width; col++) {
@@ -263,26 +227,19 @@ for (let row = 0; row < height; row++) {
 }
 ```
 
-After saving these changes and refreshing
-[http://localhost:8080/](http://localhost:8080/), rendering is back to a smooth
-60 frames per second.
+코드 파일을 저장하고 [http://localhost:8080/](http://localhost:8080/) 페이지를 새로고침 해주면, 웹사이트가 60fps로 다시 부드럽게 렌더링을 하는 것을 볼수 있습니다.
 
-If we take another profile, we can see that only about ten milliseconds are
-spent in each animation frame now.
+프로파일을 다시 확인해보면, 각 애니메이션 프레임마다 오직 10 밀리초만 걸리는 부분을 확인할 수 있습니다.
 
-[![Screenshot of a waterfall view of rendering a frame after the drawCells changes](../images/game-of-life/drawCells-after-waterfall.png)](../images/game-of-life/drawCells-after-waterfall.png)
+[![drawCells 함수를 업데이트 한 이후 페이지 렌더링 처리의 waterfall 뷰 스크린샷](../images/game-of-life/drawCells-after-waterfall.png)](../images/game-of-life/drawCells-after-waterfall.png)
 
-Breaking down a single frame, we see that the `fillStyle` cost is gone, and most
-of our frame's time is spent within `fillRect`, drawing each cell's rectangle.
+한 프레임을 다시 분석해보면, `fillStyle` 이 더이상 성능을 많이 사용하지 않고, `fillRect`가 각 세포 사각형을 그리는데 대부분의 시간을 사용하는 것을 확인할 수 있습니다.
 
-[![Screenshot of a flamegraph view of rendering a frame after the drawCells changes](../images/game-of-life/drawCells-after-flamegraph.png)](../images/game-of-life/drawCells-after-flamegraph.png)
+[![drawCells 함수를 업데이트 한 이후 페이지 렌더링 처리의 flamegraph 뷰 스크린샷](../images/game-of-life/drawCells-after-flamegraph.png)](../images/game-of-life/drawCells-after-flamegraph.png)
 
-## Making Time Run Faster
+## Game of Life가 더 빠르게 흘러가도록 만들어보기
 
-Some folks don't like waiting around, and would prefer if instead of one tick of
-the universe occurred per animation frame, nine ticks did. We can modify the
-`renderLoop` function in `wasm-game-of-life/www/index.js` to do this quite
-easily:
+어떤 사람들은 빨리 빨리 하는걸 더 좋아해서, 매 프레임마다 1틱이 아니라 9틱씩 넘어가는걸 선호하기도 합니다. `wasm-game-of-life/www/index.js` 파일의 `renderLoop` 함수를 수정해서 생각외로 쉽게 할수 있긴 합니다:
 
 ```js
 for (let i = 0; i < 9; i++) {
@@ -290,14 +247,9 @@ for (let i = 0; i < 9; i++) {
 }
 ```
 
-On my machine, this brings us back down to only 35 frames per second. No
-good. We want that buttery 60!
+제 컴퓨터에서는 이 코드가 35fps 속도로 다시 느려지는것 같습니다. 좋지 않은 현상이니 다시 60fps 로 만들어보겠습니다!
 
-Now we know that time is being spent in `Universe::tick`, so let's add some
-`Timer`s to wrap various bits of it in `console.time` and `console.timeEnd`
-calls, and see where that leads us. My hypothesis is that allocating a new
-vector of cells and freeing the old vector on every tick is costly, and taking
-up a significant portion of our time budget.
+`Universe::tick` 에서 시간이 많이 소요되는 것으로 보이므로, `console.time`과 `console.timeEnd`를 호출해서 래핑(wrapping)할수 있도록 `Timer`를 추가해보고 어떻게 되는지 살펴보겠습니다. 제 가설대로라면 매 틱마다 세포의 새 벡터를 할당하고 기존 벡터를 해제(freeing)하는 작업은 성능을 많이 사용하고 시간도 많이 소비하게 됩니다.
 
 ```rust
 pub fn tick(&mut self) {
@@ -317,19 +269,15 @@ pub fn tick(&mut self) {
                 let live_neighbors = self.live_neighbor_count(row, col);
 
                 let next_cell = match (cell, live_neighbors) {
-                    // Rule 1: Any live cell with fewer than two live neighbours
-                    // dies, as if caused by underpopulation.
+                    // 규칙 1: 인구 부족으로 2개 미만의 이웃을 가진 세포는 죽게 됩니다.
                     (Cell::Alive, x) if x < 2 => Cell::Dead,
-                    // Rule 2: Any live cell with two or three live neighbours
-                    // lives on to the next generation.
+                    // 규칙 2: 2개 혹은 3개의 이웃을 가진 세포는 다음 세대에서 계속 살아있습니다.
                     (Cell::Alive, 2) | (Cell::Alive, 3) => Cell::Alive,
-                    // Rule 3: Any live cell with more than three live
-                    // neighbours dies, as if by overpopulation.
+                    // 규칙 3: 과잉 인구로 3개 초과의 이웃을 가진 모든 세포는 죽게 됩니다.
                     (Cell::Alive, x) if x > 3 => Cell::Dead,
-                    // Rule 4: Any dead cell with exactly three live neighbours
-                    // becomes a live cell, as if by reproduction.
+                    // 규칙 4: 세포 증식으로 정확히 3개의 이웃을 가진 세포는 살아나게 됩니다.
                     (Cell::Dead, 3) => Cell::Alive,
-                    // All other cells remain in the same state.
+                    // 규칙이 적용되지 않는 세포들의 상태는 그대로 유지되게 됩니다.
                     (otherwise, _) => otherwise,
                 };
 
@@ -343,23 +291,15 @@ pub fn tick(&mut self) {
 }
 ```
 
-Looking at the timings, it is clear that my hypothesis is incorrect: the vast
-majority of time is spent actually calculating the next generation of
-cells. Allocating and freeing a vector on every tick appears to have negligible
-cost, surprisingly. Another reminder to always guide our efforts with profiling!
+브라우저 개발자 도구에서 타이밍(timing)을 확인해보면 이 가설이 사실은 명백하게 틀린 것을 알수 있습니다. 실제로는, 대부분의 시간이 다음 세대 세포들을 계산하는데 사용되게 됩니다. 그리고 매 틱마다 벡터 값을 할당하고 해제하는 작업이 놀랍게도 그렇게 성능이 많이 들지 않습니다. 다시 한번 **정말 중요한** 프로파일링을 해보겠습니다!
 
-[![Screenshot of a Universe::tick timer results](../images/game-of-life/console-time-in-universe-tick.png)](../images/game-of-life/console-time-in-universe-tick.png)
+[![Universe::tick 타이머 결과 값의 스크린샷](../images/game-of-life/console-time-in-universe-tick.png)](../images/game-of-life/console-time-in-universe-tick.png)
 
-The next section requires the `nightly` compiler. It's required because of
-the [test feature gate](https://doc.rust-lang.org/unstable-book/library-features/test.html)
-we're going to use for the benchmarks. Another tool we will install is [cargo benchcmp][benchcmp].
-It's a small utility for comparing micro-benchmarks produced by `cargo bench`.
+다음 섹션에서는 `nightly` 컴파일러가 필요합니다. 필요한 [테스트 기능 게이트(test feature gate)](https://doc.rust-lang.org/unstable-book/library-features/test.html)가 `nightly` 버전에 포함돼 있어서 그런데, 벤치마킹에 이 기능을 사용해보겠습니다. [cargo benchcmp][benchcmp]이라는 툴도 필요하니 설치해주도록 합시다. `cargo bench`로 생성한 마이크로 벤치마크들(micro-benchmarks)을 비교하는데 사용하는 작은 사이즈의 유틸리티입니다.
 
 [benchcmp]: https://github.com/BurntSushi/cargo-benchcmp
 
-Let's write a native code `#[bench]` doing the same thing that our WebAssembly
-is doing, but where we can use more mature profiling tools. Here is the new
-`wasm-game-of-life/benches/bench.rs`:
+WebAssembly랑 동일한 작업을 수행하는 네이티브 코드인 `#[bench]`를 작성해봅시다. 이렇게 작성하는 대신에 더 많은 기능을 사용할수 있게 됩니다. 이제 새롭게 작성된 `wasm-game-of-life/benches/bench.rs`을 확인해주세요:
 
 ```rust
 #![feature(test)]
@@ -377,13 +317,9 @@ fn universe_ticks(b: &mut test::Bencher) {
 }
 ```
 
-We also have to comment out all the `#[wasm_bindgen]` annotations, and the
-`"cdylib"` bits from `Cargo.toml` or else building native code will fail and
-have link errors.
+그리고 `#[wasm_bindgen]` 속성을 모두 주석처리 해주도록 하고, `Cargo.toml` 파일의 `"cdylib"`도 주석처리 해주겠습니다. 이렇게 하지 않으면 빌드가 실패하고 링크 오류(link errors)가 발생하게 됩니다.
 
-With all that in place, we can run `cargo bench | tee before.txt` to compile and run our
-benchmark! The `| tee before.txt` part will take the output from `cargo bench` and put in a file
-called `before.txt`.
+준비가 다 됐다면, `cargo bench | tee before.txt` 명령어를 실행해서 코드를 컴파일하고 벤치마크를 실행해봅시다. `| tee before.txt`를 포함하면서 `cargo bench` 명령어의 출력값을 가져와서 `before.txt` 파일에 저장하게 되니 이 부분도 확인해주세요.
 
 ```
 $ cargo bench | tee before.txt
@@ -402,9 +338,7 @@ test universe_ticks ... bench:     664,421 ns/iter (+/- 51,926)
 test result: ok. 0 passed; 0 failed; 0 ignored; 1 measured; 0 filtered out
 ```
 
-This also tells us where the binary lives, and we can run the benchmarks again,
-but this time under our operating system's profiler. In my case, I'm running
-Linux, so [`perf`][perf] is the profiler I'll use:
+바이너리 파일의 위치도 같이 표시되는 부분을 확인할 수 있습니다. 이번에는 사용하는 운영체제(operating system)의 프로파일러를 사용하여 벤치마킹을 다시 해보겠습니다. 제 컴퓨터는 리눅스(Linux)를 사용하고 있으니 [`perf`][perf]를 예제로 사용해보겠습니다:
 
 [perf]: https://perf.wiki.kernel.org/index.php/Main_Page
 
@@ -419,25 +353,20 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 1 measured; 0 filtered out
 [ perf record: Captured and wrote 0.178 MB perf.data (2349 samples) ]
 ```
 
-Loading up the profile with `perf report` shows that all of our time is spent in
-`Universe::tick`, as expected:
+`perf report` 명령어로 프로파일을 로드하면, 예상한 대로 대부분의 시간이 `Universe::tick`를 실행하는데 소비되는 것을 볼수 있습니다:
 
-[![Screenshot of perf report](../images/game-of-life/bench-perf-report.png)](../images/game-of-life/bench-perf-report.png)
+[![perf report 스크린샷](../images/game-of-life/bench-perf-report.png)](../images/game-of-life/bench-perf-report.png)
 
 `perf` will annotate which instructions in a function time is being spent at if
 you press `a`:
+`a` 키를 누르면 함수를 실행하는데 어떤 어셈블리(Assembly) 명령어(instruction)를 실행하고 있는지 표시되는 것을 볼 
+수 있습니다:
 
-[![Screenshot of perf's instruction annotation](../images/game-of-life/bench-perf-annotate.png)](../images/game-of-life/bench-perf-annotate.png)
+[![perf 화면에서 어셈블리 명령어를 표시하는 화면의 스크린샷](../images/game-of-life/bench-perf-annotate.png)](../images/game-of-life/bench-perf-annotate.png)
 
-This tells us that 26.67% of time is being spent summing neighboring cells'
-values, 23.41% of time is spent getting the neighbor's column index, and another
-15.42% of time is spent getting the neighbor's row index. Of these top three
-most expensive instructions, the second and third are both costly `div`
-instructions. These `div`s implement the modulo indexing logic in
-`Universe::live_neighbor_count`.
+위 내용을 확인하면 26.67%의 시간이 이웃 세포들을 만들어내는 데 사용되고, 23.41%를 이웃들의 열 인덱스, 그리고 나머지 15.42%를 행 인덱스를 구하는데 사용되는 것을 알수 있습니다. 제일 많은 성능을 사용하는 세 명령어들 중, 두번째와 세번째가 비용이 많이 드는 `div` 명령어인 부분도 볼수 있습니다. 이 `div`들이 `Universe::live_neighbor_count` 함수에서 나머지 연산자로 인덱싱 하도록 구현했던 부분입니다. (modulo indexing logic)
 
-Recall the `live_neighbor_count` definition inside
-`wasm-game-of-life/src/lib.rs`:
+`wasm-game-of-life/src/lib.rs` 파일에서 `live_neighbor_count`를 정의했던 내용을 다시 떠올려봅시다:
 
 ```rust
 fn live_neighbor_count(&self, row: u32, column: u32) -> u8 {
@@ -458,14 +387,9 @@ fn live_neighbor_count(&self, row: u32, column: u32) -> u8 {
 }
 ```
 
-The reason we used modulo was to avoid cluttering up the code with `if` branches
-for the first or last row or column edge cases. But we are paying the cost of a
-`div` instruction even for the most common case, when neither `row` nor `column`
-is on the edge of the universe and they don't need the modulo wrapping
-treatment. Instead, if we use `if`s for the edge cases and unroll this loop, the
-branches *should* be very well-predicted by the CPU's branch predictor.
+코드를 확인해보면 `if` 블럭들로 첫째와 마지막 행과 열의 엣지 케이스(edge case)를 처리하는데 코드를 불필요하게 길게 쓰지 않도록 나머지 연산자 (modulo operator)를 사용하고 있는 부분을 확인할 수 있습니다. `row`과 `column` 둘 다 세상의 끝에 있지 않고 나머지 연산자를 쓸 필요가 없는 일반적인 케이스를 처리하는데도 `div` 명령어를 사용해서 많은 성능을 사용하고 있습니다. 반복문을 사용하는 대신에 `if` 문으로 이 엣지 케이스들을 처리해서 여러 분기들을 CPU의 분기 예측기(branch predictor)가 예측하기 쉽도록 만들어보겠습니다.
 
-Let's rewrite `live_neighbor_count` like this:
+`live_neighbor_count`를 다음과 같이 다시 작성해봅시다:
 
 ```rust
 fn live_neighbor_count(&self, row: u32, column: u32) -> u8 {
@@ -523,7 +447,7 @@ fn live_neighbor_count(&self, row: u32, column: u32) -> u8 {
 }
 ```
 
-Now let's run the benchmarks again! This time output it to `after.txt`.
+벤치마킹을 다시 실행해봅시다! 이번에는 출력되는 메세지들을 `after.txt`로 출력해보겠습니다.
 
 ```
 $ cargo bench | tee after.txt
@@ -543,7 +467,7 @@ test universe_ticks ... bench:      87,258 ns/iter (+/- 14,632)
 test result: ok. 0 passed; 0 failed; 0 ignored; 1 measured; 0 filtered out
 ```
 
-That looks a whole lot better! We can see just how much better it is with the `benchcmp` tool and the two text files we created before:
+훨씬 나은것 같습니다! `benchcmp` 툴과 방금 생성한 두 텍스트 파일을 확인해보면 얼마나 나이졌는지 볼수 있습니다:
 
 ```
 $ cargo benchcmp before.txt after.txt
@@ -551,37 +475,22 @@ $ cargo benchcmp before.txt after.txt
  universe_ticks  664,421             87,258                 -577,163  -86.87%   x 7.61
 ```
 
-Wow! 7.61x speed up!
+우와! 7.61 배나 빨라졌네요!
 
-WebAssembly intentionally maps closely to common hardware architectures, but we
-do need to make sure that this native code speed up translates into a
-WebAssembly speed up as well.
+WebAssembly는 일반적인 하드웨어 아키텍쳐(architecture)와 밀접하게 매핑(mapping)돼 있지만, 이러한 네이티브 코드의 속도 향상이 WebAssembly 성능 향상으로도 전환될 수 있는지 확인해봐야 합니다.
 
-Let's rebuild the `.wasm` with `wasm-pack build` and refresh
-[http://localhost:8080/](http://localhost:8080/). On my machine, the page is
-running at 60 frames per second again, and recording another profile with the
-browser's profiler reveals that each animation frame is taking about ten
-milliseconds.
+`wasm-pack build` 명령어를 실행해서 `.wasm` 파일을 다시 빌드하고 [http://localhost:8080/](http://localhost:8080/) 페이지를 새로고침 해주세요. 제 컴퓨터에서는 60 fps의 속도로 다시 작동하고 있는것 같습니다. 브라우저의 프로파일러를 다시 사용해보니 각 애니메이션 프레임이 10 밀리초씩 걸리는 것으로 보입니다.
 
-Success!
+성공적으로 잘 마무리한것 같습니다!
 
-[![Screenshot of a waterfall view of rendering a frame after replacing modulos with branches](../images/game-of-life/waterfall-after-branches-and-unrolling.png)](../images/game-of-life/waterfall-after-branches-and-unrolling.png)
+[![나머지 연산자를 if문 분기들로 바꾼 이후 페이지 렌더링 처리의 waterfall 뷰 스크린샷](../images/game-of-life/drawCells-after-flamegraph.png)](../images/game-of-life/drawCells-after-flamegraph.png)
 
-## Exercises
+## 연습해보기
 
-* At this point, the next lowest hanging fruit for speeding up `Universe::tick`
-  is removing the allocation and free. Implement double buffering of cells,
-  where the `Universe` maintains two vectors, never frees either of them, and
-  never allocates new buffers in `tick`.
+* 현재로는 할당과 해제를 처리하는 코드를 지우는 게 `Universe::tick` 속도를 향상시키는 가장 쉬운 방법입니다. `Universe`가 두 벡터만 관리하도록 하고, 두 벡터를 코드가 실행되는 내내 해제하거나 `tick` 함수에서 새 버퍼를 할당하지 않도록 세포들을 이중 버퍼링(double buffering)으로 구현해보세요.
 
-* Implement the alternative, delta-based design from the "Implementing Life"
-  chapter, where the Rust code returns a list of cells that changed states to
-  JavaScript. Does this make rendering to `<canvas>` faster? Can you implement
-  this design without allocating a new list of deltas on every tick?
+* "Game of Life 구현하기" 챕터에서 델타 기반으로 설계한 내용을 Rust 코드가 상태가 바뀐 세포들의 목록을 반환하도록 다시 설계해보세요. `<canvas>` 가 더 빨리 렌더되는 게 보이시나요? 매 틱마다 새 델타 목록을 할당하지 않으면서 구현하실수 있는 것 같으신가요?
 
-* As our profiling has shown us, 2D `<canvas>` rendering is not particularly
-  fast. Replace the 2D canvas renderer with a [WebGL][webgl] renderer. How much faster is
-  the WebGL version? How large can you make the universe before WebGL rendering
-  is a bottleneck?
+* 프로파일링 툴로 확인할 수 있듯, 2D `<canvas>` 렌더링이 특별히 빠르지는 않습니다. 2D 캔버스 렌더러 대신 [WebGL][webgl] 렌더러를 사용해서 구현해보세요. WebGL로 구현한 버전은 얼마나 더 빠른가요? 답답했던 WebGL가 비교하면 얼마나 세상을 더 크게 만들수 있게 됐나요?
 
 [webgl]: https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API
