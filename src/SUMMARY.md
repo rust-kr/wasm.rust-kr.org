@@ -14,7 +14,7 @@
     - [디버깅](./game-of-life/debugging.md)
     - [상호작용 추가하기](./game-of-life/interactivity.md)
     - [타임 프로파일링 하기](./game-of-life/time-profiling.md)
-    - [Shrinking `.wasm` Size](./game-of-life/code-size.md)
+    - [`.wasm` 파일 사이즈 줄이기](./game-of-life/code-size.md)
     - [Publishing to npm](./game-of-life/publishing-to-npm.md)
 --------------------------------------------------------------------------------
 - [Reference](./reference/index.md)
