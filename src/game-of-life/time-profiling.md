@@ -256,12 +256,12 @@ pub fn tick(&mut self) {
     let _timer = Timer::new("Universe::tick");
 
     let mut next = {
-        let _timer = Timer::new("allocate next cells");
+        let _timer = Timer::new("다음 세포들을 할당합니다.");
         self.cells.clone()
     };
 
     {
-        let _timer = Timer::new("new generation");
+        let _timer = Timer::new("다음 세대를 처리합니다.");
         for row in 0..self.height {
             for col in 0..self.width {
                 let idx = self.get_index(row, col);
@@ -286,7 +286,7 @@ pub fn tick(&mut self) {
         }
     }
 
-    let _timer = Timer::new("free old cells");
+    let _timer = Timer::new("기존 세포들을 해제합니다.");
     self.cells = next;
 }
 ```
