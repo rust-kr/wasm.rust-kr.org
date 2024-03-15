@@ -1,6 +1,6 @@
 # 알면 좋은 크레이트들
 
-Rust와 WebAssembly로 개발할 때 알면 정말 좋은 크레이트들을 모아놓은 목록입니다.
+Rust와 WebAssembly로 개발할 때 알면 좋은 크레이트들을 모아놓은 목록입니다.
 
 [creates.io 웹사이트에서 WebAssembly 카테고리로 등록된 크레이트들을 필터링해서 볼수도 있습니다.][wasm-category]
 
