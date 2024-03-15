@@ -1,6 +1,6 @@
 # 프로젝트 템플릿
 
-"The Rust and WebAssembly working group"은 개발자들이 빠르게 새 프로젝트를 시작하고 작동시킬수 있도록 여러 가지의 프로젝트 템플릿 목록을 만들고 관리합니다.
+"The Rust and WebAssembly Working Group"은 개발자들이 빠르게 새 프로젝트를 시작하고 작동시킬수 있도록 여러 가지의 프로젝트 템플릿 목록을 만들고 관리합니다.
 
 ## `wasm-pack-template`
 
