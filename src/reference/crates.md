@@ -26,7 +26,7 @@ DOM 조작, `setTimeout`, Web GL, Web Audio 등과 같은 모든 웹 API들을 `
 
 ### `console_error_panic_hook` | [crates.io](https://crates.io/crates/console_error_panic_hook) | [레포지토리](https://github.com/rustwasm/console_error_panic_hook)
 
-`console.error`로 메세지를 패닉 메세지를 넘겨주는 패킹 훅(hook)과 함께, `wasm32-unknown-unknown` 타겟으로 패닉들을 디버깅 할수 있도록 도와주는 크레이트입니다.
+`console.error`로 메세지를 패닉 메세지를 넘겨주는 패닉 훅 (panic hook) 과 함께, `wasm32-unknown-unknown` 타겟으로 패닉들을 디버깅 할수 있도록 도와주는 크레이트입니다.
 
 ### `console_log` | [crates.io](https://crates.io/crates/console_log) | [레포지토리](https://github.com/iamcodemaker/console_log)
 
