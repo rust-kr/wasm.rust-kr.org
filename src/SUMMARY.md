@@ -17,7 +17,7 @@
     - [`.wasm` 파일 사이즈 줄이기](./game-of-life/code-size.md)
     - [npm에 배포하기](./game-of-life/publishing-to-npm.md)
 --------------------------------------------------------------------------------
-- [Reference](./reference/index.md)
+- [레퍼런스](./reference/index.md)
   - [Crates You Should Know](./reference/crates.md)
   - [Tools You Should Know](./reference/tools.md)
   - [Project Templates](./reference/project-templates.md)
