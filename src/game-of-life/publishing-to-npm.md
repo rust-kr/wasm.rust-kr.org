@@ -1,57 +1,52 @@
-# Publishing to npm
+# npm에 배포하기
 
-Now that we have a working, fast, *and* small `wasm-game-of-life` package, we
-can publish it to npm so other JavaScript developers can reuse it, if they ever
-need an off-the-shelf Game of Life implementation.
+이제 잘 작동하는 빠르고 작은 `wasm-game-of-life` 패키지가 있으니, 다른 JavaScript 개발자들이 Game of Life 코드를 바로 받아 사용해야 할 때 종속성으로 사용할수 있도록 npm에 배포해보겠습니다.
 
-## Prerequisites
+## 준비 사항
 
-First, [make sure you have an npm account](https://www.npmjs.com/signup).
+우선, [npm 계정이 있는지 확인해주세요](https://www.npmjs.com/signup).
 
-Second, make sure you are logged into your account locally, by running this
-command:
+그 다음, 다음 명령어를 실행하여 로컬 머신에서 계정에 로그인돼 있는지 확인해주세요:
 
 ```
 wasm-pack login
 ```
 
-## Publishing
+## 배포하기
 
-Make sure that the `wasm-game-of-life/pkg` build is up to date by running
-`wasm-pack` inside the `wasm-game-of-life` directory:
+`wasm-game-of-life` 디렉토리에서 `wasm-pack` 명령어를 실행하여 `wasm-game-of-life/pkg` 작성한 코드가 잘 빌드돼 있는지 확인해주세요:
 
 ```
 wasm-pack build
 ```
 
-Take a moment to check out the contents of `wasm-game-of-life/pkg` now, this is
-what we are publishing to npm in the next step!
+`wasm-game-of-life/pkg` 폴더 안의 내용물을 한변 살펴보겠습니다. 이 폴더에 있는 파일들을 바로 다음 단계에서 npm에 배포해볼 예정입니다!
 
-When you're ready, run `wasm-pack publish` to upload the package to npm:
+준비가 됐다면, `wasm-pack publish` 를 실행해서 패키지를 npm에 업로드 해보세요:
 
 ```
 wasm-pack publish
 ```
 
-That's all it takes to publish to npm!
+정말 놀랍게도 이게 답니다! 이렇게 npm에 패키지를 업로드할수 있는데...
 
 ...except other folks have also done this tutorial, and therefore the
 `wasm-game-of-life` name is taken on npm, and that last command probably didn't
 work.
+이 튜토리얼을 끝낸 다른 사람들도 npm에 배포를 할테니 `wasm-game-of-life` 라는 패키지 이름이 높은 확률로 이미 사용중일 것이기 때문에 마지막으로 실행한 명령어가 실패했을 확률이 높습니다. 
 
-Open up `wasm-game-of-life/Cargo.toml` and add your username to the end of the
-`name` to disambiguate the package in a unique way:
+`wasm-game-of-life/Cargo.toml` 파일을 열고 고유한 패키지 이름을 만들수 있도록 `name` 필드에 유저네임(username)을 추가해주세요.
 
 ```toml
 [package]
 name = "wasm-game-of-life-my-username"
 ```
 
-Then, rebuild and publish again:
+이제 다시 빌드하고 배포해보겠습니다:
 
 ```
 wasm-pack build
 wasm-pack publish
 ```
 
-This time it should work!
+이번에는 잘 작동될겁니다!
