@@ -30,10 +30,7 @@ wasm-pack publish
 
 정말 놀랍게도 이게 답니다! 이렇게 npm에 패키지를 업로드할수 있는데...
 
-...except other folks have also done this tutorial, and therefore the
-`wasm-game-of-life` name is taken on npm, and that last command probably didn't
-work.
-이 튜토리얼을 끝낸 다른 사람들도 npm에 배포를 할테니 `wasm-game-of-life` 라는 패키지 이름이 높은 확률로 이미 사용중일 것이기 때문에 마지막으로 실행한 명령어가 실패했을 확률이 높습니다. 
+.. 이 튜토리얼을 끝낸 다른 사람들도 npm에 배포를 할것 같습니다. `wasm-game-of-life` 라는 패키지 이름이 높은 확률로 이미 사용중일것 같고, 마지막으로 실행한 명령어가 아마 안됐을겁니다.
 
 `wasm-game-of-life/Cargo.toml` 파일을 열고 고유한 패키지 이름을 만들수 있도록 `name` 필드에 유저네임(username)을 추가해주세요.
 
