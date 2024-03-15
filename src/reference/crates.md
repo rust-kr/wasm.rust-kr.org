@@ -4,7 +4,7 @@ Rust와 WebAssembly로 개발할 때 알면 정말 좋은 크레이트들을 모
 
 [creates.io 웹사이트에서 WebAssembly 카테고리로 등록된 크레이트들을 필터링해서 볼수도 있습니다.][wasm-category]
 
-## JavaScript과 DOM 조작하기
+## JavaScript과 DOM 조작
 
 ### `wasm-bindgen` | [crates.io](https://crates.io/crates/wasm-bindgen) | [레포지토리](https://github.com/rustwasm/wasm-bindgen)
 
@@ -36,7 +36,7 @@ DOM 조작, `setTimeout`, Web GL, Web Audio 등과 같은 모든 웹 API들을 `
 
 ### `wee_alloc` | [crates.io](https://crates.io/crates/wee_alloc) | [repository](https://github.com/rustwasm/wee_alloc)
 
-이 크레이트의 이름은 **W**asm-**E**nabled, **E**lfin Allocator 에서 유래했는데, (1000 bytes 이하 사이즈의 압축되지 않은 `.wasm` 바이너리로 구성된) 코드 사이즈가 할당 성능보다 더 중요할 때 사용할만한 할당자 구현 (allocator implementation) 코드입니다.
+이 크레이트의 이름은 **W**asm-**E**nabled, **E**lfin Allocator 에서 유래됐는데, (1000 bytes 이하 사이즈의 압축되지 않은 `.wasm` 바이너리로 구성된) 코드 사이즈가 할당 성능보다 더 중요할 때 사용할만한 할당자 구현 (allocator implementation) 코드입니다.
 
 ## `.wasm` 바이너리를 파싱하고(parsing) 생성하기
 
