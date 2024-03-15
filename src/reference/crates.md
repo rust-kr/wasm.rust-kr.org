@@ -24,37 +24,37 @@ DOM 조작, `setTimeout`, Web GL, Web Audio 등과 같은 모든 웹 API들을 `
 
 ## 오류 보고 및 로깅
 
-### `console_error_panic_hook` | [crates.io](https://crates.io/crates/console_error_panic_hook) | [repository](https://github.com/rustwasm/console_error_panic_hook)
+### `console_error_panic_hook` | [crates.io](https://crates.io/crates/console_error_panic_hook) | [레포지토리](https://github.com/rustwasm/console_error_panic_hook)
 
 `console.error`로 메세지를 패닉 메세지를 넘겨주는 패킹 훅(hook)과 함께, `wasm32-unknown-unknown` 타겟으로 패닉들을 디버깅 할수 있도록 도와주는 크레이트입니다.
 
-### `console_log` | [crates.io](https://crates.io/crates/console_log) | [repository](https://github.com/iamcodemaker/console_log)
+### `console_log` | [crates.io](https://crates.io/crates/console_log) | [레포지토리](https://github.com/iamcodemaker/console_log)
 
 [`log` 크레이트](https://crates.io/crates/log)의 백엔드(backend)를 제공해주는 크레이트입니다. 로그된 메세지들을 개발자 도구(devtools) 콘솔로 넘겨줍니다.
 
 ## 동적 할당
 
-### `wee_alloc` | [crates.io](https://crates.io/crates/wee_alloc) | [repository](https://github.com/rustwasm/wee_alloc)
+### `wee_alloc` | [crates.io](https://crates.io/crates/wee_alloc) | [레포지토리](https://github.com/rustwasm/wee_alloc)
 
 이 크레이트의 이름은 **W**asm-**E**nabled, **E**lfin Allocator 에서 유래됐는데, (1000 bytes 이하 사이즈의 압축되지 않은 `.wasm` 바이너리로 구성된) 코드 사이즈가 할당 성능보다 더 중요할 때 사용할만한 할당자 구현 (allocator implementation) 코드입니다.
 
 ## `.wasm` 바이너리를 파싱하고(parsing) 생성하기
 
-### `parity-wasm` | [crates.io](https://crates.io/crates/parity-wasm) | [repository](https://github.com/paritytech/parity-wasm)
+### `parity-wasm` | [crates.io](https://crates.io/crates/parity-wasm) | [레포지토리](https://github.com/paritytech/parity-wasm)
 
 직렬화(serializing)과 역직렬화(deserializing), 그리고 `.wasm` 바이너리를 빌드하는데 사용하는 저레벨 WebAssembly 포맷입니다. "names" 및 "reloc.WHATEVER"과 같이 잘 알려진 섹션들이 잘 지원돼 있습니다.
 
-### `wasmparser` | [crates.io](https://crates.io/crates/wasmparser) | [repository](https://github.com/yurydelendik/wasmparser.rs)
+### `wasmparser` | [crates.io](https://crates.io/crates/wasmparser) | [레포지토리](https://github.com/yurydelendik/wasmparser.rs)
 
 WebAssembly 바이너리 파일을 읽는데 사용하는 간단한 이벤트 기반 (event-driven)  라이브러리입니다. 각각 파싱한 내용의 바이트 오프셋 (byte offset) 을 제공하는데, 예를 들어 reloc을 읽는 작업 등을 할때 필요합니다.
 
 ## WebAssembly 컴파일하고 인터프리팅(Interpreting)하기
 
-### `wasmi` | [crates.io](https://crates.io/crates/wasmi) | [repository](https://github.com/paritytech/wasmi)
+### `wasmi` | [crates.io](https://crates.io/crates/wasmi) | [레포지토리](https://github.com/paritytech/wasmi)
 
 Parity 라는 회사에서 만든 임베딩 할수 있는 WebAssembly 인터프리터입니다.
 
-### `cranelift-wasm` | [crates.io](https://crates.io/crates/cranelift-wasm) | [repository](https://github.com/bytecodealliance/wasmtime/tree/master/cranelift)
+### `cranelift-wasm` | [crates.io](https://crates.io/crates/cranelift-wasm) | [레포지토리](https://github.com/bytecodealliance/wasmtime/tree/master/cranelift)
 
 WebAssembly 코드를 네이티브 호스트의 기계어(machine code)로 컴파일해주는 크레이트. Cranelift (né Cretonne) 코드 생성기 프로젝트의 일부입니다.
 
