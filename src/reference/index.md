@@ -1,5 +1,3 @@
-# Reference
+# 레퍼런스
 
-This section contains reference material for Rust and WebAssembly
-development. It is not intended to provide a narrative and be read start to
-finish. Instead, each subsection should stand on its own.
+이 섹션은 Rust와 WebAssembly 개발에 도움이 되는 레퍼런스 자료를 포함하고 있습니다.  순서가 정해져 있지 않아 처음부터 끝까지 읽지 않아도 괜찮습니다. 각 하위 섹션은 개별적으로 다른 내용을 다룹니다.
