@@ -1,14 +1,12 @@
-# Project Templates
+# 프로젝트 템플릿
 
-The Rust and WebAssembly working group curates and maintains a variety of
-project templates to help you kickstart new projects and hit the ground running.
+"The Rust and WebAssembly working group"은 개발자들이 빠르게 새 프로젝트를 시작하고 작동시킬수 있도록 여러 가지의 프로젝트 템플릿 목록을 만들고 관리합니다.
 
 ## `wasm-pack-template`
 
-[This template][wasm-pack-template] is for starting a Rust and WebAssembly
-project to be used with [`wasm-pack`][wasm-pack].
+[이 템플릿][wasm-pack-template]은 Rust와 WebAssembly 프로젝트를 [`wasm-pack`][wasm-pack]과 함께 시작하도록 준비돼 있는 템플릿입니다.
 
-Use `cargo generate` to clone this project template:
+`cargo generate` 명령어를 실행하여 프로젝트 템플릿을 클론해보세요:
 
 ```
 cargo install cargo-generate
@@ -17,10 +15,9 @@ cargo generate --git https://github.com/rustwasm/wasm-pack-template.git
 
 ## `create-wasm-app`
 
-[This template][create-wasm-app] is for JavaScript projects that consume
-packages from npm that were created from Rust with [`wasm-pack`][wasm-pack].
+[이 템플릿][create-wasm-app]은 JavaScript에서 Rust와 [`wasm-pack`][wasm-pack]으로 생성한 npm 패키지를 쉽게 사용할수 있도록 도와줍니다.
 
-Use it with `npm init`:
+`npm init` 명령어로 사용해보세요:
 
 ```
 mkdir my-project
@@ -28,17 +25,13 @@ cd my-project/
 npm init wasm-app
 ```
 
-This template is often used alongside `wasm-pack-template`, where
-`wasm-pack-template` projects are installed locally with `npm link`, and pulled
-in as a dependency for a `create-wasm-app` project.
+이 템플릿은 주로 `wasm-pack-template`이라는 종속성괴 함께 사용되는데, `create-wasm-app`으로 프로젝트를 생성하면 `npm link` 기능으로 생성한 프로젝트와 연결하는데 사용됩니다.
 
 ## `rust-webpack-template`
 
-[This template][rust-webpack-template] comes pre-configured with all the
-boilerplate for compiling Rust to WebAssembly and hooking that directly into a
-Webpack build pipeline with Webpack's [`rust-loader`][rust-loader].
+[이 템플릿][rust-webpack-template]은 Rust 코드를 WebAssembly로 컴파일한 다음 출력물을 Webpack의 [`rust-loader`][rust-loader]를 사용해서 바로 파이프라인으로 연결(hooking)할수 있도록 거의 모든 보일러 플레이트 (boilder plate)를 대신 설정해줍니다.
 
-Use it with `npm init`:
+`npm init` 명령어로 사용해보세요:
 
 ```
 mkdir my-project
