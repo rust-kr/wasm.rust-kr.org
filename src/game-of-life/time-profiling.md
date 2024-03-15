@@ -152,13 +152,13 @@ let _timer = Timer::new("Universe::tick");
 
 한 애니메이션 프레임동안 어떤 일이 일어나는지 확인해보면, `CanvasRenderingContext2D.fillStyle` setter가 성능 차원에서 많은 비용을 요구하는 것을 확인할 수 있습니다.
 
-> ⚠️ FireFox 브라우저에서 위에서 언급된 `CanvasRenderingContext2D.fillStyle` 대신에 "DOM"이 표시된다면, 성능 개발자 도구(performance developer tools)에서 "Gecko 플랫폼 데이터 표시하기 (Show Gecko Platform Data)" 옵션을 활성화해줘야 합니다:
+> ⚠️ FireFox 브라우저에서 위에서 언급된 `CanvasRenderingContext2D.fillStyle` 대신에 "DOM"이 표시된다면, 성능 개발자 도구 (performance developer tools) 에서 "Gecko 플랫폼 데이터 표시하기 (Show Gecko Platform Data)" 옵션을 활성화해줘야 합니다:
 > 
 > [!["Gecko 플랫폼 데이터 표시하기 (Show Gecko Platform Data)" 옵션 활성화하기](../images/game-of-life/profiler-firefox-show-gecko-platform.png)](../images/game-of-life/profiler-firefox-show-gecko-platform.png)
 
 [![페이지 렌더링 처리의 flamegraph 뷰 스크린샷](../images/game-of-life/drawCells-before-flamegraph.png)](../images/game-of-life/drawCells-before-flamegraph.png)
 
-많이 표시되는 호출 트리의 집계(call tree's aggregation)를 살펴보면 이게 전혀 이상한 동작이 아님을 확인할 수 있습니다:
+많이 표시되는 호출 트리의 집계 (call tree's aggregation) 를 살펴보면 이게 전혀 이상한 동작이 아님을 확인할 수 있습니다:
 
 [![페이지 렌더링 처리의 flamegraph 뷰 스크린샷](../images/game-of-life/drawCells-before-calltree.png)](../images/game-of-life/drawCells-before-calltree.png)
 
@@ -295,7 +295,7 @@ pub fn tick(&mut self) {
 
 [![Universe::tick 타이머 결과 값의 스크린샷](../images/game-of-life/console-time-in-universe-tick.png)](../images/game-of-life/console-time-in-universe-tick.png)
 
-다음 섹션에서는 `nightly` 컴파일러가 필요합니다. 필요한 [테스트 기능 게이트(test feature gate)](https://doc.rust-lang.org/unstable-book/library-features/test.html)가 `nightly` 버전에 포함돼 있어서 그런데, 벤치마킹에 이 기능을 사용해보겠습니다. [cargo benchcmp][benchcmp]이라는 툴도 필요하니 설치해주도록 합시다. `cargo bench`로 생성한 마이크로 벤치마크들(micro-benchmarks)을 비교하는데 사용하는 작은 사이즈의 유틸리티입니다.
+다음 섹션에서는 `nightly` 컴파일러가 필요합니다. 필요한 [테스트 기능 게이트(test feature gate)](https://doc.rust-lang.org/unstable-book/library-features/test.html)가 `nightly` 버전에 포함돼 있어서 그런데, 벤치마킹에 이 기능을 사용해보겠습니다. [cargo benchcmp][benchcmp]이라는 툴도 필요하니 설치해주도록 합시다. `cargo bench`로 생성한 마이크로 벤치마크들(micro-benchmarks) 을 비교하는데 사용하는 작은 사이즈의 유틸리티입니다.
 
 [benchcmp]: https://github.com/BurntSushi/cargo-benchcmp
 
@@ -387,7 +387,7 @@ fn live_neighbor_count(&self, row: u32, column: u32) -> u8 {
 }
 ```
 
-코드를 확인해보면 `if` 블럭들로 첫째와 마지막 행과 열의 엣지 케이스(edge case)를 처리하는데 코드를 불필요하게 길게 쓰지 않도록 나머지 연산자 (modulo operator)를 사용하고 있는 부분을 확인할 수 있습니다. `row`과 `column` 둘 다 세상의 끝에 있지 않고 나머지 연산자를 쓸 필요가 없는 일반적인 케이스를 처리하는데도 `div` 명령어를 사용해서 많은 성능을 사용하고 있습니다. 반복문을 사용하는 대신에 `if` 문으로 이 엣지 케이스들을 처리해서 여러 분기들을 CPU의 분기 예측기(branch predictor)가 예측하기 쉽도록 만들어보겠습니다.
+코드를 확인해보면 `if` 블럭들로 첫째와 마지막 행과 열의 엣지 케이스(edge case) 를 처리하는데 코드를 불필요하게 길게 쓰지 않도록 나머지 연산자 (modulo operator) 를 사용하고 있는 부분을 확인할 수 있습니다. `row`과 `column` 둘 다 세상의 끝에 있지 않고 나머지 연산자를 쓸 필요가 없는 일반적인 케이스를 처리하는데도 `div` 명령어를 사용해서 많은 성능을 사용하고 있습니다. 반복문을 사용하는 대신에 `if` 문으로 이 엣지 케이스들을 처리해서 여러 분기들을 CPU의 분기 예측기(branch predictor)가 예측하기 쉽도록 만들어보겠습니다.
 
 `live_neighbor_count`를 다음과 같이 다시 작성해봅시다:
 
@@ -487,7 +487,7 @@ WebAssembly는 일반적인 하드웨어 아키텍쳐(architecture)와 밀접하
 
 ## 연습해보기
 
-* 현재로는 할당과 해제를 처리하는 코드를 지우는 게 `Universe::tick` 속도를 향상시키는 가장 쉬운 방법입니다. `Universe`가 두 벡터만 관리하도록 하고, 두 벡터를 코드가 실행되는 내내 해제하거나 `tick` 함수에서 새 버퍼를 할당하지 않도록 세포들을 이중 버퍼링(double buffering)으로 구현해보세요.
+* 현재로는 할당과 해제를 처리하는 코드를 지우는 게 `Universe::tick` 속도를 향상시키는 가장 쉬운 방법입니다. `Universe`가 두 벡터만 관리하도록 하고, 두 벡터를 코드가 실행되는 내내 해제하거나 `tick` 함수에서 새 버퍼를 할당하지 않도록 세포들을 이중 버퍼링 (double buffering) 으로 구현해보세요.
 
 * "Game of Life 구현하기" 챕터에서 델타 기반으로 설계한 내용을 Rust 코드가 상태가 바뀐 세포들의 목록을 반환하도록 다시 설계해보세요. `<canvas>` 가 더 빨리 렌더되는 게 보이시나요? 매 틱마다 새 델타 목록을 할당하지 않으면서 구현하실수 있는 것 같으신가요?
 

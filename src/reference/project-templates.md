@@ -29,7 +29,7 @@ npm init wasm-app
 
 ## `rust-webpack-template`
 
-[이 템플릿][rust-webpack-template]은 Rust 코드를 WebAssembly로 컴파일한 다음 출력물을 Webpack의 [`rust-loader`][rust-loader]를 사용해서 바로 파이프라인으로 연결(hooking)할수 있도록 거의 모든 보일러 플레이트 (boilder plate)를 대신 설정해줍니다.
+[이 템플릿][rust-webpack-template]은 Rust 코드를 WebAssembly로 컴파일한 다음 출력물을 Webpack의 [`rust-loader`][rust-loader]를 사용해서 바로 파이프라인으로 연결(hooking)할수 있도록 거의 모든 보일러 플레이트 (boilder plate) 를 대신 설정해줍니다.
 
 `npm init` 명령어로 사용해보세요:
 

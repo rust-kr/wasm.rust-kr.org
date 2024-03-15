@@ -41,4 +41,4 @@ $ gzip -9 < pkg/wasm_game_of_life_bg.wasm | wc -c
 
   `wee_alloc`을 활성화하면 `.wasm` 바이너리 사이즈가 얼마나 줄어드나요?
 
-* 튜토리얼을 진행하는 내내 한 `Universe`만 페이지에 포함시켰는데, 생성자를 제공하는 대신 단 한개의 `static mut` 전역 인스턴스 (global instance)만 수정하는 작업을 익스포트 해볼수도 있습니다. 이전 챕터에서 다룬 이중 버퍼링 기법 (double buffering technique)을 사용하고 싶다면, 이 버퍼도 `static mut` 키워드를 사용하여 전역적으로 만들수도 있습니다. 이런 식으로, 구현한 게임에서 모든 동적 할당 (dynamic allocation)을 없앨 수 있고, `#![no_std]` 속성을 추가하여 할당기(allocator)가 없는 크레이트를 만들어볼수도 있습니다. 동적 할당에 필요한 종속성을 다 없애면 `.wasm` 파일의 사이즈가 얼마나 줄어드나요?
+* 튜토리얼을 진행하는 내내 한 `Universe`만 페이지에 포함시켰는데, 생성자를 제공하는 대신 단 한개의 `static mut` 전역 인스턴스 (global instance)만 수정하는 작업을 익스포트 해볼수도 있습니다. 이전 챕터에서 다룬 이중 버퍼링 기법 (double buffering technique) 을 사용하고 싶다면, 이 버퍼도 `static mut` 키워드를 사용하여 전역적으로 만들수도 있습니다. 이런 식으로, 구현한 게임에서 모든 동적 할당 (dynamic allocation)을 없앨 수 있고, `#![no_std]` 속성을 추가하여 할당기(allocator)가 없는 크레이트를 만들어볼수도 있습니다. 동적 할당에 필요한 종속성을 다 없애면 `.wasm` 파일의 사이즈가 얼마나 줄어드나요?

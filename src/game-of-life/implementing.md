@@ -295,7 +295,7 @@ requestAnimationFrame(renderLoop);
 
 ## 메모리에서 바로 캔버스로 렌더링하기
 
-Rust 코드에서 `String`을 생성 (및 할당)하고 `wasm-bindgen`로 이 생성한 값을 유효한 JavaScript 문자열로 변환하게 되면 세포들을 불필요하게 복사하게 됩니다. JavaScript 코드에서 세상의 너비와 높이를 이미 알고 있고, 세포를 만드는 처리가 이루어지는 WebAssembly 선형 메모리를 읽을 수 있기 때문에, `render` 메소드를 수정하여 `cells` 배열의 시작을 가리키는 포인터를 반환하도록 합시다.
+Rust 코드에서 `String`을 생성 (및 할당) 하고 `wasm-bindgen`로 이 생성한 값을 유효한 JavaScript 문자열로 변환하게 되면 세포들을 불필요하게 복사하게 됩니다. JavaScript 코드에서 세상의 너비와 높이를 이미 알고 있고, 세포를 만드는 처리가 이루어지는 WebAssembly 선형 메모리를 읽을 수 있기 때문에, `render` 메소드를 수정하여 `cells` 배열의 시작을 가리키는 포인터를 반환하도록 합시다.
 
 그리고 유니코드 문자를 렌더링하지 않고 [Canvas API] 를 대신 사용해봅시다. 이 API를 이 부분 이후부터 계속 사용하겠습니다.
 
@@ -457,7 +457,7 @@ npm run start
 
 [![Game of Life 구현 스크린샷](../images/game-of-life/initial-game-of-life.png)](../images/game-of-life/initial-game-of-life.png)
 
-추가로 관심이 있다면, [hashlife](https://en.wikipedia.org/wiki/Hashlife) 라는 엄청 멋진 Game of Life 알고리즘 구현도 있으니 한번 확인해보세요. 이 알고리즘은 공격적인 메모이제이션(aggressive memoizing)을 사용하여 코드가 더 오래 구동될수록 미래 세대들을 *기하급수적으로 더 빠르게* 계산할수 있게 해줍니다. hashlife를 이 튜토리얼에서 구현해보면 정말 재밌겠지만, 이 책은 Rust와 WebAssembly 사용에 중점을 두고 있으므로 다루지 않도록 하겠습니다. 하지만 hashlife에 대해 배워보길 적극적으로 권장합니다.
+추가로 관심이 있다면, [hashlife](https://en.wikipedia.org/wiki/Hashlife) 라는 엄청 멋진 Game of Life 알고리즘 구현도 있으니 한번 확인해보세요. 이 알고리즘은 공격적인 메모이제이션 (aggressive memoizing)을 사용하여 코드가 더 오래 구동될수록 미래 세대들을 *기하급수적으로 더 빠르게* 계산할수 있게 해줍니다. hashlife를 이 튜토리얼에서 구현해보면 정말 재밌겠지만, 이 책은 Rust와 WebAssembly 사용에 중점을 두고 있으므로 다루지 않도록 하겠습니다. 하지만 hashlife에 대해 배워보길 적극적으로 권장합니다.
 
 ## 연습해보기
 
@@ -494,7 +494,7 @@ npm run start
     ```
   </details>
 
-* 각 세포를 byte 값으로 표현하면서 순회를 쉽게 할수 있지만, 메모리 자원을 낭비하는 단점이 있습니다. 1 byte는 8 bit인데, 실제로 세포 생존 여부를 표시할 때는 1 bit만 사용하고 있습니다. 이 데이터 표현을(data representation)을 리팩토링하여 각 세포가 1 bit의 사이즈만 사용할수 있도록 해보세요.
+* 각 세포를 byte 값으로 표현하면서 순회를 쉽게 할수 있지만, 메모리 자원을 낭비하는 단점이 있습니다. 1 byte는 8 bit인데, 실제로 세포 생존 여부를 표시할 때는 1 bit만 사용하고 있습니다. 이 데이터 표현을 (data representation) 을 리팩토링하여 각 세포가 1 bit의 사이즈만 사용할수 있도록 해보세요.
 
   <details>
     <summary>정답</summary>

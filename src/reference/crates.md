@@ -46,7 +46,7 @@ DOM 조작, `setTimeout`, Web GL, Web Audio 등과 같은 모든 웹 API들을 `
 
 ### `wasmparser` | [crates.io](https://crates.io/crates/wasmparser) | [repository](https://github.com/yurydelendik/wasmparser.rs)
 
-WebAssembly 바이너리 파일을 읽는데 사용하는 간단한 이벤트 기반(event-driven) 라이브러리입니다. 각각 파싱한 내용의 바이트 오프셋 (byte offset)을 제공하는데, 예를 들어 reloc을 읽는 작업 등을 할때 필요합니다.
+WebAssembly 바이너리 파일을 읽는데 사용하는 간단한 이벤트 기반 (event-driven)  라이브러리입니다. 각각 파싱한 내용의 바이트 오프셋 (byte offset) 을 제공하는데, 예를 들어 reloc을 읽는 작업 등을 할때 필요합니다.
 
 ## WebAssembly 컴파일하고 인터프리팅(Interpreting)하기
 
