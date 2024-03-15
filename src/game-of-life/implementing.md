@@ -128,7 +128,7 @@ impl Universe {
 이제 현재 세대를 기반으로 다음 세대를 처리하는데 필요한 준비가 완료됐습니다! `match` 문을 사용해서 보기 명확하게 게임의 규칙을 나타내봅시다. 추가로, 틱이 일어날 때 JavaScript가 컨트롤하도록 할 것이기 때문에, `#[wasm_bindgen]` 블럭을 추가해서 이 메서드를 JavaScript 코드에 노출시켜보도록 하겠습니다.
 
 ```rust
-/// Public 메서드, JavaScript로 보낼수 있게 함.
+/// Public 메서드, JavaScript로 익스포트 할수 있게 함.
 #[wasm_bindgen]
 impl Universe {
     pub fn tick(&mut self) {
@@ -192,7 +192,7 @@ impl fmt::Display for Universe {
 마침내, `render` 메서드와 함께 생성자를 정의해서 세포들이 살아나고 죽어가는 신기한 세상을 생성할 수 있도록 해보겠습니다.
 
 ```rust
-/// Public 메서드, JavaScript로 보낼수 있게 함.
+/// Public 메서드, JavaScript로 익스포트 할수 있게 함.
 #[wasm_bindgen]
 impl Universe {
     // ...
@@ -313,7 +313,7 @@ Rust 코드에서 `String`을 생성 (및 할당)하고 `wasm-bindgen`로 이 �
 Rust로 구현한 코드에서 필요한 정보를 얻어올수 있도록 위해 세상의 넓이, 너비, 세포 배열을 가리키는 포인터를 반환하는 getter 함수들을 조금 더 만들어보겠습니다. 이 함수들도 JavaScript 코드로 노출시켜야 하니 잘 확인해주고 `wasm-game-of-life/src/lib.rs` 파일에 다음 코드를 추가해주세요:
 
 ```rust
-/// Public 메서드, JavaScript로 보낼수 있게 함.
+/// Public 메서드, JavaScript로 익스포트 할수 있게 함.
 #[wasm_bindgen]
 impl Universe {
     // ...
