@@ -4,7 +4,7 @@ Rust와 WebAssembly로 개발할 때 알면 정말 좋은 크레이트들을 모
 
 [creates.io 웹사이트에서 WebAssembly 카테고리로 등록된 크레이트들을 필터링해서 볼수도 있습니다.][wasm-category]
 
-## JavaScript과 DOM 조작
+## JavaScript과 DOM 조작하기
 
 ### `wasm-bindgen` | [crates.io](https://crates.io/crates/wasm-bindgen) | [레포지토리](https://github.com/rustwasm/wasm-bindgen)
 
