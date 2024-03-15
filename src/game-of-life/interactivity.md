@@ -97,7 +97,7 @@ impl Cell {
 주어진 행과 열에 위치한 세포의 상태를 전환(toggle)할수 있도록, 행과 열을 인덱스로 변환(translate)하고, 그 다음에 변환한 인덱스를 세포 벡터로 전환하겠습니다. 그 다음 변환된 인덱스에 위치하는 세포를 전환할수 있도록 메소드를 호출하겠습니다:
 
 ```rust
-/// Public 메서드, JavaScript로 익스포트 할수 있게 함.
+/// Public 메소드, JavaScript로 익스포트 할수 있게 함.
 #[wasm_bindgen]
 impl Universe {
     // ...
