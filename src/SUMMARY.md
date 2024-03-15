@@ -18,7 +18,7 @@
     - [npm에 배포하기](./game-of-life/publishing-to-npm.md)
 --------------------------------------------------------------------------------
 - [레퍼런스](./reference/index.md)
-  - [Crates You Should Know](./reference/crates.md)
+  - [알면 좋은 크레이트들](./reference/crates.md)
   - [Tools You Should Know](./reference/tools.md)
   - [Project Templates](./reference/project-templates.md)
   - [Debugging](./reference/debugging.md)
