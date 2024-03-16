@@ -12,7 +12,7 @@ Rust와 WebAssembly 개발 경험이 stable 버전의 러스트에 포함될 만
 
 ## `wasm-pack`
 
-`wasm-pack`은 Rust로 생성된 WebAssembly를 개발, 테스팅, 배포하도록 도와주는 원스톱 샵 (one-stop shop)입니다.
+`wasm-pack`은 Rust로 생성된 WebAssembly를 개발, 테스팅, 배포하도록 도와주는 만능 툴입니다.
 
 [여기서 `wasm-pack` 다운로드 해보세요!][wasm-pack-install]
 
