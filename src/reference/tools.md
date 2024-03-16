@@ -6,7 +6,7 @@ Rust와 WebAssembly로 개발할 때 알면 좋은 툴들을 모아놓은 목록
 
 ### `wasm-pack` | [레포지토리](https://github.com/rustwasm/wasm-pack)
 
-`wasm-pack`은 Web과 Node.js 환경에서 JavaScript와 상호 운용하면서 Rust로 WebAssembly 작업을 할때 사용할수 있는 만능 툴입니다. `wasm-pack`을 사용해서 WebAssembly를 빌드하고 npm 레지스트리에 배포하고, 기존에 이미 사용하는 워크플로우가 사용하는 패키지들과 같이 사용할 수 있도록 도와줍니다.
+`wasm-pack`은 Web과 Node.js 환경에서 JavaScript와 상호 운용하면서 Rust로 WebAssembly 작업을 할때 사용할수 있는 만능 툴입니다. `wasm-pack`을 사용해서 더 쉽게 WebAssembly를 빌드하고 npm 레지스트리에 배포하고, 기존에 이미 사용하는 워크플로우가 사용하는 패키지들과 같이 사용할 수 있도록 도와줍니다.
 
 ## `.wasm` 바이너리 최적화와 조작하기
 
