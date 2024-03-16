@@ -21,7 +21,7 @@
   - [알면 좋은 크레이트들](./reference/crates.md)
   - [알면 좋은 툴들](./reference/tools.md)
   - [프로젝트 템플릿](./reference/project-templates.md)
-  - [Debugging](./reference/debugging.md)
+  - [디버깅](./reference/debugging.md)
   - [Time Profiling](./reference/time-profiling.md)
   - [Shrinking `.wasm` Size](./reference/code-size.md)
   - [JavaScript Interoperation](./reference/js-ffi.md)
