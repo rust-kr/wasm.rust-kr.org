@@ -1,4 +1,4 @@
-# Time Profiling
+# 타임 프로파일링
 
 This section describes how to profile Web pages using Rust and WebAssembly where
 the goal is improving throughput or latency.

@@ -1,6 +1,6 @@
 # 타임 프로파일링
 
-이 챕터에서는 타임 프로파일링 작업을 해보면서 전에 구현한 Game of Life의 성능을 개선시켜보겠습니다.
+이 챕터에서는 타임 [프로파일링](https://ko.wikipedia.org/wiki/프로파일링_(컴퓨터_프로그래밍)) 작업을 해보면서 전에 구현한 Game of Life의 성능을 개선시켜보겠습니다.
 
 시작하기 전에, [Rust와 WebAssembly 코드에 사용해볼수 있는 타임 프로파일링 툴들](../reference/time-profiling.md)을 살펴보고 익숙해져 보세요.
 

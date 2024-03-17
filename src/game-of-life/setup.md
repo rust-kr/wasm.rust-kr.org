@@ -1,4 +1,4 @@
-# 셋업하기
+# 셋업
 
 이 섹션은 어떻게 Rust 프로그램들을 WebAssembly로 컴파일하고 JavaScript 환경과 통합시키는지 설명해줍니다.
 

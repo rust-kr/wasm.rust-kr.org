@@ -12,9 +12,9 @@ Rust를 아직 모르시나요? [*The Rust Programming Language* 책으로 시�
 JavaScript나 HTML, CSS를 모르시나요? [MDN에서 더 알아보세요.][mdn]
 
 ## 이 책을 읽는 방법
-[왜 Rust로 WebAssembly 개발을 해야 하나요?][why-rust-wasm] 를 읽어보면 좋고, [배경 지식][background] 과 먼저 친숙해져보는것도 좋습니다.
+[왜 Rust로 WebAssembly 개발을 해야 하나요?][why-rust-wasm] 를 읽어보면 좋고, [배경 지식][background]과 먼저 친숙해져보는것도 좋습니다.
 
-이 [튜토리얼][tutorial] 은 처음부터 끝까지 읽도록 작성됐습니다. 튜토리얼에 있는 코드를 작성, 컴파일링하고 직접 실행해보세요. Rust와 WebAssembly를 같이 사용해본적이 없다면, 튜토리얼을 활용해보세요!
+이 [튜토리얼][tutorial]은 처음부터 끝까지 읽도록 작성됐습니다. 튜토리얼에 있는 코드를 작성, 컴파일링하고 직접 실행해보세요. Rust와 WebAssembly를 같이 사용해본적이 없다면, 튜토리얼을 활용해보세요!
 
 [레퍼런스 섹션][reference] 은 아무 순서로 정독해도 괜찮습니다.
 
