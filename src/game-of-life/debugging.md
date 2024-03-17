@@ -113,4 +113,4 @@ const renderLoop = () => {
 
 * 죽게 되거나 살아나게 되는 식으로 상태가 바뀌는 매 세포의 행과 열을 기록하는 `tick` 함수를 로그할수 있도록 코드를 추가해보세요.
 
-* `Universe::new` 메소드에 `panic!()` 매크로를 추가해서 웹 브라우저의 JavaScript 디버깅 툴에서 패닉의 백트레이스(backtrace) 확인할 수 있게 해보세요. debug 심볼을 비활성화하고 `console_error_panic_hook` 선택적 종속성을 다시 빌드한 다음 스택 트레이스(stack trace)를 다시 확인해보세요. 그렇게 유용하진 않은것 같은데, 안그런가요?
+* `Universe::new` 메소드에 `panic!()` 매크로를 추가해서 웹 브라우저의 JavaScript 디버깅 툴에서 패닉의 [퇴각검색(backtrace)](https://ko.wikipedia.org/wiki/퇴각검색)을 확인할 수 있게 해보세요. debug 심볼을 비활성화하고 `console_error_panic_hook` 선택적 종속성을 다시 빌드한 다음 스택 추적을 다시 확인해보세요. 그렇게 유용하진 않은것 같은데, 안그런가요?
