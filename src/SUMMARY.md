@@ -23,7 +23,7 @@
   - [프로젝트 템플릿](./reference/project-templates.md)
   - [디버깅](./reference/debugging.md)
   - [시간 프로파일링](./reference/time-profiling.md)
-  - [Shrinking `.wasm` Size](./reference/code-size.md)
+  - [`.wasm` 파일 사이즈 줄이기](./reference/code-size.md)
   - [JavaScript Interoperation](./reference/js-ffi.md)
   - [Which Crates Will Work Off-the-Shelf with WebAssembly?](./reference/which-crates-work-with-wasm.md)
   - [How to Add WebAssembly Support to a General-Purpose Crate](./reference/add-wasm-support-to-crate.md)
