@@ -1,151 +1,99 @@
-# Shrinking `.wasm` Code Size
+# `.wasm` 파일 사이즈 줄이기
 
-This section will teach you how to optimize your `.wasm` build for a small code
-size footprint, and how to identify opportunities to change your Rust source
-such that less `.wasm` code is emitted.
+이 섹션에서는 어떻게 `.wasm` 빌드를 최적화 하는지, 어떻게 더 작은 공간을 차지하도록 하는지, 어떻게 더 작은 `.wasm` 파일이 출력되도록 Rust 코드를 바꿔야 하는지 알아보겠습니다.
 
-## Why Care About Code Size?
+## 왜 출력되는 파일의 사이즈가 중요한가요?
 
-When serving a `.wasm` file over the network, the smaller it is, the faster the
-client can download it. Faster `.wasm` downloads lead to faster page load times,
-and that leads to happier users.
+`.wasm` 파일을 네트워크로 전송할 때, 파일의 사이즈가 작을수록 클라이언트에서 더 빠르게 다운로드 할수 있게 됩니다. `.wasm` 파일이 빨리 다운로드 되면 페이지를 더 빨리 로드할수 있고, 유저 경험이 더 나아집니다.
 
-However, it's important to remember though that code size likely isn't the
-end-all-be-all metric you're interested in, but rather something much more vague
-and hard to measure like "time to first interaction". While code size plays a
-large factor in this measurement (can't do anything if you don't even have all
-the code yet!) it's not the only factor.
+하지만 코드 사이즈가 가장 중요하게 확인해야 할 부분은 아닙니다. 모호하고 측정하기 어렵지만 "페이지가 로드되고 사용할 수 있게 될 때까지의 시간"이 사실 더 중요할수도 있습니다. 코드 사이즈가 이 시간에 큰 영향을 미치지만 (코드가 로드돼야 사이트가 작동하기 시작하는 부분을 생각하면) 이게 유일하게 확인해야 할 부분은 아닙니다.
 
-WebAssembly is typically served to users gzip'd so you'll want to be sure to
-compare differences in gzip'd size for transfer times over the wire. Also keep
-in mind that the WebAssembly binary format is quite amenable to gzip
-compression, often getting over 50% reductions in size.
+WebAssembly는 보통 gzip 파일 포맷 형식으로 압축돼서 전송되기 때문에, 유선을 통해 파일을 더 빠르게 보낼수 있도록 gzip 포맷으로 압축된 파일의 사이즈를 비교해야 합니다. 참고로, WebAssembly 바이너리 포맷은 gzip 포맷에 적합하므로 50% 이상으로 사이즈를 줄일 수 있습니다.
 
-Furthermore, WebAssembly's binary format is optimized for very fast parsing and
-processing. Browsers nowadays have "baseline compilers" which parses WebAssembly
-and emits compiled code as fast as wasm can come in over the network. This means
-that [if you're using `instantiateStreaming`][hacks] the second the Web request
-is done the WebAssembly module is probably ready to go. JavaScript, on the other
-hand, can often take longer to not only parse but also get up to speed with JIT
-compilation and such.
+게다가, WebAssembly의 바이너리 포맷은 매우 빠르게 읽고 처리할수 있도록 최적화가 잘 돼있습니다. 요즘 사용하는 브라우저들은 보통 "baseline compilers" 라는 기능을 포함하는데, 이 기능을 통해 네트워크로 wasm 파일을 보낸 것만큼 빠르게 전송받은 WebAssembly 코드를 기계어로 컴파일할 수 있습니다. 그렇기 때문에 [`instantiateStreaming`을 사용한다면][hacks] 웹페이지가 한번 로드 된 이후부터 WebAssembly 모듈을 바로 사용할 수 있게 됩니다. 반면에 JavaScript 코드를 실행할 때는 파싱 하는 것 외에도 코드를 빠르게 실행할수 있도록 JIT 컴파일 과정 등을 거쳐야 하기 때문에 시간이 더 오래 걸릴수도 있습니다.
 
-And finally, remember that WebAssembly is also far more optimized than
-JavaScript for execution speed. You'll want to be sure to measure for runtime
-comparisons between JavaScript and WebAssembly to factor that in to how
-important code size is.
+그리고 마지막으로, WebAssembly가 실행 속도 측면에서 JavaScript와 비교했을때도 훨씬 최적화가 잘 돼있다는 부분을 기억해주세요. JavaScript와 WebAssembly 런타임 속도를 각각 측정해보고 코드 사이즈가 얼마나 중요한지 확인해볼수도 있습니다.
 
-All this to say basically don't dismay immediately if your `.wasm` file is
-larger than expected! Code size may end up only being one of many factors in the
-end-to-end story. Comparisons between JavaScript and WebAssembly that only look
-at code size are missing the forest for the trees.
+하지만 `.wasm` 파일의 사이즈가 예상보다 크더라도 바로 낙담하지는 말아주세요! 코드 사이즈는 큰 그림의 일부일 뿐입니다. JavaScript와 WebAssembly를 비교할 때 코드 사이즈만 비교하게 된다면 많은 부분을 놓치게 됩니다.
 
 [hacks]: https://hacks.mozilla.org/2018/01/making-webassembly-even-faster-firefoxs-new-streaming-and-tiering-compiler/
 
-## Optimizing Builds for Code Size
+## 코드 사이즈를 줄일 수 있도록 빌드 최적화하기
 
-There are a bunch of configuration options we can use to get `rustc` to make
-smaller `.wasm` binaries. In some cases, we are trading longer compile times for
-smaller `.wasm` sizes. In other cases, we are trading runtime speed of the
-WebAssembly for smaller code size. We should be cognizant of the trade offs of
-each option, and in the cases where we trade runtime speed for code size,
-profile and measure to make an informed decision about whether the trade is
-worth it.
+`rustc`가 더 작은 `.wasm` 바이너리를 생성할 수 있도록 설정할수 있는 옵션이 몇 가지 있습니다. 어떤 상황에서는, 컴파일 시간이 더 오래 걸리는 부분을 희생해서 `.wasm` 사이즈를 더 작게 줄이기도 합니다. 또 다른 경우에는, 런타임을 더 빠르게 만들기 위해 `.wasm` 파일 사이즈를 포기하기도 합니다. 각 옵션의 장단점을 잘 이해하고, 프로파일링과 측정을 해보면서 코드 사이즈와 런타임 속도 중 어떤 것이 더 중요한지 잘 알고 결정하는 것이 중요합니다.
 
-### Compiling with Link Time Optimizations (LTO)
+### 링크 시간 최적화 (Link Time Optimizations, LTO) 을 사용해서 컴파일하기
 
-In `Cargo.toml`, add `lto = true` in the `[profile.release]` section:
+`Cargo.toml` 파일의 `[profile.release]` 섹션에 `lto = true`를 추가해주세요:
 
 ```toml
 [profile.release]
 lto = true
 ```
 
-This gives LLVM many more opportunities to inline and prune functions. Not only
-will it make the `.wasm` smaller, but it will also make it faster at runtime!
-The downside is that compilation will take longer.
+이렇게 LLVML이 사용하지 않는 코드를 더 많이 제거하고 인라인 작업을 더 적극적으로 할수 있도록 설정할 수 있습니다. `.wasm` 파일의 사이즈가 작아질 뿐 아니라, 런타임을 더 빠르게 만들수도 있습니다! 하지만, 컴파일 작업이 더 오래 걸린다는 단점이 있습니다.
 
-### Tell LLVM to Optimize for Size Instead of Speed
+### 런타임 속도 대신 코드 사이즈를 최적화하도록 LLVM 설정하기
 
-LLVM's optimization passes are tuned to improve speed, not size, by default. We
-can change the goal to code size by modifying the `[profile.release]` section in
-`Cargo.toml` to this:
+LLVM의 최적화 작업은 기본적으로는 사이즈 대신 속도 개선에 중점을 두고 진행됩니다. `[profile.release]`파일의 `[profile.release]` 섹션을 수정하여 이 설정을 변경할 수 있습니다:
 
 ```toml
 [profile.release]
 opt-level = 's'
 ```
 
-Or, to even more aggressively optimize for size, at further potential speed
-costs:
+아니면 추가로 발생할 수 있는 속도 저하를 감수해서라도 더 공격적으로 최적화를 할수도 있습니다:
 
 ```toml
 [profile.release]
 opt-level = 'z'
 ```
 
-Note that, surprisingly enough, `opt-level = "s"` can sometimes result in
-smaller binaries than `opt-level = "z"`. Always measure!
+정말 놀랍게도, 출력되는 파일의 사이즈가 `opt-level = "z"`대신 `opt-level = "s"`를 사용했을 때 더 작아질수도 있습니다. 항상 확인해보는걸 잊지 말아주세요!
 
-### Use the `wasm-opt` Tool
+### `wasm-opt` 툴 사용하기
 
-The [Binaryen][] toolkit is a collection of WebAssembly-specific compiler
-tools. It goes much further than LLVM's WebAssembly backend does, and using its
-`wasm-opt` tool to post-process a `.wasm` binary generated by LLVM can often get
-another 15-20% savings on code size. It will often produce runtime speed ups at
-the same time!
+[Binaryen][] 툴킷은 WebAssembly에 특화된 컴파일러 툴들을 포함합니다. 단순히 LLVM의 WebAssembly 백엔드 작업 외에도 훨씬 더 많은 작업에 사용할 수 있고, `wasm-opt`툴을 사용해서 LLVM이 생성한 `.wasm` 바이너리를 최적화 하면 보통은 코드 사이즈를 15-20% 정도 더 줄일수 있게 됩니다. 참고로 런타임 속도도 동시에 개선이 되니 참고해주세요!
 
 ```bash
-# Optimize for size.
+# 사이즈 최적화.
 wasm-opt -Os -o output.wasm input.wasm
 
-# Optimize aggressively for size.
+# 공격적인 사이즈 최적화.
 wasm-opt -Oz -o output.wasm input.wasm
 
-# Optimize for speed.
+# 속도 최적화.
 wasm-opt -O -o output.wasm input.wasm
 
-# Optimize aggressively for speed.
+# 공격적인 속도 최적화.
 wasm-opt -O3 -o output.wasm input.wasm
 ```
 
 [Binaryen]: https://github.com/WebAssembly/binaryen
 
-### Notes about Debug Information
+### 디버그 정보에 관해 알아두면 좋은 점
 
-One of the biggest contributors to wasm binary size can be debug information and
-the `names` section of the wasm binary. The `wasm-pack` tool, however, removes
-debuginfo by default. Additionally `wasm-opt` removes the `names` section by
-default unless `-g` is also specified.
+wasm 바이너리 사이즈를 줄이는 데 바이너리 파일에 포함된 디버그 정보와 `names` 섹션이 정말 큰 역할을 합니다. 하지만 `wasm-pack`이 기본값으로 디버그 정보를 삭제하고, 추가로 `wasm-opt`도 `-g`가 포함되지 않는 이상 `names` 섹션을 기본적으로 지우는 부분을 기억해주세요.
 
-This means that if you follow the above steps you should by default not have
-either debuginfo or the names section in the wasm binary. If, however, you are
-manually otherwise preserving this debug information in the wasm binary be sure
-to be mindful of this!
+이 책을 잘 따라왔다면 기본적으로는 디버그 정보나 `names` 섹션 없이 wasm파일을 빌드하게 됩니다. 하지만, 이러한 디버깅 정보가 wasm 바이너리에 포함돼야 하는 상황에서는 이 내용을 잘 알아주세요!
 
-## Size Profiling
 
-If tweaking build configurations to optimize for code size isn't resulting in a
-small enough `.wasm` binary, it is time to do some profiling to see where the
-remaining code size is coming from.
+## 사이즈 프로파일링하기
 
-> ⚡ Just like how we let time profiling guide our speed up efforts, we want to
-> let size profiling guide our code size shrinking efforts. Fail to do this and
-> you risk wasting your own time!
+빌드 최적화 설정을 바꿔도 `.wasm` 코드 사이즈가 줄어들지 않는다면, 어떤 부분이 나머지 공간을 사용하는지 프로파일링 작업을 해서 알아보도록 합시다.
 
-### The `twiggy` Code Size Profiler
+> ⚡ 시간 프로파일링 가이드를 따라왔던 것 처럼, 사이즈 프로파일링 가이드도 읽어보고 시도해봅시다. 읽어보는 것만으로도 시간을 정말 많이 아낄수 있습니다!
 
-[`twiggy` is a code size profiler][twiggy] that supports WebAssembly as
-input. It analyzes a binary's call graph to answer questions like:
+### `twiggy` 코드 사이즈 프로파일러
 
-* Why was this function included in the binary in the first place?
+[`twiggy`][twiggy]는 WebAssembly를 입력으로 받는 코드 사이즈 프로파일러입니다. 바이너리의 call graph를 분석하고 다음곽 같은 내용을 알려줍니다:
 
-* What is the *retained size* of this function? I.e. how much space would be
-  saved if I removed it and all the functions that become dead code after its
-  removal?
+* 함수들이 애초에 왜 바이너리에 포함되게 되는건가요?
+
+* 이 함수에 *사용되는 공간의 사이즈*가 어떻게 되나요? 예: 이 함수를 포함해서 같이 사용하는 함수들 까지 삭제했을 때 얼마나 공간을 아낄수 있나요?
 
 <style>
-/* For whatever reason, the default mdbook fonts fonts break with the
-   following box-drawing characters, hence the manual style. */
+/* 알수 없는 이유로 mdbook의 기본 폰트가 box-drawing character와 호환이 되지 않아서 직접 스타일을 따로 생성했습니다. */
 pre, code {
   font-family: "SFMono-Regular",Consolas,"Liberation Mono",Menlo,Courier,monospace;
 }
@@ -179,70 +127,51 @@ $ twiggy top -n 20 pkg/wasm_game_of_life_bg.wasm
 
 [twiggy]: https://github.com/rustwasm/twiggy
 
-### Manually Inspecting LLVM-IR
+### LLVM-IR 직접 살펴보기
 
-LLVM-IR is the final intermediate representation in the compiler toolchain
-before LLVM generates WebAssembly. Therefore, it is very similar to the
-WebAssembly that is ultimately emitted. More LLVM-IR generally means more
-`.wasm` size, and if a function takes up 25% of the LLVM-IR, then it generally
-will take up 25% of the `.wasm`. While these numbers only hold in general, the
-LLVM-IR has crucial information that is not present in the `.wasm` (because of
-WebAssembly's lack of a debugging format like DWARF): which subroutines were
-inlined into a given function.
+LLMV-IR은 LLVM이 WebAssembly를 생성 하기 전에 받게 되는 final intermediate representation 입니다. 그러므로 최종적으로 출력되는 WebAssembly 바이너리와 매우 유사하게 생겼습니다. LLVM-IR의 사이즈가 클수록 출력되는 `.wasm` 파일의 사이즈도 커지게 되고 함수들이 LLVM-IR 사이즈의 25%까지 차지하게 된다면 `.wasm` 파일에서도 함수들이 25%를 차지하게 됩니다. 이러한 수치들이 보통은 일치하지만, LLVM-IR은 `.wasm` 파일이 (DWARF와 같은 디버깅 정보 처럼) 가지고 있지 않는 중요한 정보들을 가지고 있습니다. 이러한 하위 루틴들은 해당 함수의 위치에 인라인됩니다.
 
-You can generate LLVM-IR with this `cargo` command:
+`cargo` 명령어를 실행해서 LLVM-IR 파일을 생성해보세요:
 
 ```
 cargo rustc --release -- --emit llvm-ir
 ```
 
-Then, you can use `find` to locate the `.ll` file containing the LLVM-IR in
-`cargo`'s `target` directory:
+그 다음 `find` 명령어를 사용해서 `.ll` 파일을  찾아보겠습니다. 이 LLVM-IR 파일은 `cargo`의 `target` 디렉토리에 위치하게 됩니다:
 
 ```
 find target/release -type f -name '*.ll'
 ```
 
-#### References
+#### 레퍼런스
 
-* [LLVM Language Reference Manual](https://llvm.org/docs/LangRef.html)
+* [LLVM 언어 레퍼런스 메뉴얼](https://llvm.org/docs/LangRef.html)
 
 ## More Invasive Tools and Techniques
 
-Tweaking build configurations to get smaller `.wasm` binaries is pretty hands
-off. When you need to go the extra mile, however, you are prepared to use more
-invasive techniques, like rewriting source code to avoid bloat. What follows is
-a collection of get-your-hands-dirty techniques you can apply to get smaller
-code sizes.
+`.wasm` 바이너리 사이즈를 줄이는 설정은 보통 자동화가 돼 있습니다. 하지만 추가로 불필요한 코드를 제거하고 최적화를 해줘야 하는 경우에는 더 깊게 들어가서 수정해야 할 때가 있습니다. 이 섹션에서는 코드 사이즈를 줄일 때 사용해볼수 있는 투박한 방법들을 알아보겠습니다.
 
-### Avoid String Formatting
+### 문자열 포맷 피하기
 
-`format!`, `to_string`, etc... can bring in a lot of code bloat. If possible,
-only do string formatting in debug mode, and in release mode use static strings.
+`format!`이나 `to_string` 과 같은 함수/매크로들을 사용하면 코드 사이즈가 불필요하게 커질수도 있습니다. 가능하면 문자열 포맷을 debug 모드에서만 사용하고, 배포 모드에서는 정적 문자열 (static string) 을 사용해주세요.
 
-### Avoid Panicking
+### 코드 패닉 피하기
 
-This is definitely easier said than done, but tools like `twiggy` and manually
-inspecting LLVM-IR can help you figure out which functions are panicking.
+말처럼 쉽지는 않지만, `twiggy` 와 같은 툴을 사용하거나 LLVM-IR 파일을 살펴보면서 어떤 함수들이 패닉하는지 살펴볼 수 있습니다.
 
-Panics do not always appear as a `panic!()` macro invocation. They arise
-implicitly from many constructs, such as:
+패닉은 꼭 `panic!()` 매크로의 형식으로 나타나지는 않고 다음과 같은 여러가지 이유로 발생할 수 있습니다:
 
-* Indexing a slice panics on out of bounds indices: `my_slice[i]`
+* 슬라이스 사이즈 범위를 벗어난 인덱스의 요소에 접근하고자 할 때 (out of bounds) : `my_slice[i]`
 
-* Division will panic if the divisor is zero: `dividend / divisor`
+* 나머지 연산자를 사용할 때 나누는 수가 0인 경우: `나눠지는 수 / 나누는 수`
 
-* Unwrapping an `Option` or `Result`: `opt.unwrap()` or `res.unwrap()`
+* `Option`이나 `Result`의 값을 `unwrap()`를 사용하여 접근할 때: `opt.unwrap()` 또는 `res.unwrap()`
 
-The first two can be translated into the third. Indexing can be replaced with
-fallible `my_slice.get(i)` operations. Division can be replaced with
-`checked_div` calls. Now we only have a single case to contend with.
+처음 두 방법 대신 사용해볼수 있는 더 안전한 방법도 있습니다. `my_slice[i]` 처럼 인덱스를 직접 접근하지 않고 `my_slice.get(i)` 를 사용하여 `Option` 타입의 값을 받을수도 있고, `check_div` 함수를 불러서 나눌수 있는지 확인할수도 있습니다. 이렇게 하면 3번쨰 경우만 신경쓸수 있게 됩니다.
 
-Unwrapping an `Option` or `Result` without panicking comes in two flavors: safe
-and unsafe.
+코드를 패닉시키지 않고, `Option`이나 `Result` 타입의 값을 "안전한 방법과 불안전한 방법", 두 가지 방법으로 처리해볼수도 있습니다.
 
-The safe approach is to `abort` instead of panicking when encountering a `None`
-or an `Error`:
+안전한 방법부터 살펴보도록 합시다. `None`이나 `Error` 값이 나왔을 때, 코드를 패닉시키는 대신 `abort` 함수를 사용해보겠습니다:
 
 ```rust
 #[inline]
@@ -255,53 +184,32 @@ pub fn unwrap_abort<T>(o: Option<T>) -> T {
 }
 ```
 
-Ultimately, panics translate into aborts in `wasm32-unknown-unknown` anyways, so
-this gives you the same behavior but without the code bloat.
+최종적으로는 패닉 코드가 `wasm32-unknown-unknown` 타겟의 abort 명령어로 옮겨지기 때문에, 이런 식으로 코드를 작성하면서 불필요한 코드를 줄일 수 있습니다.
 
-Alternatively, the [`unreachable` crate][unreachable] provides an unsafe
-[`unchecked_unwrap` extension method][unchecked_unwrap] for `Option` and
-`Result` which tells the Rust compiler to *assume* that the `Option` is `Some`
-or the `Result` is `Ok`. It is undefined behavior what happens if that
-assumption does not hold. You really only want to use this unsafe approach when
-you 110% *know* that the assumption holds, and the compiler just isn't smart
-enough to see it. Even if you go down this route, you should have a debug build
-configuration that still does the checking, and only use unchecked operations in
-release builds.
+다른 방법으로는, [`unreachable` 크레이트][unreachable]가 `Option`과 `Result` 타입의 값과 함께 사용할수 있도록 불안전한 [`unchecked_unwrap` 확장 크레이트][unchecked_unwrap]를 제공하는데, 이 확장 크레이트는 컴파일러가 `Option`을 `Some`으로, `Result`를 `Ok`로 *추측*해서 옮길수 있도록 도와줍니다. 하지만 이런 추측이 맞아떨어지지 않으면 정의하지 않은 동작 (undefined behavior) 이 발생하게 되므로, 코드가 잘 작동한다고 확신하지만 컴파일러가 모르는 상황에서 이 상황을 *잘 이해하고 있을 때만* 이 방법을 사용해주세요. 그리고 이 방법을 사용하더라도, 배포 버전에서만 적용하고 그 외에는 컴파일러가 확인할 수 있도록 디버그 빌드 설정하길 권장합니다.
 
 [unreachable]: https://crates.io/crates/unreachable
 [unchecked_unwrap]: https://docs.rs/unreachable/1.0.0/unreachable/trait.UncheckedOptionExt.html#tymethod.unchecked_unwrap
 
-### Avoid Allocation or Switch to `wee_alloc`
+### 할당을 피하거나 `wee_alloc`을 대신 사용해보세요.
 
-Rust's default allocator for WebAssembly is a port of `dlmalloc` to Rust. It
-weighs in somewhere around ten kilobytes. If you can completely avoid dynamic
-allocation, then you should be able to shed those ten kilobytes.
+Rust는 기본값으로 `dlmalloc`라는 할당가를 이식해서 사용합니다. 10 KB 정도의 사이즈를 차지하게 되는데, 동적 할당을 사용하지 않아도 괜찮다면 이 사이즈를 절약할수 있습니다.
 
-Completely avoiding dynamic allocation can be very difficult. But removing
-allocation from hot code paths is usually much easier (and usually helps make
-those hot code paths faster, as well). In these cases, [replacing the default
-global allocator with `wee_alloc`][wee_alloc] should save you most (but not
-quite all) of those ten kilobytes. `wee_alloc` is an allocator designed for
-situations where you need *some* kind of allocator, but do not need a
-particularly fast allocator, and will happily trade allocation speed for smaller
-code size.
+하지만 동적 할당을 완벽히 피하기는 쉽지 않습니다. 하지만 코드의 [핫 스팟 (hot spot)](https://en.wikipedia.org/wiki/Hot_spot_(computer_programming)) 에서 할당을 없애는 작업은 보통은 훨씬 쉬운 편입니다. (보통은 이 작업을 통해 핫 스팟인 코드들을 훨씬 빠르게 만들수도 있습니다.) 이러한 상황에서 [전역 할당자 대신 `wee_alloc`를 사용하면][wee_alloc] (전부는 아니지만) 이 10 KB의 공간의 대부분을 절약할 수 있습니다. `wee_alloc`는 할당자가 필요하지만 굳이 아주 빠를 필요가 없고, 실행 속도가 느려지는 대신 코드 사이즈를 줄여도 괜찮을 때 사용하도록 설계됐습니다.
 
 [wee_alloc]: https://github.com/rustwasm/wee_alloc
 
-### Use Trait Objects Instead of Generic Type Parameters
+### 제네릭 타입 매개변수 대신 트레이트 객체를 사용해보세요
 
-When you create generic functions that use type parameters, like this:
+다음 예시와 같이 타입 매개변수를 사용하는 제네릭 함수를 작성한다고 생각해봅시다:
 
 ```rust
 fn whatever<T: MyTrait>(t: T) { ... }
 ```
 
-Then `rustc` and LLVM will create a new copy of the function for each `T` type
-that the function is used with. This presents many opportunities for compiler
-optimizations based on which particular `T` each copy is working with, but these
-copies add up quickly in terms of code size.
+`rustc`와 LLVM는 제네릭 함수가 호출될 때 사용된 타입마다 해당하는 바이너리 코드를 따로 생성합니다. 이런 접근은 어떤 `T` 타입을 컴파일러가 사용하는지에 따라 컴파일러 최적화에 유용할수도 있습니다. 하지만 동시에 코드 사이즈가 빠르게 늘어날 수도 있다는 단점을 가지고 있습니다.
 
-If you use trait objects instead of type parameters, like this:
+다음과 같이 타입 매개변수 대신 트레이트 객체를 사용해보겠습니다:
 
 ```rust
 fn whatever(t: Box<MyTrait>) { ... }
@@ -310,24 +218,13 @@ fn whatever(t: &MyTrait) { ... }
 // etc...
 ```
 
-Then dynamic dispatch via virtual calls is used, and only a single version of
-the function is emitted in the `.wasm`. The downside is the loss of the compiler
-optimization opportunities and the added cost of indirect, dynamically
-dispatched function calls.
+동적 디스패치 (dynamic dispatch) 는 가상의 환경에서 부르면서 사용되는데, `.wasm` 에는 부른 함수의 한가지 버전만 포함하게 됩니다. 제네릭 타입 매개변수와 비교하면 컴파일러 최적화 측면에서 손실이 있을 수 있고, 간접적이고 동적으로 디스패치된 함수를 부르는데 추가적인 비용이 필요할수도 있다는 단점이 있습니다.
 
-### Use the `wasm-snip` Tool
+### `wasm-snip` 툴을 사용해보세요
+[`wasm-snip`은 WebAssembly 함수의 코드를 `unreachable` Assembly 명령어로 교체해줍니다.][snip] 하지만 잘 살펴보면 못 하나를 박는다고 아주 거대한 망치를 가져와서 열심히 두드리는 것 같은 느낌이 듭니다.
 
-[`wasm-snip` replaces a WebAssembly function's body with an `unreachable`
-instruction.][snip] This is a rather heavy, blunt hammer for functions that kind
-of look like nails if you squint hard enough.
+런타임에서 사용하진 않는 함수들이 호출하는 함수들을 어떻게 컴파일러에게 제거하라고 시켜야 할까요? 우선은 코드를 빌드 해보고 `wasm-opt`를 `--dce` 플래그를 포함해서 다시 실행해보세요! 간접적으로 호출되는 (런타임에서 부르지 않는) 함수들까지 지워버릴 수 있습니다.
 
-Maybe you know that some function will never be called at runtime, but the
-compiler can't prove that at compile time? Snip it! Afterwards, run `wasm-opt`
-again with the `--dce` flag, and all the functions that the snipped function
-transitively called (which could also never be called at runtime) will get
-removed too.
-
-This tool is particularly useful for removing the panicking infrastructure,
-since panics ultimately translate into traps anyways.
+패닉 코드가 이런 문제들로 종종 이어질 수 있기 때문에, 패닉 인프라 (panicking infrastructure) 를 지울 때 이 툴이 유용하게 사용될 수 있습니다.
 
 [snip]: https://github.com/fitzgen/wasm-snip
