@@ -25,6 +25,6 @@
   - [시간 프로파일링](./reference/time-profiling.md)
   - [`.wasm` 파일 사이즈 줄이기](./reference/code-size.md)
   - [JavaScript 상호 운용하기](./reference/js-ffi.md)
-  - [Which Crates Will Work Off-the-Shelf with WebAssembly?](./reference/which-crates-work-with-wasm.md)
+  - [어떤 Rust 크레이트들을 WebAssembly에서 바로 사용할수 있나요?](./reference/which-crates-work-with-wasm.md)
   - [How to Add WebAssembly Support to a General-Purpose Crate](./reference/add-wasm-support-to-crate.md)
   - [Deploying Rust and WebAssembly to Production](./reference/deploying-to-production.md)
