@@ -16,7 +16,7 @@
 
 * Rust, WebAssembly, JavaScript, HTML, CSS으로 만든 다언어 프로그램 개발을 위한 워크플로우.
 
-* Rust와 WebAssembly, 그리고 JavaScript의 강점을 모두 살리는 API를 디자인하는 방법.
+* Rust와 WebAssembly, 그리고 JavaScript의 강점을 모두 살리는 API를 설계하는 방법.
 
 * Rust 코드에서 컴파일된 WebAssembly 모듈 디버깅하는 법.
 
