@@ -2,7 +2,7 @@
 
 Rust와 WebAssembly로 개발할 때 알면 좋은 툴들을 모아놓은 목록입니다.
 
-## 개발, 빌드 및 워크플로우 관리(Orchestration)
+## 개발, 빌드 및 워크플로우 관리 (Orchestration)
 
 ### `wasm-pack` | [레포지토리](https://github.com/rustwasm/wasm-pack)
 
