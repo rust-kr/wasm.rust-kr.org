@@ -42,9 +42,7 @@ WebAssembly를 가비지 콜렉팅하고 필요하지 않은 익스포트, 임�
 `twiggy`는 `.wasm` 바이너리에 사용하는 코드 프로파일러입니다. 바이너리의 호출 그래프 (call graph) 를 분석하고 다음과 같은 내용을 알려줍니다:
 
 * 애초에 빌드할 때 어떤 함수가 왜 바이너리에 포함됐나요? 예: 어떤 익스포트한 함수들이 간접적으로 호출되고 있나요?
-   
-* What is the retained size of this function? I.e. how much space would be saved
-  if I removed it and all the functions that become dead code after its removal.
+
 * 어떤 함수를 지우면 얼마나 공간을 아낄수 있나요? 예: 이 함수와 다른 사용되던 함수들까지 지우면 얼마나 공간이 절약되나요?
 
 `twiggy`를 사용해서 바이너리를 더 가볍게 만들어보세요!
