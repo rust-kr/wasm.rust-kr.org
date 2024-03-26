@@ -35,7 +35,7 @@ WebAssembly를 가비지 콜렉팅하고 필요하지 않은 익스포트, 임�
 
 디버깅 코드가 없는 실제로 배포하는 빌드 (production build) 에서 강제로 Rust 의 패닉 인프라(infrastructure)를 제외할 때 유용합니다.
 
-## Inspecting `.wasm` Binaries
+## `.wasm` 바이너리 살펴보기
 
 ### `twiggy` | [레포지토리](https://github.com/rustwasm/twiggy)
 
