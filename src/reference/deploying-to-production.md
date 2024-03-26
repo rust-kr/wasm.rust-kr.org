@@ -1,12 +1,12 @@
-# Rust와 WebAssembly 코드를 프로덕션 환경에 배포하기
+# Rust로 작성한 WebAssembly 코드를 프로덕션 환경에 배포하기
 
-> **⚡ Rust와 WebAssembly를 포함시켜서 작성한 웹 앱을 배포하는 과정은 다른 웹 앱을 배포하는 것과 거의 같습니다!**
+> **⚡ Rust, WebAssembly와 함께 작성한 웹 앱을 배포하는 과정은 다른 웹 앱을 배포하는 과정과 거의 같습니다!**
 
 Rust로 생성한 WebAssembly를 사용하는 웹 앱을 배포하려면 빌드된 웹 앱 파일들을 프로덕션 서버의 파일 시스템으로 복사하고, 복사한 파일에 접근할수 있도록 HTTP 서버를 설정해주세요.
 
-## HTTP 서버가 application/wasm` MIME 타입을 지원하는지 확인해주세요
+## HTTP 서버가 `application/wasm` MIME 타입을 지원하는지 확인해주세요
 
-페이지가 빠르게 로드될 수 있도록, 네트워크 전송을 통해 [`WebAssembly.instantiateStreaming` 함수][instantiateStreaming]를 사용하여 wasm 컴파일 및 인스턴스화 과정을 파이프라인 처리해야 합니다. (번들러가 이 함수를 사용할수 있는지도 확인해주세요.) 하지만 `instantiateStreaming`를 실행할 때 HTTP response가 `application/wasm` [MIME 타입][] 유형을 가지고 있지 않다면 오류가 발생하게 되니 이 부분도 잘 확인해주세요.
+페이지가 빠르게 로드될 수 있도록, 네트워크 전송을 통해 [`WebAssembly.instantiateStreaming` 함수][instantiateStreaming]를 사용하여 wasm 컴파일 및 인스턴스화 과정을 파이프라인 처리해야 합니다. (번들러가 이 함수를 사용할수 있는지도 확인해주세요.) 하지만 `instantiateStreaming`를 실행할 때 HTTP response가 `application/wasm` [MIME 타입][MIME type] 유형을 가지고 있지 않다면 오류가 발생하게 되니 이 부분도 잘 확인해주세요.
 
 * [Apache HTTP 서버에서 MIME 타입 설정하기][apache-mime]
 * [NGINX HTTP 서버에서 MIME 타입 설정하기][nginx-mime]
