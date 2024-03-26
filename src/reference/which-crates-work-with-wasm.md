@@ -1,65 +1,43 @@
-# Which Crates Will Work Off-the-Shelf with WebAssembly?
+# 어떤 크레이트들을 WebAssembly에서 바로 사용할수 있나요?
 
-It is easiest to list the things that do *not* currently work with WebAssembly;
-crates which avoid these things tend to be portable to WebAssembly and usually
-*Just Work*. A good rule of thumb is that if a crate supports embedded and
-`#![no_std]` usage, it probably also supports WebAssembly.
+가장 간단하게 WebAssembly 환경에서 작동하지 않는 것들부터 목록으로 만들어 보겠습니다. 다음 내용에 해당하지 않는 크레이트들은 휴대성이 좋고 WebAssembly 환경에서 잘 작동한다고 생각해도 좋고, 임베디드 시스템과 `#![no_std]`를 지원한다면 보통은 WebAssembly도 지원한다고 볼수 있습니다.
 
-## Things a Crate Might do that Won't Work with WebAssembly
+## 이러한 크레이트들은 WebAssembly 환경에서 작동하지 않을수도 있습니다
 
-### C and System Library Dependencies
+### C 언어와 시스템 라이브러리 종속성이 있는 경우
 
-There are no system libraries in wasm, so any crate that tries to bind to a
-system library won't work.
+wasm에는 시스템 라이브러리가 없기 떄문에 시스템 라이브러리에 바인딩된 코드가 있는 크레이트는 작동하지 않습니다.
 
-Using C libraries will also probably fail to work, since wasm doesn't have a
-stable ABI for cross-language communication, and cross-language linking for wasm
-is very finicky. Everyone wants this to work eventually, especially since
-`clang` is shipping their `wasm32` target by default now, but the story isn't
-quite there yet.
+wasm에는 언어 간 통신에 사용할수 있는 안정된 버전의 ABI와 언어 간 링킹(linking)도 없기 때문에, C 라이브러리를 사용하는 크레이트도 작동하지 않습니다. 특히 `clang` 컴파일러가 `wasm32` 타겟을 기본으로 제공하기 때문에 결국은 작동할 것으로 예상되지만, 현재로서는 완벽하지 않습니다.
 
-### File I/O
+### 파일 I/O
 
-WebAssembly does not have access to a file system, so crates that assume the
-existence of a file system &mdash; and don't have wasm-specific workarounds
-&mdash; will not work.
+WebAssembly는 파일 시스템에 접근할 수 없습니다. &mdash; 파일 시스템을 필요로 하고 wasm에서 사용할수 있도록 코드가 마련되지 않은 크레이트는 작동하지 않습니다.
 
-### Spawning Threads
+### 스레드 생성
 
-There are [plans to add threading to WebAssembly][wasm-threading], but it isn't
-shipping yet. Attempts to spawn on a thread on the `wasm32-unknown-unknown`
-target will panic, which triggers a wasm trap.
+[스레딩을 웹어셈블리에 지원하는 계획][wasm-threading]이 있긴 하지만 아직 준비가 되지 않았습니다. `wasm32-unknown-unknown` 타겟에서 스레드를 생성하려고 시도하면 wasm 트랩 (wasm trap) 이 발생하면서 코드가 패닉하게 됩니다.
 
 [wasm-threading]: https://rustwasm.github.io/2018/10/24/multithreading-rust-and-wasm.html
 
-## So Which General Purpose Crates Tend to Work Off-the-Shelf with WebAssembly?
+## 어떤 일반적인 목적의 크레이트들이 WebAssembly에서 바로 작동하는 편인가요?
 
-### Algorithms and Data Structures
+### 알고리즘과 자료 구조
 
-Crates that provide the implementation of a particular
-[algorithm](https://crates.io/categories/algorithms) or [data
-structure](https://crates.io/categories/data-structures), for example A* graph
-search or splay trees, tend to work well with WebAssembly.
+[A* 알고리즘](https://ko.wikipedia.org/wiki/A*_알고리즘)나 [splay trees](https://en.wikipedia.org/wiki/Splay_tree)처럼, 특정한 [알고리즘](https://crates.io/categories/algorithms)이나 [data structure](https://crates.io/categories/data-structures)의 구현을 제공하는 크레이트들은 WebAssembly와 잘 작동하는 편입니다.
 
 ### `#![no_std]`
 
-[Crates that do not rely on the standard
-library](https://crates.io/categories/no-std) tend to work well with
-WebAssembly.
+[Rust 스탠다드 라이브러리를 사용하지 않는 크레이트들](https://crates.io/categories/no-std)도 WebAssembly와 잘 작동하는 편입니다.
 
-### Parsers
+### 파서 (Parser)
 
-[Parsers](https://crates.io/categories/parser-implementations) &mdash; so long
-as they just take input and don't perform their own I/O &mdash; tend to work
-well with WebAssembly.
+입력을 받고 I/O 작업을 수행하지 않는 이상, [파서들](https://crates.io/categories/parser-implementations)은 WebAssembly와 잘 작동하는 편입니다.
 
-### Text Processing
+### 텍스트 처리
 
-[Crates that deal with the complexities of human language when expressed in
-textual form](https://crates.io/categories/text-processing) tend to work well
-with WebAssembly.
+[인간 언어를 텍스트 형태로 나타냈을 때 발생하는 복잡성을 다루는 크레이트들](https://crates.io/categories/text-processing)은 WebAssembly와 잘 작동하는 편입니다.
 
-### Rust Patterns
+### Rust 패턴
 
-[Shared solutions for particular situations specific to programming in
-Rust](https://crates.io/categories/rust-patterns) tend to work well with WebAssembly.
+[Rust 프로그래밍의 특정한 상황에 쓰도록 공유되는 해결책들](https://crates.io/categories/rust-patterns)은 WebAssembly와 잘 작동하는 편입니다.
