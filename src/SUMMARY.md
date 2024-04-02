@@ -13,7 +13,7 @@
     - [Game of Life 테스팅하기](./game-of-life/testing.md)
     - [디버깅](./game-of-life/debugging.md)
     - [상호작용 추가하기](./game-of-life/interactivity.md)
-    - [시간 프로파일링](./game-of-life/time-profiling.md)
+    - [타임 프로파일링](./game-of-life/time-profiling.md)
     - [`.wasm` 파일 사이즈 줄이기](./game-of-life/code-size.md)
     - [npm에 배포하기](./game-of-life/publishing-to-npm.md)
 --------------------------------------------------------------------------------
@@ -22,7 +22,7 @@
   - [알면 좋은 툴들](./reference/tools.md)
   - [프로젝트 템플릿](./reference/project-templates.md)
   - [디버깅](./reference/debugging.md)
-  - [시간 프로파일링](./reference/time-profiling.md)
+  - [타임 프로파일링](./reference/time-profiling.md)
   - [`.wasm` 파일 사이즈 줄이기](./reference/code-size.md)
   - [JavaScript 상호 운용하기](./reference/js-ffi.md)
   - [어떤 Rust 크레이트들을 WebAssembly에서 바로 사용할수 있나요?](./reference/which-crates-work-with-wasm.md)

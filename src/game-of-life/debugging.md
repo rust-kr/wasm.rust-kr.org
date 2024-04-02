@@ -1,6 +1,6 @@
 # 디버깅
 
-코드를 더 작성하기 전에, 디버깅 툴들을 살펴보고 한번 장전해보도록 합시다. 관심이 있다면 [Rust로 WebAssembly 바이너리를 생성하는 데에 사용해볼수 있는 접근방법과 툴에 대해 다루는 참조 페이지][reference-debugging]도 확인해보세요!
+코드를 더 작성하기 전에, 디버깅 툴들을 살펴보고 한번 장전해보도록 합시다. 관심이 있다면 [Rust로 WebAssembly 바이너리를 생성하는 데에 사용해볼수 있는 접근방법과 툴에 대해 다루는 참조 페이지][reference-debugging] 도 확인해보세요!
 
 [reference-debugging]: ../reference/debugging.html
 
@@ -89,7 +89,7 @@ index f757641..a30e107 100755
 
 [브라우저 디버깅 툴은 Rust로 작성한 WebAssembly와 상호작용하는 JavaScript 코드를 살펴볼 때 유용합니다.](../reference/debugging.html#using-a-debugger)
 
-예를 들어서, `universe.tick()` 호출 이전에 [JavaScript 코드의 `debugger;` 줄][dbg-stmt]을 추가하면 디버깅 툴을 사용하여 `renderLoop`의 매 순회마다 코드 실행을 일시정지 시킬 수 있게 됩니다.
+예를 들어서, `universe.tick()` 호출 이전에 [JavaScript 코드에 `debugger;` 줄][dbg-stmt]을 추가하면 디버깅 툴을 사용하여 `renderLoop`의 매 순회마다 코드 실행을 일시정지 시킬 수 있게 됩니다.
 
 ```js
 const renderLoop = () => {

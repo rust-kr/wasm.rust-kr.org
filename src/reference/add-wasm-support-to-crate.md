@@ -4,7 +4,7 @@
 
 ## 크레이트가 이미 WebAssembly를 지원할수도 있어요!
 
-[어떤 작업을 하는 다목적 크레이트가 WebAssembly에 적합하지 **않**나요](./which-crates-work-with-wasm.html)의 내용을 먼저 읽어보세요. 작성하는 크레이트가 해당 사항이 없다면, WebAssembly를 지원할 확률이 높습니다.
+[어떤 작업을 하는 다목적 크레이트가 WebAssembly에 적합하지 **않나요**?](./which-crates-work-with-wasm.html) 의 내용을 먼저 읽어보세요. 작성하는 크레이트가 해당 사항이 없다면, WebAssembly를 지원할 확률이 높습니다.
 
 추가로, `cargo build` 명령어를 입력해서 WebAssembly 타겟을 지원하는지 항상 확인해볼수 있습니다:
 
@@ -12,7 +12,7 @@
 cargo build --target wasm32-unknown-unknown
 ```
 
-명령어 실행이 실패한다면 현재로서는 크레이트가 WebAssembly를 지원하지 않는다는 내용을 확일할 수 있습니다. 하지만 이 명령어가 성공하더라도 크레이트가 꼭 WebAssembly를 지원한다는 의미는 아닙니다. 더 확실하게 확인하고 싶다면 [wasm 테스팅 코드를 추가하고 지속성 통합 (continuous integration) 환경에서 테스트를 실행해보기](#maintaining-ongoing-support-for-webassembly)를 읽어보세요.
+명령어 실행이 실패한다면 현재로서는 크레이트가 WebAssembly를 지원하지 않는다는 내용을 확일할 수 있습니다. 하지만 이 명령어가 성공하더라도 크레이트가 꼭 WebAssembly를 지원한다는 의미는 아닙니다. 더 확실하게 확인하고 싶다면 [wasm 테스팅 코드를 추가하고 지속성 통합 (continuous integration) 환경에서 테스트를 실행해보기](#maintaining-ongoing-support-for-webassembly) 를 읽어보세요.
 
 ## WebAssembly 지원 추가하기
 
@@ -142,7 +142,7 @@ matrix:
       script: cargo check --target wasm32-unknown-unknown
 ```
 
-### Node.js와 [헤드리스 브라우저 (Headless Browsers)](https://ko.wikipedia.org/wiki/헤드리스_브라우저)에서 테스팅하기
+### Node.js와 [헤드리스 브라우저 (Headless Browsers)](https://ko.wikipedia.org/wiki/헤드리스_브라우저) 에서 테스팅하기
 
 `wasm-bindgen-test`와 `wasm-pack-test` subcommand를 사용해서 wasm 테스트들 Node.js나 헤드리스 브라우저에서 실행해보세요. 이러한 테스트들을 CI에 통합시켜볼수도 있습니다.
 

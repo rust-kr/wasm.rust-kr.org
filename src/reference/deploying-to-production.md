@@ -18,7 +18,7 @@ Rust로 생성한 WebAssembly를 사용하는 웹 앱을 배포하려면 빌드�
 
 ## 추가 자료
 
-* [프로덕션 개발 환경에서 Webpack를 사용하는 모범 사례][webpack-prod] 많은 Rust와 WebAssembly 프로젝트들은 Rust로 생성한 WebAssembly와 JavaScript, CSS, HTML 코드를 번들링 하기 위해 Webpack을 사용합니다. 이 가이드는 프로덕션 환경에 배포할 때 어떻게 Webpack을 가장 잘 활용할수 있는지 알려주는 유용한 정보들를 포함합니다.
+* [프로덕션 개발 환경에서 Webpack를 사용하는 모범 사례.][webpack-prod] 많은 Rust와 WebAssembly 프로젝트들은 Rust로 생성한 WebAssembly와 JavaScript, CSS, HTML 코드를 번들링 하기 위해 Webpack을 사용합니다. 이 가이드는 프로덕션 환경에 배포할 때 어떻게 Webpack을 가장 잘 활용할수 있는지 알려주는 유용한 정보들를 포함합니다.
 * [Apache 문서.][apache] Apache는 프로덕션 환경에서 많이 사용되는 HTTP 서버입니다.
 * [NGINX 문서.][nginx] NGNIX는 프로덕션 환경에서 많이 사용되는 HTTP 서버입니다.
 

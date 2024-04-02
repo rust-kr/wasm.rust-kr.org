@@ -12,14 +12,14 @@
 
 ## 무엇을 배우게 되나요?
 
-* WebAssembly 컴파일링을 할수 있도록 Rust 툴체인 셋업하는 법.
+* WebAssembly 컴파일링을 할수 있도록 Rust 툴체인을 설정하는 법.
 
 * Rust, WebAssembly, JavaScript, HTML, CSS으로 만든 다언어 프로그램 개발을 위한 워크플로우.
 
-* Rust와 WebAssembly, 그리고 JavaScript의 강점을 모두 살리는 API를 설계하는 방법.
+* Rust와 WebAssembly, 그리고 JavaScript의 강점을 모두 살리도록 API를 설계하는 방법.
 
-* Rust 코드에서 컴파일된 WebAssembly 모듈 디버깅하는 법.
+* Rust 코드에서 컴파일된 WebAssembly 모듈을 디버깅하는 방법.
 
 * Rust와 WebAssembly 프로그램을 더 빠르게 만들기 위해 타임 프로파일링 하는 법.
 
-* `.wasm` 바이너리를 네트워크에서 다운로드 할때 더 작고 더 빠르게 만들기 위해 Rust와 WebAssembly 프로그램을 사이즈 프로파일링 하는 방법.
+* 네트워크를 통해 다운로드 할때 `.wasm` 바이너리를 더 작고 빠르게 만들도록 Rust와 WebAssembly 프로그램을 사이즈 프로파일링 하는 방법.

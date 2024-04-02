@@ -4,7 +4,7 @@
 
 ## 준비 사항
 
-우선, [npm 계정이 있는지 확인해주세요](https://www.npmjs.com/signup).
+우선, [기존에 생성된 npm 계정이 있는지 확인해주세요](https://www.npmjs.com/signup).
 
 그 다음, 다음 명령어를 실행하여 로컬 머신에서 계정에 로그인돼 있는지 확인해주세요:
 

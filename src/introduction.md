@@ -4,7 +4,7 @@
 > 번역된 버전에 이슈나 풀 리퀘스트를 생성하고자 하시나요? [번역 버전의 레포지토리](https://github.com/polyecho/rust-wasm-book-ko)를 확인해주세요.
 
 ## 누구를 위한 책인가요?
-이 책은 Rust 코드를 웹에서 작동하는 빠르고 안정된 WebAssembly 코드로 컴파일하는데에 관심이 있는 사람들을 위해 작성됐습니다.
+이 책은 Rust와 WebAssembly를 함께 사용하여 웹에서 동작하는 빠르고 안정된 코드를 작성하는 방법에 대해 관심이 있는 분들을 위해 작성되었습니다.
 꼭 전문가가 돼야할 필요는 없지만, Rust를 조금이라도 알아야 하고 JavaScript와 HTML, CSS에 익숙하면 더 좋습니다.
 
 Rust를 아직 모르시나요? [*The Rust Programming Language* 책으로 시작해보세요.][trpl]
@@ -12,9 +12,9 @@ Rust를 아직 모르시나요? [*The Rust Programming Language* 책으로 시�
 JavaScript나 HTML, CSS를 모르시나요? [MDN에서 더 알아보세요.][mdn]
 
 ## 이 책을 읽는 방법
-[왜 Rust로 WebAssembly 개발을 해야 하나요?][why-rust-wasm] 를 읽어보면 좋고, [배경 지식][background]과 먼저 친숙해져보는것도 좋습니다.
+[왜 Rust로 WebAssembly 개발을 해야 하나요?][why-rust-wasm] 섹션을 읽어보면 좋고, [배경 지식][background]과 먼저 친숙해져보는것도 좋습니다.
 
-이 [튜토리얼][tutorial]은 처음부터 끝까지 읽도록 작성됐습니다. 튜토리얼에 있는 코드를 작성, 컴파일링하고 직접 실행해보세요. Rust와 WebAssembly를 같이 사용해본적이 없다면, 튜토리얼을 활용해보세요!
+이 [튜토리얼][tutorial]은 처음부터 끝까지 읽도록 작성됐습니다. 튜토리얼에 있는 코드를 작성, 컴파일하고 직접 실행해보세요. Rust와 WebAssembly를 같이 사용해본적이 없다면, 튜토리얼을 한번 활용해보세요!
 
 [레퍼런스 섹션][reference] 은 아무 순서로 정독해도 괜찮습니다.
 

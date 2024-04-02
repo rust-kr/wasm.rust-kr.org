@@ -1,10 +1,10 @@
 # WebAssembly가 뭔가요?
 
-WebAssembly(wasm)는 [포괄적인 사양][extensive specification]이 있는 간단한 기계 모델이자 실행 가능한 포맷입니다. 휴대 가능하고, 가벼우며 거의 네이티브 프로그램과 같은 속도로 실행될수도 있도록 설계됐습니다.
+WebAssembly(wasm)는 [포괄적인 사양][extensive specification]을 가지고 있는 간단한 기계 모델이자 실행 가능한 포맷입니다. 휴대 가능하고, 가벼우며 거의 네이티브 프로그램과 같은 속도로 실행될수도 있도록 설계됐습니다.
 
 프로그래밍 언어로써, WebAssembly는 같은 구조를 나타내면서도 두가지 다른 포맷으로 구성돼 있습니다.
 
-1. `.wat` 텍스트 포맷 ("**W**eb**A**ssembly **T**ext" 에서 유래함)은 [S-expressions] 구조를 사용하고 Scheme이나 Clojure와 같은 Lisp 계열 언어와 유사점을 공유합니다.
+1. `.wat` 텍스트 포맷 ("**W**eb**A**ssembly **T**ext" 에서 유래함)은 [S-expressions] 구조를 사용하고 Scheme이나 Clojure와 같은 Lisp 계열 언어와 유사점들을 공유합니다.
 
 2. `.wasm` 바이너리 포맷은 더 저레벨이면서 WebAssembly 가상 머신에서 바로 사용되도록 의도됐습니다. 개념적으로 ELF 와 Mach-0와 비슷합니다.
 
@@ -38,7 +38,7 @@ WebAssembly 매우 간단한 [메모리 모델][memory model]을 가지고 있�
 
 ## 웹에서만 WebAssembly를 사용할 수 있나요?
 
-현재로써는 JavaScript 웹 커뮤니티에서 주목을 받고 있지만, wasm은 특정 실행 환경을 필요로 하지 않습니다. 그러므로, wasm이 미래에 다양한 맥락에서 사용할수 있는 "휴대 가능한 실행할수 있는" 포맷이라고 여겨질수도 있습니다. 하지만 오늘날 wasm은 대부분 (웹과 [Node.js]을 포함한) 다양한 형태로 존재하는 JavaScript (JS)와 함께 언급됩니다.
+현재로는 JavaScript 웹 커뮤니티에서 주로 주목을 받고 있지만, wasm은 특정 실행 환경을 필요로 하지 않습니다. 그러므로, wasm이 미래에 다양한 맥락에서 사용할수 있는 "휴대 가능한 실행할수 있는" 포맷이라고 여겨질수도 있습니다. 하지만 오늘날 wasm은 대부분 (웹과 [Node.js]을 포함한) 다양한 형태로 존재하는 JavaScript (JS)와 함께 언급됩니다.
 
 [memory model]: https://webassembly.github.io/spec/core/syntax/modules.html#syntax-mem
 [memory can be grown]: https://webassembly.github.io/spec/core/syntax/instructions.html#syntax-instr-memory

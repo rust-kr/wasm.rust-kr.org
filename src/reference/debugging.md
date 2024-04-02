@@ -38,13 +38,13 @@ web_sys::console::log_1(&"Hello, world!".into());
   * [로그할 값들을 배열로 받는 `web_sys::console::log`](https://rustwasm.github.io/wasm-bindgen/api/web_sys/console/fn.log.html)
   * [한 값만 로그하는 `web_sys::console::log_1`](https://rustwasm.github.io/wasm-bindgen/api/web_sys/console/fn.log_1.html)
   * [두 값을 로그하는 `web_sys::console::log_2`](https://rustwasm.github.io/wasm-bindgen/api/web_sys/console/fn.log_2.html)
-  * 등...
+  * 기타...
 
 * `web-sys` 크레이트로 `console.error` 함수 사용하기:
   * [로그할 값들을 배열로 받는 `web_sys::console::error`](https://rustwasm.github.io/wasm-bindgen/api/web_sys/console/fn.error.html)
   * [한 값만 로그하는 `web_sys::console::error_1`](https://rustwasm.github.io/wasm-bindgen/api/web_sys/console/fn.error_1.html)
   * [두 값을 로그하는 `web_sys::console::error_2`](https://rustwasm.github.io/wasm-bindgen/api/web_sys/console/fn.error_2.html)
-  * 등...
+  * 기타...
 
 * [`console` 객체에 대해 설명해주는 MDN 문서](https://developer.mozilla.org/en-US/docs/Web/API/Console)
 * [Firefox 개발자 도구 — 웹 콘솔](https://developer.mozilla.org/en-US/docs/Tools/Web_Console)
@@ -84,7 +84,7 @@ pub fn init_panic_hook() {
 * [Chrome DevTools에서 JavaScript 디버깅 시작해보기](https://developers.google.com/web/tools/chrome-devtools/javascript/)
 
 ## 처음부터 WebAssembly 디버깅을 최소화할수 있도록 해주세요
-고쳐야 할 버그가 JavaScript나 Web API 환경을 필요로 한다면 [`wasm-bindgen-test`으로 테스팅 코드를 작성해보세요.][wbg-test]
+고쳐야 할 버그가 JavaScript나 Web API 환경을 필요로 한다면 [`wasm-bindgen-test`으로 테스팅 코드를 작성해보세요][wbg-test].
 
 그렇지 *않다면* `#[test]` 속성을 포함해서 일반적인 Rust 코드처럼 재현해보세요. 이렇게 하면 운영체제의 성숙한 네이티브 툴링을 최대한 활용하여 디버깅할 수 있습니다. [`quickcheck`][quickcheck]과 같은 테스팅 크레이트와 테스팅 코드 축소기도 사용해보면서 기계적으로 테스트 코드의 사이즈를 줄여보세요. 최종적으로는, JavaScript 환경이 요구되지 않도록 더 작은 Rust 테스트 코드로 분리시키면 버그를 찾아서 잡기가 쉬워집니다.
 
