@@ -7,7 +7,7 @@
 이 책은 Rust 코드를 웹에서 작동하는 빠르고 안정된 WebAssembly 코드로 컴파일하는데에 관심이 있는 사람들을 위해 작성됐습니다.
 꼭 전문가가 돼야할 필요는 없지만, Rust를 조금이라도 알아야 하고 JavaScript와 HTML, CSS에 익숙하면 더 좋습니다.
 
-Rust를 아직 모르시나요? [*The Rust Programming Language* 책으로 시작해보세요][trpl]
+Rust를 아직 모르시나요? [*The Rust Programming Language* 책으로 시작해보세요.][trpl]
 
 JavaScript나 HTML, CSS를 모르시나요? [MDN에서 더 알아보세요.][mdn]
 
