@@ -101,7 +101,7 @@ pkg/
 └── wasm_game_of_life.js
 ```
 
-`README.md` 파일이 메인 프로젝트에서 복사되지만 나머지 파일은 완전히 새로 생성된 부분을 확인할수 있습니다.
+`README.md` 파일이 메인 프로젝트에서 복사되지만 나머지 파일은 완전히 새로 생성된 부분을 확인할 수 있습니다.
 
 ### `wasm-game-of-life/pkg/wasm_game_of_life_bg.wasm`
 
@@ -278,7 +278,7 @@ npm install
 npm run start
 ```
 
-웹 브라우저를 열고 [http://localhost:8080/](http://localhost:8080/) 를 열면 표시되는 인사 메세지를 확인할수 있습니다:
+웹 브라우저를 열고 [http://localhost:8080/](http://localhost:8080/) 를 열면 표시되는 인사 메세지를 확인할 수 있습니다:
 
 [!["Hello, wasm-game-of-life!" 웹 페이지 알림(alert) 메세지 스크린샷](../images/game-of-life/hello-world.png)](../images/game-of-life/hello-world.png)
 

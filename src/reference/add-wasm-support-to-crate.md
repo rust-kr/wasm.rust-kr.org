@@ -122,7 +122,7 @@ fn do_work() {
 
 ### 지속성 통합 (CI) 환경을 사용해서 `wasm32-unknown-unknown` 타겟으로 빌드하기
 
-WebAssembly를 타겟으로 할떄, 다음 명령어를 CI 스크립트에 포함시켜서 컴파일이 실패하지 않는지 확인할수 있습니다:
+WebAssembly를 타겟으로 할떄, 다음 명령어를 CI 스크립트에 포함시켜서 컴파일이 실패하지 않는지 확인할 수 있습니다:
 
 ```
 rustup target add wasm32-unknown-unknown

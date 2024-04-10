@@ -32,7 +32,7 @@ $ gzip -9 < pkg/wasm_game_of_life_bg.wasm | wc -c
 
 * [`wasm-snip` 툴](../reference/code-size.html#use-the-wasm-snip-tool)을 사용해서 패닉 디버깅 함수를 구현한 게임의 `.wasm` 바이너리에서 제외시켜보세요. 사이즈가 얼마나 줄어드나요?
 
-* [`wee_alloc` 를 전역 할당자 (global allocator)](https://github.com/rustwasm/wee_alloc)를 써보고 이전과 비교해보세요. 프로젝트를 시작할 때 클론 했던 `rustwasm/wasm-pack-template` 템플릿은 "wee_alloc" 이라는 카고(cargo) 기능(feature)을 포함하고 있는데, 이 기능은 `wasm-game-of-life/Cargo.toml` 파일의 `[features]` 섹션에 위치한 `default` 필드에 추가해서 활성화 할수 있습니다.
+* [`wee_alloc` 를 전역 할당자 (global allocator)](https://github.com/rustwasm/wee_alloc)를 써보고 이전과 비교해보세요. 프로젝트를 시작할 때 클론 했던 `rustwasm/wasm-pack-template` 템플릿은 "wee_alloc" 이라는 카고(cargo) 기능(feature)을 포함하고 있는데, 이 기능은 `wasm-game-of-life/Cargo.toml` 파일의 `[features]` 섹션에 위치한 `default` 필드에 추가해서 활성화할 수 있습니다.
 
   ```toml
   [features]

@@ -20,9 +20,9 @@ debug = true
 ## `console` API로 로깅 하기
 
 로깅(Logging) 작업은 코드를 설계하면서 만든 가설들을 증명하고 프로그램의 버그를 해결하는데 매우 효과적입니다. 웹 환경에서 [`console.log`
-함수](https://developer.mozilla.org/en-US/docs/Web/API/Console/log)를 호출하여 브라우저의 개발자 콘솔에 메세지를 로그할수 있습니다.
+함수](https://developer.mozilla.org/en-US/docs/Web/API/Console/log)를 호출하여 브라우저의 개발자 콘솔에 메세지를 로그할 수 있습니다.
 
-[`web-sys` 크레이트][web-sys]를 사용하여 `console` 로깅 함수를 사용할수 있습니다.
+[`web-sys` 크레이트][web-sys]를 사용하여 `console` 로깅 함수를 사용할 수 있습니다.
 
 ```rust
 extern crate web_sys;
@@ -68,7 +68,7 @@ pub fn init_panic_hook() {
 
 ## 디버거 사용하기
 
-정말 아쉽게도 WebAssembly 디버깅 경험은 아직 개선할 부분이 많습니다. 대부분의 Unix 시스템에서는 [DWARF][dwarf]를 사용해서 소스 레벨에서 실행하는 프로그램을 살펴보는데 디버거가 필요로 하는 정보를 인코딩(encoding)할수 있습니다. 하지만 Windows에서는 대신 사용할수 있는 포맷이 있긴 하지만 현재로서는 WebAssembly를 직접적으로 지원하지 않습니다. 그러므로 따로 작성했던 Rust 소스 텍스트 대신 컴파일러가 출력한 WebAssembly 명령어를 그대로 확인해야 합니다.
+정말 아쉽게도 WebAssembly 디버깅 경험은 아직 개선할 부분이 많습니다. 대부분의 Unix 시스템에서는 [DWARF][dwarf]를 사용해서 소스 레벨에서 실행하는 프로그램을 살펴보는데 디버거가 필요로 하는 정보를 인코딩(encoding)할 수 있습니다. 하지만 Windows에서는 대신 사용할수 있는 포맷이 있긴 하지만 현재로서는 WebAssembly를 직접적으로 지원하지 않습니다. 그러므로 따로 작성했던 Rust 소스 텍스트 대신 컴파일러가 출력한 WebAssembly 명령어를 그대로 확인해야 합니다.
 
 > [W3C WebAssembly group의 디버깅 하위 조항][debugging-subcharter]도 있으므로 미래에는 이런 문제가 개선될 것으로 예상됩니다!
 

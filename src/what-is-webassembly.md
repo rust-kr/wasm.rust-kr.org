@@ -32,7 +32,7 @@ WebAssembly(wasm)는 [포괄적인 사양][extensive specification]을 가지고
 위 예제가 `.wasm` 파일로는 어떻게 보일지 궁금하다면, [wat2wasm 데모][wat2wasm demo] 웹사이트를 이용해보세요.
 
 ## 선형 메모리 (Linear Memory)
-WebAssembly 매우 간단한 [메모리 모델][memory model]을 가지고 있고, 하나의 wasm 모듈은 하나의 "선형 메모리" 에 접근할수 있습니다.
+WebAssembly 매우 간단한 [메모리 모델][memory model]을 가지고 있고, 하나의 wasm 모듈은 하나의 "선형 메모리" 에 접근할 수 있습니다.
 
 이 메모리는 페이지 사이즈 (64K)의 곱만큼 [커질수 있으며][memory can be grown] 이 사이즈는 줄어들 수 없습니다. 
 
