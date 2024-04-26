@@ -2,11 +2,11 @@
 
 ## 설계
 
-시작하기 전에, 어떤 방식으로 설계를 해야 할지 살펴봅시다.
+시작하기 전에, 어떤 방식으로 설계할지 살펴봅시다.
 
 ### 무한한 세상
 
-Game of Life는 무한한 세상에서 시작됩니다. 하지만 우리가 무한한 메모리와 컴퓨터 파워를 가지고 있지는 않기 때문에, 보통은 다음 세 가지 방법 중 한 가지로 이 귀찮은 제한을 우회하게 됩니다:
+Game of Life는 무한한 세상에서 시작됩니다. 하지만 보통은 무한한 메모리와 컴퓨터 파워를 가지고 있지 않기 때문에 다음 세 가지 방법 중 한 방법을 통해 이 귀찮은 제한을 우회하게 됩니다:
 
 1. 세상의 어떤 부분이 많은 컴퓨터 자원을 필요로 하는지 추적하고 이러한 부분을 필요할 때 확장합니다. 최악의 경우에는, 이 확장이 제한 없이 진행되고 코드가 계속해서 느려지면서 결국에는 메모리를 다 차지하게 됩니다.
 
@@ -18,7 +18,7 @@ Game of Life는 무한한 세상에서 시작됩니다. 하지만 우리가 무�
 
 ### Rust와 JavaScript 코드끼리 연결하기
 
-> ⚡ 다음 내용은 이 튜토리얼에서 다루는 내용 중에서도 아주 중요한 내용입니다. 이 내용을 이해하면서 얻어갈 수 있는 부분이 많습니다!
+> ⚡ 다음 내용은 이 튜토리얼에서 다루는 내용 중에서도 아주 중요한 내용입니다. 이 내용을 이해하면서 얻어갈수 있는 부분이 많습니다!
 
 JavaScript는 `Object`, `Array` 그리고 [DOM 노드(node)](https://developer.mozilla.org/ko/docs/Glossary/Node/DOM)들이 할당되는 가비지 콜렉터가 관리하는 힙을 사용하지만, 작성하게 될 Rust 코드의 선형 메모리는 별개의 공간을 사용하게 됩니다. WebAssembly는 현재로써는 가비지 콜렉터가 관리하는 힙에 직접 접근할수 없습니다. (2018년 4월 기준으로, ["인터페이스 타입" 제안][interface-types] 과 함께 변경될 전망이긴 합니다.) 반면에 JavaScript는 [`ArrayBuffer`][array-buf]나 스칼라 값 (scalar values / `u8`, `i32`, `f64`, 등...)만으로라도 이 선형 메모리를 읽고 쓸수 있습니다. 이런 내용을 기반으로 모든 WebAssembly와 JavaScript 사이의 커뮤니케이션이 구성되게 됩니다.
 
@@ -32,9 +32,9 @@ WebAssembly와 JavaScript 사이의 인터페이스를 설계할 때, 다음 내
 1. **JavaScript와 WebAssembly 선형 메모리 사이를 오가는 복사(copy) 최소화하기**
    불필요한 복사는 불필요한 오버헤드를 발생시킵니다.
 
-2. **직렬화 (serializing)와 역직렬화(deserializing) 최소화하기.** 복사와 마찬가지로, 직렬화와 역직렬화도 오버헤드를 발생시킬수 있고, 이러한 작업이 복사도 자주 발생시키게 됩니다. 한곳에서 모든 직렬화 작업을 하는 대신 일반적으로 WebAssembly 선형 메모리의 알려진 위치로 [opaque handle](https://en.wikipedia.org/wiki/Opaque_data_type)들을 넘기는 방식으로 많은 오버헤드를 없앨수 있게 됩니다. `wasm_bindgen`을 통해 JavaScript의 `Object`, 박싱된 Rust 구조체(`struct`)와 사용하는 opaque handle들을 더 쉽게 정의하고 관리할 수 있습니다.
+2. **직렬화 (serializing)와 역직렬화(deserializing) 최소화하기.** 복사와 마찬가지로, 직렬화와 역직렬화도 오버헤드를 발생시킬수 있고, 이러한 작업이 복사도 자주 발생시키게 됩니다. 한 곳에서 모든 직렬화 작업을 하는 대신 일반적으로 WebAssembly 선형 메모리의 알려진 위치로 [opaque handle](https://en.wikipedia.org/wiki/Opaque_data_type)들을 넘기는 방식으로 많은 오버헤드를 없앨 수 있게 됩니다. `wasm_bindgen`을 통해 JavaScript의 `Object`, 박싱된 Rust 구조체(`struct`)와 사용하는 opaque handle들을 더 쉽게 정의하고 관리할 수도 있습니다.
 
-대부분의 경우에는, JavaScript와 WebAssembly를 오갈 때 사이즈가 크고 오래 살아있어야 하는 자료 구조를 WebAssembly 선형 메모리에 두고, 이러한 값들을 JavaScript에서 opaque handle로써 노출 시키는 것이 좋은 인터페이스 설계입니다. JavaScript가 이러한 opaque handle를 통해 WebAssembly 함수를 부르고, 데이터를 변형시키고, 무거운 컴퓨팅 작업을 하고, 값을 검색하고, 최종적으로 작은 사이즈의 복사할수 있는 값을 반환(return)합니다. 작은 값만 반환하면 JavaScript 가비지 콜렉터가 관리하는 힙과 WebAssembly 선형 메모리 사이의 모든 값들을 앞뒤로 복사하고 직렬화할 필요가 없게 됩니다.
+대부분의 경우에는, JavaScript와 WebAssembly를 오갈 때 사이즈가 크고 오래 살아있어야 하는 자료 구조를 WebAssembly 선형 메모리에 두고, 이러한 값들을 JavaScript에서 opaque handle로써 노출 시키는 것이 좋은 인터페이스 설계입니다. JavaScript가 이러한 opaque handle를 통해 WebAssembly 함수를 호출하고, 데이터를 변형시키고, 무거운 컴퓨팅 작업을 하고, 값을 검색하고, 최종적으로 작은 사이즈의 복사할수 있는 값을 반환(return)하게 됩니다. 작은 값만 반환하게 되면 JavaScript 가비지 콜렉터가 관리하는 힙과 WebAssembly 선형 메모리 사이의 모든 값들을 앞뒤로 복사하고 직렬화할 필요가 없어지게 됩니다.
 
 ### Rust와 JavaScript를 구현하는 프로그램에서 조작하기
 
@@ -52,7 +52,7 @@ WebAssembly와 JavaScript 사이의 인터페이스를 설계할 때, 다음 내
 index(row, column, universe) = row * width(universe) + column
 ```
 
-세포들을 JavaScript에 노출시킬때 여러가지 방법을 사용해볼수 있는데, 우선은 Rust `String` 타입의 값으로 세포들을 문자로 표시할수 있도록 `Universe` 타입에 `std::fmt::Display` 트레이트(trait)를 구현해주도록 합시다. 이 트레이트를 통해 Rust `String` 타입의 값을 WebAssembly 선형 메모리에서 JavaScript 가비지 콜렉터가 관리하는 힙으로 복사할 수 있게 됩니다. 그 다음, 복사된 값을 HTML `textConent`에 표시해보도록 하겠습니다. 이 챕터 후반에서는 이 구현에 덧붙여서 세포들을 힙에 복사하지 않도록 해보고 세포들을 `<canvas>`에 표시할 예정입니다.
+세포들을 JavaScript에 노출시킬때 여러가지 방법을 사용해볼수 있는데, 우선은 Rust `String` 타입의 값으로 세포들을 문자로 표시할수 있도록 `Universe` 타입에 `std::fmt::Display` 트레이트(trait)를 구현해주도록 합시다. 이 트레이트를 통해 Rust `String` 타입의 값을 WebAssembly 선형 메모리에서 JavaScript 가비지 콜렉터가 관리하는 힙으로 복사할 수 있게 됩니다. 그 다음, 복사된 값을 HTML `textConent`에 표시해보도록 하겠습니다. 이 챕터 후반에서는 이 구현에 덧붙여서 세포들을 힙에 복사하지 않도록 해보고 세포들을 `<canvas>`에 표시해볼 예정입니다.
 
 *하나 더 대신 해볼법한 설계가 있는데, 세상 전체를 노출시키지 않고 매 틱마다 상태가 바뀌게 되는 세포들을 목록으로 만들어서 Rust 코드에서 JavaScript로 반환해볼수도 있습니다. 이 방법으로, JavaScript 코드에서 세상 전체를 순회할 필요 없이 일부만 순회할수 있게 됩니다. 단점으로는, 이 델타 기반 (delta-based)의 설계는 구현하기가 조금 더 어렵습니다.*
 
@@ -123,12 +123,12 @@ impl Universe {
 }
 ```
 
-`live_neighbor_count` 메소드는 델타값과 나머지 값을 확인해서 세상의 끝에서 발생할 수 있는 예외를 `if`문으로 처리합니다. `-1`의 델타를 적용할 때, `self.height -1`을 추가해서 `1`을 빼는 대신 나머지 값을 계속 처리하게 합니다. `row`와 `column`은 `0`이 될수 있고, 이 값에서 `1`을 뺄려고 할때, unsigned integer underflow가 발생하게 됩니다.
+`live_neighbor_count` 메소드는 델타값과 나머지 값을 확인해서 세상의 끝에서 발생할 수 있는 예외를 `if`문으로 처리합니다. `-1`의 델타를 적용할 때, `self.height -1`을 추가해서 `1`을 빼는 대신 나머지 값을 계속 처리하게 합니다. `row`와 `column`은 각각 `0`이 될수 있고, 이 값에서 `1`을 빼려고 시도할 때, unsigned integer underflow가 발생하게 됩니다.
 
-이제 현재 세대를 기반으로 다음 세대를 처리하는데 필요한 준비가 완료됐습니다! `match` 문을 사용해서 보기 명확하게 게임의 규칙을 나타내봅시다. 추가로, 틱이 일어날 때 JavaScript가 컨트롤하도록 할 것이기 때문에, `#[wasm_bindgen]` 블럭을 추가해서 이 메소드를 JavaScript 코드에 노출시켜보도록 하겠습니다.
+이제 현재 세대를 기반으로 다음 세대를 처리하는데 필요한 준비가 완료됐습니다! `match` 문을 사용해서 보기 명확하게 게임의 규칙을 나타내봅시다. 추가로, 틱이 일어날 때 JavaScript가 컨트롤하도록 할 예정이기 때문에, `#[wasm_bindgen]` 블럭을 추가해서 이 메소드를 JavaScript 코드에 노출시켜보도록 하겠습니다.
 
 ```rust
-/// Public 메소드, JavaScript로 익스포트 할수 있게 함.
+/// Public 메소드, JavaScript로 익스포트 할 수 있게 함.
 #[wasm_bindgen]
 impl Universe {
     pub fn tick(&mut self) {
@@ -295,7 +295,7 @@ requestAnimationFrame(renderLoop);
 
 ## 메모리에서 바로 캔버스로 렌더링하기
 
-Rust 코드에서 `String`을 생성 (및 할당) 하고 `wasm-bindgen`로 이 생성한 값을 유효한 JavaScript 문자열로 변환하게 되면 세포들을 불필요하게 복사하게 됩니다. JavaScript 코드에서 세상의 너비와 높이를 이미 알고 있고, 세포를 만드는 처리가 이루어지는 WebAssembly 선형 메모리를 읽을 수 있기 때문에, `render` 메소드를 수정하여 `cells` 배열의 시작을 가리키는 포인터를 반환하도록 합시다.
+Rust 코드에서 `String`을 생성 (및 할당) 하고 `wasm-bindgen`로 이 생성한 값을 유효한 JavaScript 문자열로 변환하게 되면 세포들을 불필요하게 복사하게 됩니다. JavaScript 코드에서 세상의 너비와 높이를 이미 알고 있고, 세포를 만드는 처리가 이루어지는 WebAssembly 선형 메모리를 읽을 수 있기 때문에, `render` 메소드를 수정하여 `cells` 배열의 시작을 가리키는 포인터를 반환해보도록 합시다.
 
 그리고 유니코드 문자를 렌더링하지 않고 [Canvas API] 를 대신 사용해봅시다. 이 API를 이 부분 이후부터 계속 사용하겠습니다.
 
@@ -494,12 +494,12 @@ npm run start
     ```
   </details>
 
-* 각 세포를 byte 값으로 표현하면서 순회를 쉽게 할수 있지만, 메모리 자원을 낭비하는 단점이 있습니다. 1 byte는 8 bit인데, 실제로 세포 생존 여부를 표시할 때는 1 bit만 사용하고 있습니다. 이 데이터 표현을 (data representation) 을 리팩토링하여 각 세포가 1 bit의 사이즈만 사용할수 있도록 해보세요.
+* 각 세포를 byte 값으로 표현하면서 순회를 쉽게 할수 있지만, 메모리 자원을 낭비하는 단점이 있습니다. 1 byte는 8 bit인데, 실제로 세포 생존 여부를 표시할 때는 1 bit만 사용하고 있습니다. 이 데이터 표현을 (data representation) 을 리팩토링하여 각 세포가 1 bit의 사이즈만 사용할수 있도록 코드를 작성해보세요.
 
   <details>
     <summary>정답</summary>
 
-    Rust 언어에서는 `Vec<Cell>` 타입 대신 (추가 기능을 제공하는 라이브러리인) [`fixedbitset` 크레이트의 `FixedBitSet` 타입](https://crates.io/crates/fixedbitset)을 사용하여 세포를 나타낼수도 있습니다.
+    Rust 언어에서는 `Vec<Cell>` 타입 대신 (추가 기능을 제공하는 라이브러리인) [`fixedbitset` 크레이트의 `FixedBitSet` 타입](https://crates.io/crates/fixedbitset)을 사용하여 세포들을 나타낼수도 있습니다.
 
     ```rust
     // Cargo.toml에 종속성을 추가했는지 확인해주세요!
@@ -578,7 +578,7 @@ npm run start
       return (arr[byte] & mask) === mask;
     };
     ```
-    이제 준비가 됐으니 `drawCells` 함수를 다음과 같이 업데이트해줍시다:
+    이제 준비가 됐으니 `drawCells` 함수를 다음과 같이 업데이트 해줍시다:
 
     ```js
     const drawCells = () => {
