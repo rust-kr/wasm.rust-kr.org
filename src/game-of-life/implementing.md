@@ -2,15 +2,15 @@
 
 ## 설계
 
-시작하기 전에, 어떤 방식으로 설계할지 살펴봅시다.
+시작하기 전에, 어떤 방식으로 Game of Lifef를 설계 할지 살펴봅시다.
 
 ### 무한한 세상
 
-Game of Life는 무한한 세상에서 시작됩니다. 하지만 보통은 무한한 메모리와 컴퓨터 파워를 가지고 있지 않기 때문에 다음 세 가지 방법 중 한 방법을 통해 이 귀찮은 제한을 우회하게 됩니다:
+Game of Life는 무한한 세상에서 시작됩니다. 하지만 보통은 우리가 무한한 메모리와 컴퓨터 파워를 가지고 있지 않기 때문에 다음 세 가지 방법 중 한 방법을 통해 이 귀찮은 제한을 우회하게 됩니다:
 
 1. 세상의 어떤 부분이 많은 컴퓨터 자원을 필요로 하는지 추적하고 이러한 부분을 필요할 때 확장합니다. 최악의 경우에는, 이 확장이 제한 없이 진행되고 코드가 계속해서 느려지면서 결국에는 메모리를 다 차지하게 됩니다.
 
-2. 모서리에 위치한 세포들이 가운데에 위치한 세포들과 비교해서 더 적은 이웃을 가지게 되는 사이즈가 정해져 있는 세상을 만듭니다. [gliders](https://conwaylife.com/wiki/Glider)와 같은 무한한 패턴이 모서리에서 끝나버리게 되는 단점이 있습니다.
+2. 모서리에 위치한 세포들이 가운데에 위치한 세포들과 비교해서 더 적은 이웃을 가지게 되는 사이즈가 정해져 있는 세상을 만듭니다. 이 방법에는 [gliders](https://conwaylife.com/wiki/Glider)와 같은 무한한 패턴이 모서리에서 끝나버리게 된다는 단점이 있습니다.
 
 3. 사이즈가 정해졌지만 계속해서 연결되는 우주를 만듭니다. 세상의 끝을 반대쪽 세상의 끝으로 연결시켜 세포들이 계속해서 이웃을 가질수 있게 합니다. 이렇게 gliders 패턴이 계속 움직일수 있게 됩니다.
 
@@ -18,35 +18,35 @@ Game of Life는 무한한 세상에서 시작됩니다. 하지만 보통은 무�
 
 ### Rust와 JavaScript 코드끼리 연결하기
 
-> ⚡ 다음 내용은 이 튜토리얼에서 다루는 내용 중에서도 아주 중요한 내용입니다. 이 내용을 이해하면서 얻어갈수 있는 부분이 많습니다!
+> ⚡ 다음 내용은 이 튜토리얼에서 다루는 내용 중에서도 아주 중요한 내용입니다. 이 내용을 이해하면서 얻어갈수 있는 부분이 아주 많습니다!
 
-JavaScript는 `Object`, `Array` 그리고 [DOM 노드(node)](https://developer.mozilla.org/ko/docs/Glossary/Node/DOM)들이 할당되는 가비지 콜렉터가 관리하는 힙을 사용하지만, 작성하게 될 Rust 코드의 선형 메모리는 별개의 공간을 사용하게 됩니다. WebAssembly는 현재로써는 가비지 콜렉터가 관리하는 힙에 직접 접근할수 없습니다. (2018년 4월 기준으로, ["인터페이스 타입" 제안][interface-types] 과 함께 변경될 전망이긴 합니다.) 반면에 JavaScript는 [`ArrayBuffer`][array-buf]나 스칼라 값 (scalar values / `u8`, `i32`, `f64`, 등...)만으로라도 이 선형 메모리를 읽고 쓸수 있습니다. 이런 내용을 기반으로 모든 WebAssembly와 JavaScript 사이의 커뮤니케이션이 구성되게 됩니다.
+JavaScript는 `Object`, `Array` 그리고 [DOM 노드(node)](https://developer.mozilla.org/ko/docs/Glossary/Node/DOM)들이 할당되는 가비지 콜렉터가 관리하는 힙을 사용하지만, 작성하게 될 Rust 코드의 선형 메모리는 별개의 공간을 사용하게 됩니다. WebAssembly는 현재로써는 가비지 콜렉터가 관리하는 힙에 직접 접근할수 없습니다. (2018년 4월 기준으로, ["인터페이스 타입" 제안][interface-types] 과 함께 변경될 전망이긴 합니다.) 반면에 JavaScript는 [`ArrayBuffer`][array-buf]나 스칼라 값 (scalar values / `u8`, `i32`, `f64`, 등...) 만으로라도 이 선형 메모리를 읽고 쓸수 있습니다. 이런 내용을 기반으로 모든 WebAssembly와 JavaScript 사이의 커뮤니케이션이 구성되게 됩니다.
 
 [interface-types]: https://github.com/WebAssembly/interface-types/blob/master/proposals/interface-types/Explainer.md
 [array-buf]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer
 
-`wasm_bindgen`는 이 경계를 사이로 어떻게 구조체(compound structure)들을 주고받아야 하는지 정해주는 역할을 합니다. 이러한 작업은 Rust 구조체를 박싱(boxing)하고, 쉽게 사용하기 위해 JavaScript 클래스에 포인터를 랩핑(wrapping)하고, Rust 코드에서 JavaScript 객체 테이블을 인덱싱(indexing)하는 과정을 포함합니다. `wasm_bindgen`은 매우 간편하지만, 데이터 표현 설계를 모두 대신 해주진 않습니다. 원하는 방식으로 인터페이스 설계를 구현할수 있도록 도와주는 도구 정도로 생각해주세요.
+`wasm_bindgen`는 이 경계를 사이로 어떻게 구조체 (compound structure) 들을 주고받아야 하는지 정해주는 역할을 합니다. 이러한 작업은 Rust 구조체를 박싱(boxing)하고, 쉽게 사용하기 위해 JavaScript 클래스에 포인터를 랩핑(wrapping)하고, Rust 코드에서 JavaScript 객체 테이블을 인덱싱(indexing)하는 과정을 포함합니다. `wasm_bindgen`은 매우 간편하지만, 데이터 표현 설계를 모두 대신 해주진 않습니다. 원하는 방식으로 인터페이스 설계를 구현할 수 있도록 도와주는 도구 정도로 생각하면 좋습니다.
 
 WebAssembly와 JavaScript 사이의 인터페이스를 설계할 때, 다음 내용들을 최적화 작업 시 고려해야 합니다:
 
-1. **JavaScript와 WebAssembly 선형 메모리 사이를 오가는 복사(copy) 최소화하기**
+1. **JavaScript와 WebAssembly 선형 메모리 사이를 오가는 복사(copy) 최소화하기.**
    불필요한 복사는 불필요한 오버헤드를 발생시킵니다.
 
-2. **직렬화 (serializing)와 역직렬화(deserializing) 최소화하기.** 복사와 마찬가지로, 직렬화와 역직렬화도 오버헤드를 발생시킬수 있고, 이러한 작업이 복사도 자주 발생시키게 됩니다. 한 곳에서 모든 직렬화 작업을 하는 대신 일반적으로 WebAssembly 선형 메모리의 알려진 위치로 [opaque handle](https://en.wikipedia.org/wiki/Opaque_data_type)들을 넘기는 방식으로 많은 오버헤드를 없앨 수 있게 됩니다. `wasm_bindgen`을 통해 JavaScript의 `Object`, 박싱된 Rust 구조체(`struct`)와 사용하는 opaque handle들을 더 쉽게 정의하고 관리할 수도 있습니다.
+2. **직렬화 (serializing)와 역직렬화(deserializing) 최소화하기.** 복사와 마찬가지로, 직렬화와 역직렬화도 오버헤드를 발생시킬수 있고, 이러한 작업이 복사도 자주 발생시키게 됩니다. 한 곳에서 모든 직렬화 작업을 하는 대신 일반적으로 WebAssembly 선형 메모리의 알려진 위치로 [opaque handle](https://en.wikipedia.org/wiki/Opaque_data_type)들을 넘기는 방식으로 많은 오버헤드를 줄일수 있게 됩니다. 그리고 `wasm_bindgen`을 통해 JavaScript의 `Object`나 박싱된 Rust `struct`를 가리키는 opaque handle들을 더 쉽게 정의하고 사용할 수 있습니다.
 
-대부분의 경우에는, JavaScript와 WebAssembly를 오갈 때 사이즈가 크고 오래 살아있어야 하는 자료 구조를 WebAssembly 선형 메모리에 두고, 이러한 값들을 JavaScript에서 opaque handle로써 노출 시키는 것이 좋은 인터페이스 설계입니다. JavaScript가 이러한 opaque handle를 통해 WebAssembly 함수를 호출하고, 데이터를 변형시키고, 무거운 컴퓨팅 작업을 하고, 값을 검색하고, 최종적으로 작은 사이즈의 복사할수 있는 값을 반환(return)하게 됩니다. 작은 값만 반환하게 되면 JavaScript 가비지 콜렉터가 관리하는 힙과 WebAssembly 선형 메모리 사이의 모든 값들을 앞뒤로 복사하고 직렬화할 필요가 없어지게 됩니다.
+대부분의 경우에는, JavaScript와 WebAssembly를 오갈 때 사이즈가 크고 오래 살아있어야 하는 자료 구조를 WebAssembly 선형 메모리에 두고, 이러한 값들을 JavaScript에서 opaque handle로써 노출 시키는 것이 좋은 인터페이스 설계입니다. JavaScript가 이러한 opaque handle를 통해 WebAssembly 함수를 호출하고, 데이터를 변형시키고, 무거운 컴퓨팅 작업을 하고, 값을 검색하고, 최종적으로 작은 사이즈의 복사할수 있는 값을 반환하게 됩니다. 작은 값만 반환하게 되면 JavaScript 가비지 콜렉터가 관리하는 힙과 WebAssembly 선형 메모리 사이의 모든 값들을 앞뒤로 복사하고 직렬화할 필요가 없어지게 됩니다.
 
 ### Rust와 JavaScript를 구현하는 프로그램에서 조작하기
 
 위험한 사례를 살펴보는 것으로 시작해봅시다. 매 틱마다 세상을 WebAssembly에서 불러오거나 가져오기 위해 복사하지 않아야 하고, 세포 하나씩 객체를 모두 할당하거나 경계를 오가면서 읽고 쓰는 것도 좋지 않습니다.
 
-그러면 어떻게 구현하는 게 좋을까요? 죽은 세포를 `0`로 나타내고 살아있는 세포를 `1`로 나타내는 식으로 세포들을 각각 1 byte 값으로 나타낼수 있는데, WebAssembly 선형 메모리에 1차원 배열로 나타내봅시다.
+그렇다면 어떻게 구현하는게 좋을까요? 죽은 세포를 `0`로 나타내고 살아있는 세포를 `1`로 나타내는 식으로 세포들을 각각 1 byte 값으로 나타내볼수도 있는데, WebAssembly 선형 메모리에 1차원 배열로 나타내봅시다.
 
 4 x 4 사이즈의 우주를 메모리 이미지로 표현해보겠습니다:
 
 ![4 x 4 사이즈 세상의 스크린샷](../images/game-of-life/universe.png)
 
-주어진 열과 행에 해당하는 배열 인덱스를 찾을 때는 이 공식을 사용할 수 있습니다:
+이 공식을 사용해서 주어진 열과 행에 해당하는 배열 인덱스를 찾을 수 있습니다:
 
 ```text
 index(row, column, universe) = row * width(universe) + column
@@ -54,11 +54,11 @@ index(row, column, universe) = row * width(universe) + column
 
 세포들을 JavaScript에 노출시킬때 여러가지 방법을 사용해볼수 있는데, 우선은 Rust `String` 타입의 값으로 세포들을 문자로 표시할수 있도록 `Universe` 타입에 `std::fmt::Display` 트레이트(trait)를 구현해주도록 합시다. 이 트레이트를 통해 Rust `String` 타입의 값을 WebAssembly 선형 메모리에서 JavaScript 가비지 콜렉터가 관리하는 힙으로 복사할 수 있게 됩니다. 그 다음, 복사된 값을 HTML `textConent`에 표시해보도록 하겠습니다. 이 챕터 후반에서는 이 구현에 덧붙여서 세포들을 힙에 복사하지 않도록 해보고 세포들을 `<canvas>`에 표시해볼 예정입니다.
 
-*하나 더 대신 해볼법한 설계가 있는데, 세상 전체를 노출시키지 않고 매 틱마다 상태가 바뀌게 되는 세포들을 목록으로 만들어서 Rust 코드에서 JavaScript로 반환해볼수도 있습니다. 이 방법으로, JavaScript 코드에서 세상 전체를 순회할 필요 없이 일부만 순회할수 있게 됩니다. 단점으로는, 이 델타 기반 (delta-based)의 설계는 구현하기가 조금 더 어렵습니다.*
+*하나 더 대신 해볼법한 설계가 있는데, 세상 전체를 노출시키지 않고 매 틱마다 상태가 바뀌게 되는 세포들을 목록으로 만들어서 Rust 코드에서 JavaScript로 반환해볼수도 있습니다. 이 방법으로, JavaScript 코드에서 세상 전체를 순회할 필요 없이 일부만 순회할 수 있게 됩니다. 단점으로는, 이 델타 기반 (delta-based)의 설계는 구현하기가 조금 더 어렵습니다.*
 
 ## Rust 코드 구현하기
 
-직전 챕터에서 초기 프로젝트 템플릿을 클론했는데, 이 템플릿을 수정해보도록 합시다.
+직전 챕터에서 초기 프로젝트 템플릿을 클론했는데, 이 템플릿을 한번 수정해보도록 합시다.
 
 `alert`를 임포트하는 줄과 `greet` 함수를 `wasm-game-of-life/src/lib.rs` 파일에서 지워보고, 세포의 타입 정의를 대신 추가해 주는 것으로 시작해보겠습니다:
 
@@ -72,7 +72,7 @@ pub enum Cell {
 }
 ```
 
-각 세포가 1 byte 사이즈로 표현되도록 해야하기 때문에 `#[repr(u8)]`을 잊지 않고 붙여주도록 하고, 세포 주변에 살아있는 이웃들을 쉽게 셀수 있도록, `0`를 `Dead`로, `1`을 `Alive`로 정해주는 것도 중요합니다.
+각 세포가 1 byte 사이즈로 표현돼야 하므로 `#[repr(u8)]`을 잊지 않고 붙여주도록 하고, 세포 주변에 살아있는 이웃들을 쉽게 셀수 있도록, `0`를 `Dead`로, `1`을 `Alive`로 정해주는 것도 중요합니다.
 
 그 다음, 세상을 정의해봅시다. 세상을 나타내는 구조체는 너비와 높이, 세포들을 나타내는 `width * height` 길이의 벡터(vector)를 필드로 가지게 됩니다.
 
