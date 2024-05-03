@@ -28,7 +28,7 @@ wasm-game-of-life
 cd wasm-game-of-life
 ```
 
-그리고 안에 어떤 파일이 담겨있는지 확인해봅시다:
+그 다음 안에 어떤 파일이 담겨있는지 확인해봅시다:
 
 ```text
 wasm-game-of-life/
@@ -49,7 +49,7 @@ wasm-game-of-life/
 
 ### `wasm-game-of-life/src/lib.rs`
 
-`src/lib.rs` 파일은 WebAssembly로 컴파일하는 Rust 크레이트의 핵심 코드입니다. `wasm-bindgen`을 JavaScript를 조작하기 위해 사용하고, `window.alert` JavaScript 함수를 불러온 다음에 `greet` Rust 함수를 JavaScript로 보냅니다. 이렇게 `"Hello, wasm-game-of-life!"` 메세지를 표시시킬 수 있습니다.
+`src/lib.rs` 파일은 WebAssembly로 컴파일하는 Rust 크레이트의 핵심 코드입니다. `wasm-bindgen`을 JavaScript를 조작하기 위해 사용하고, `window.alert` JavaScript 함수를 불러온 다음에 `greet` Rust 함수를 JavaScript로 보냅니다. 이렇게 "Hello World" alert 메세지를 표시시킬수 있게 됩니다.
 
 ```rust
 mod utils;
@@ -101,15 +101,15 @@ pkg/
 └── wasm_game_of_life.js
 ```
 
-`README.md` 파일이 메인 프로젝트에서 복사되지만 나머지 파일은 완전히 새로 생성된 부분을 확인할 수 있습니다.
+`README.md` 파일이 메인 프로젝트에서 복사됐지만 나머지 파일들은 완전히 새로 생성된 부분을 확인할 수 있습니다.
 
 ### `wasm-game-of-life/pkg/wasm_game_of_life_bg.wasm`
 
-이러한 `.wasm` 파일은 Rust 컴파일러가 Rust 소스 코드로 생성한 바이너리 파일입니다. 이 파일은 wasm 형식으로 컴파일된 소스 코드의 함수와 데이터들로 구성돼 있습니다. 변환된 "greet" 함수가 예가 될수 있습니다.
+이러한 `.wasm` 파일은 Rust 컴파일러가 Rust 소스 코드로 생성한 바이너리 파일입니다. 이 파일은 wasm 형식으로 컴파일된 모든 Rust 함수들과 데이터로 구성돼 있습니다. 변환된 "greet" 함수가 예가 될수 있습니다.
 
 ### `wasm-game-of-life/pkg/wasm_game_of_life.js`
 
-이러한 `.js` 파일은 `wasm-bindgen`에 의해 생성됩니다. DOM과 JavaScript 함수를 Rust에서 호출할 수 있게 해주고, JavaScript 환경에서도 WebAssembly 함수를 호출할 수 있도록 도와주는 유용한 API를 노출시켜줍니다. 예를 들어서, `greet` 이라는 JavaScript 함수를 통해 WebAssembly에 있는 해당하는 함수를 부를수 있습니다. 현재로서는 이러한 파일(bindings glue)들이 큰 역할을 하지는 않지만, 더 복잡한 값들을 wasm과 JavaScript 사이에서 주고받을 때 정말 많은 도움이 됩니다.
+이러한 `.js` 파일은 `wasm-bindgen`에 의해 생성됩니다. DOM과 JavaScript 함수를 Rust에서 호출할 수 있게 해주고, JavaScript 환경에서도 WebAssembly 함수를 호출할 수 있도록 도와주는 유용한 API를 노출시켜줍니다. 예를 들어서, `greet` 이라는 JavaScript 함수를 통해 WebAssembly의 해당하는 함수를 호출할 수 있습니다. 현재 시점에서는 이러한 바인딩(bindings glue)들이 큰 역할을 하지는 않지만, 더 복잡한 값들을 wasm과 JavaScript 사이에서 주고받을 때 정말 도움이 많이 됩니다.
 
 ```js
 import * as wasm from './wasm_game_of_life_bg';
@@ -187,7 +187,7 @@ wasm-game-of-life/www/
 
 ### `wasm-game-of-life/www/package.json`
 
-이 `package.json` 파일은 `webpack`과 `webpack-dev-server` 종속성들로 미리 셋업이 되어 있고, npm 에 배포된 `wasm-pack-template`의 초기 버전인 `hello-wasm-pack` 패키지 또한 종속성도 포함하고 있습니다.
+이 `package.json` 파일은 `webpack`과 `webpack-dev-server` 종속성들로 미리 셋업이 되어 있고, npm 에 배포돼 있는 `wasm-pack-template`의 초기 버전인 `hello-wasm-pack` 패키지 또한 종속성으로 포함하고 있습니다.
 
 ### `wasm-game-of-life/www/webpack.config.js`
 
@@ -195,7 +195,7 @@ wasm-game-of-life/www/
 
 ### `wasm-game-of-life/www/index.html`
 
-웹사이트에 사용되는 최상단 HTML 파일입니다. `index.js` 를 감싸주는 `bootstrap.js`를 부르는 것 외에는 특별한 동작을 하지는 않습니다.
+웹사이트에 사용되는 최상단 HTML 파일입니다. `index.js` 를 감싸주는 `bootstrap.js`를 부르는 것 외에는 특별한 동작을 하지 않습니다.
 
 ```html
 <!DOCTYPE html>
@@ -212,7 +212,7 @@ wasm-game-of-life/www/
 
 ### `wasm-game-of-life/www/index.js`
 
-이 `index.js`는 작업을 하게 될 웹사이트 JavaScript의 엔트리 포인트입니다. JavaScript 코드와 `wasm-pack-template`을 컴파일한 결과물인 WebAssembly가 포함돼 있는데, `hello-wasm-pack` npm 패키지를 로드하고 패키지 내부의 `greet` 함수를 호출해줍니다.
+이 `index.js`는 작업을 하게 될 웹사이트 JavaScript의 진입점 (entry point) 입니다. JavaScript 코드와 `wasm-pack-template`의 컴파일 결과물인 WebAssembly가 포함돼 있는데, `hello-wasm-pack` npm 패키지를 로드하고 패키지 내부의 `greet` 함수를 호출해줍니다.
 
 ```js
 import * as wasm from "hello-wasm-pack";
@@ -233,7 +233,7 @@ npm install
 > 단순히 간편하게 책을 진행하기 위해 이 번들러와 개발 서버를 사용할 예정이지만
 > `webpack`이 Rust와 WebAssembly 작업에 필수가 아니라는 점을 기억해주세요.
 > Parcel과 Rollup도 WebAssembly와 ECMAScript 모듈을 부르는데 사용할 수 있습니다.
-> 원한다면 Rust와 WebAssembly를 [번들러 없이][] 사용할 수도 있습니다.
+> 원한다면 Rust와 WebAssembly를 [번들러 없이][] 사용할수도 있습니다.
 
 [번들러 없이]: https://rustwasm.github.io/docs/wasm-bindgen/examples/without-a-bundler.html
 
@@ -264,6 +264,7 @@ wasm.greet();
 ```
 
 새 종속성을 만들었다면, 다음 명령어로 설치해야 합니다:
+
 ```text
 npm install
 ```
@@ -272,22 +273,22 @@ npm install
 
 ## 로컬 환경에서 구동하기
 
-이제 개발 서버를 구동할 새 터미널을 열어주세요. 새로 연 터미널에서 서버를 구동하면 다른 명령어를 계속 입력할수 있는 동시에 백그라운드에서 계속 서버를 구동할수 있게 됩니다. 새 터미널에서 `wasm-game-of-life/www` 디렉토리로 들어간 다음 이 명령어를 실행해주세요:
+이제 개발 서버를 구동할 새 터미널을 열어주세요. 새로 연 터미널에서 서버를 구동하면 백그라운드에서 계속 서버를 구동하면서 다른 명령어를 계속 입력할 수 있게 됩니다. 새 터미널에서 `wasm-game-of-life/www` 디렉토리로 들어간 다음 이 명령어를 실행해주세요:
 
 ```
 npm run start
 ```
 
-웹 브라우저를 열고 [http://localhost:8080/](http://localhost:8080/) 를 열면 표시되는 인사 메세지를 확인할 수 있습니다:
+웹 브라우저를 열고 [http://localhost:8080/](http://localhost:8080/) 를 열면 표시되는 "Hello World" alert 메세지를 확인할 수 있습니다:
 
-[!["Hello, wasm-game-of-life!" 웹 페이지 알림(alert) 메세지 스크린샷](../images/game-of-life/hello-world.png)](../images/game-of-life/hello-world.png)
+[!["Hello, wasm-game-of-life!" 웹 페이지 alert 메세지 스크린샷](../images/game-of-life/hello-world.png)](../images/game-of-life/hello-world.png)
 
 파일을 저장할 때 마다 [http://localhost:8080/](http://localhost:8080/) 페이지에 반영되도록 하고 싶다면, `wasm-pack build` 명령어를 `wasm-game-of-life` 디렉토리에서 다시 실행해주세요.
 
 ## 연습해보기
 
 * `wasm-game-of-life/src/lib.rs` 디렉토리에 있는 `greet` 함수를
-  수정해서 표시되는 메세지를 커스터마이징 할수 있도록 `name: &str` 매개변수를 추가해보고, `wasm-game-of-life/www/index.js` 파일에서 `greet` 함수를 이름과 함께 불러보세요.
+  수정해서 표시되는 메세지를 커스터마이징 할수 있도록 `name: &str` 매개변수를 추가해보고, `wasm-game-of-life/www/index.js` 파일에서 `greet` 함수를 이름과 함께 호출해보세요.
   `wasm-pack build` 명령어로 `.wasm` 바이너리를 다시 빌드하고, [http://localhost:8080/](http://localhost:8080/) 페이지를 새로고침하면 브라우저에서 수정된 알림 메세지를 확인할수 있습니다.
 
   <details>
@@ -302,7 +303,7 @@ npm run start
     }
     ```
     
-    `wasm-game-of-life/www/index.js` 파일에서 수정된 `greet` 함수 호출:
+    `wasm-game-of-life/www/index.js` 파일에서 수정된 `greet` 함수 호출하기:
 
     ```js
     wasm.greet("Your Name");
