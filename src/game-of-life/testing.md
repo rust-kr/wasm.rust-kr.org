@@ -54,7 +54,7 @@ impl Universe {
 
 이제 `wasm_game_of_life/tests/web.rs` 파일에 테스팅 코드를 작성해보도록 하겠습니다.
 
-진행하기 전에, 이미 완성된 테스팅 코드가 있으니 한번 살펴봅시다. `wasm-game-of-life` 디렉토리에서 `wasm-pack test --chrome --headless` 명령어를 실행하여 Rust로 생성한 WebAssembly 테스팅 코드가 잘 작동하는지 확인할 수 있습니다. `--firefox`, `--safari`, `--node` 옵션을 사용하여 특정 브라우저 환경에서 코드를 테스트할수도 있습니다.
+진행하기 전에, 이미 완성된 테스팅 코드가 있으니 한번 살펴봅시다. `wasm-game-of-life` 경로에서 `wasm-pack test --chrome --headless` 명령어를 실행하여 Rust로 생성한 WebAssembly 테스팅 코드가 잘 작동하는지 확인할 수 있습니다. `--firefox`, `--safari`, `--node` 옵션을 사용하여 특정 브라우저 환경에서 코드를 테스트할수도 있습니다.
 
 우선 `wasm_game_of_life/tests/web.rs` 파일에서, `wasm_game_of_life` 크레이트와 `Universe`를 익스포트 해줍시다.
 
@@ -103,4 +103,4 @@ pub fn test_tick() {
 }
 ```
 
-이제 `wasm-game-of-life` 디렉토리에서 `wasm-pack test --firefox --headless` 명령어를 실행하여 테스팅 코드를 실행해주면 됩니다.
+이제 `wasm-game-of-life` 경로에서 `wasm-pack test --firefox --headless` 명령어를 실행하여 테스팅 코드를 실행해주면 됩니다.

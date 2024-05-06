@@ -136,7 +136,7 @@ LLMV-IR은 LLVM이 WebAssembly를 생성 하기 전에 받게 되는 최종 중�
 cargo rustc --release -- --emit llvm-ir
 ```
 
-그 다음 `find` 명령어를 사용해서 `.ll` 파일을  찾아보겠습니다. 이 LLVM-IR 파일은 `cargo`의 `target` 디렉토리에 위치하게 됩니다:
+그 다음 `find` 명령어를 사용해서 `.ll` 파일을  찾아보겠습니다. 이 LLVM-IR 파일은 `cargo`의 `target` 경로에 위치하게 됩니다:
 
 ```
 find target/release -type f -name '*.ll'

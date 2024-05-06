@@ -84,13 +84,13 @@ pub fn greet() {
 * `cargo`를 사용하여 Rust 소스 코드를 WebAssembly `.wasm` 바이너리로 컴파일합니다.
 * `wasm-bindgen`을 사용하여 Rust로 생성한 WebAssembly를 사용할 수 있도록 JavaScript API를 생성합니다.
 
-위 작업을 시작하려면, 프로젝트 디렉토리에서 다음 명령어를 실행해주세요:
+위 작업을 시작하려면, 프로젝트 경로에서 다음 명령어를 실행해주세요:
 
 ```
 wasm-pack build
 ```
 
-빌드가 완료되면 결과물을 `pkg` 디렉토리에서 확인해보세요. 다음 내용물을 확인할 수 있습니다:
+빌드가 완료되면 결과물을 `pkg` 경로에서 확인해보세요. 다음 내용물을 확인할 수 있습니다:
 
 ```
 pkg/
@@ -163,13 +163,13 @@ export function greet(): void;
 
 [create-wasm-app]: https://github.com/rustwasm/create-wasm-app
 
-다음 명령어를 `wasm-game-of-life` 디렉토리 내부에서 실행해주세요:
+다음 명령어를 `wasm-game-of-life` 경로 내부에서 실행해주세요:
 
 ```
 npm init wasm-app www
 ```
 
-새롭게 생성된 내부 디렉토리인 `wasm-game-of-life/www` 는 다음 파일들을 포함합니다:
+새롭게 생성된 내부 경로인 `wasm-game-of-life/www` 는 다음 파일들을 포함합니다:
 
 ```
 wasm-game-of-life/www/
@@ -222,7 +222,7 @@ wasm.greet();
 
 ### 종속성 설치하기
 
-우선, `wasm-game-of-life/www` 내부 디렉토리에서 `npm install` 명령어를 실행하여 로컬 개발 서버와 종속성들이 설치돼 있는지 확인해주세요:
+우선, `wasm-game-of-life/www` 내부 경로에서 `npm install` 명령어를 실행하여 로컬 개발 서버와 종속성들이 설치돼 있는지 확인해주세요:
 
 ```text
 npm install
@@ -273,7 +273,7 @@ npm install
 
 ## 로컬 환경에서 구동하기
 
-이제 개발 서버를 구동할 새 터미널을 열어주세요. 새로 연 터미널에서 서버를 구동하면 백그라운드에서 계속 서버를 구동하면서 다른 명령어를 계속 입력할 수 있게 됩니다. 새 터미널에서 `wasm-game-of-life/www` 디렉토리로 들어간 다음 이 명령어를 실행해주세요:
+이제 개발 서버를 구동할 새 터미널을 열어주세요. 새로 연 터미널에서 서버를 구동하면 백그라운드에서 계속 서버를 구동하면서 다른 명령어를 계속 입력할 수 있게 됩니다. 새 터미널에서 `wasm-game-of-life/www` 경로로 들어간 다음 이 명령어를 실행해주세요:
 
 ```
 npm run start
@@ -283,11 +283,11 @@ npm run start
 
 [!["Hello, wasm-game-of-life!" 웹 페이지 alert 메세지 스크린샷](../images/game-of-life/hello-world.png)](../images/game-of-life/hello-world.png)
 
-파일을 저장할 때 마다 [http://localhost:8080/](http://localhost:8080/) 페이지에 반영되도록 하고 싶다면, `wasm-pack build` 명령어를 `wasm-game-of-life` 디렉토리에서 다시 실행해주세요.
+파일을 저장할 때 마다 [http://localhost:8080/](http://localhost:8080/) 페이지에 반영되도록 하고 싶다면, `wasm-pack build` 명령어를 `wasm-game-of-life` 경로에서 다시 실행해주세요.
 
 ## 연습해보기
 
-* `wasm-game-of-life/src/lib.rs` 디렉토리에 있는 `greet` 함수를
+* `wasm-game-of-life/src/lib.rs` 경로에 있는 `greet` 함수를
   수정해서 표시되는 메세지를 커스터마이징 할수 있도록 `name: &str` 매개변수를 추가해보고, `wasm-game-of-life/www/index.js` 파일에서 `greet` 함수를 이름과 함께 호출해보세요.
   `wasm-pack build` 명령어로 `.wasm` 바이너리를 다시 빌드하고, [http://localhost:8080/](http://localhost:8080/) 페이지를 새로고침하면 브라우저에서 수정된 알림 메세지를 확인할수 있습니다.
 

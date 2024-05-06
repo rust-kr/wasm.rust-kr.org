@@ -1,30 +1,30 @@
 # 상호작용 추가하기
 
-만들었던 Game of Life에 상호작용을 더 추가해보면서 JavaScript와 WebAssembly 인터페이스를 조금 더 살펴보도록 합시다. 유저들이 세포를 클릭해서 살아나게 하거나 죽게 하는 식으로 상태를 전환시킬수 있도록 해보고, 코드를 일시정지 시킬수 있도록 기능을 더 추가해서 패턴을 더 쉽게 그릴수 있도록 해보겠습니다.
+구현한 Game of Life에 상호작용을 조금 더 추가해보면서 JavaScript와 WebAssembly 인터페이스를 조금 더 탐험해보도록 하겠습니다. 이 섹션에서는 유저들이 세포를 클릭해서 생존 여부를 전환시킬수 있도록 해보고, 일시정지 기능도 구현해서 세포 패턴을 유저들이 손쉽게 그려볼 수 있도록 해볼 예정입니다.
 
 ## 일시정지 기능
 
-게임을 일시정지 시킬수 있도록 버튼을 하나 만들어 봅시다. `wasm-game-of-life/www/index.html` 파일 내의 `<canvas>` 바로 위에 버튼을 추가해주세요:
+게임을 일시정지 시킬수 있도록 버튼을 하나 만들어 봅시다. `wasm-game-of-life/www/index.html` 파일 내의 `<canvas>` 바로 위에 이 버튼을 추가해주세요:
 
 ```html
 <button id="play-pause"></button>
 ```
 
-`wasm-game-of-life/www/index.js` JavaScript 파일에서 다음 변경사항들을 적용해보겠습니다:
+`wasm-game-of-life/www/index.js` JavaScript 파일에 다음 변경사항들을 적용해보겠습니다:
 
-* `cancelAnimationFrame` 인자로 보내는 식별자(identifier)에 해당하는 애니메이션을 취소시킬수 있도록 제일 최근에 호출한 `requestAnimationFrame` 함수가 반환하는 식별자를 추적합니다.
+* 취소시키고 싶은 식별자를 `cancelAnimationFrame` 함수로 전달시킬수 있도록 `requestAnimationFrame` 함수가 제일 마지막으로 반환한 식별자를 추적합니다.
 
-* 재생/일시정지 버튼을 눌렀을 때, 대기 중인 애니메이션 프레임의 식별자를 가지고 있는지 확인합니다. 가지고 있다면 게임이 실행중이라는 의미이므로 `renderLoop`가 다시 호출되지 않도록 애니메이션을 일시정지 시킵니다. 식별자를 찾지 못했다면 게임이 멈춰있다는 의미이므로 `requestAnimationFrame` 함수를 사용하여 게임을 다시 시작해주도록 합니다.
+* 재생/일시정지 버튼을 눌렀을 때, 대기 중인 애니메이션 프레임을 가리키는 식별자를 가지고 있는지 확인합니다. 이 식별자를 가지고 있는 시점에서는 게임이 실행중일 것이므로 `renderLoop`가 다시 호출되지 않도록 애니메이션을 일시정지 시킵니다. 식별자를 가지고 있지 않다면 게임이 멈춰있다는 의미이므로 `requestAnimationFrame` 함수를 사용하여 게임을 다시 시작해주도록 합니다.
 
-이 작업은 JavaScript로 해야 하기 때문에 따로 Rust 소스 코드를 수정하지 않아도 됩니다.
+이 작업은 JavaScript 환경에서 진행해야 하기 때문에 따로 Rust 소스 코드를 수정할 필요가 없습니다.
 
-`animationId` 변수를 추가하여 `requestAnimationFrame` 함수가 반환하는 식별자를 추적해봅시다. 대기 중인 애니메이션이 없다면, 이 값을 `null`로 설정해주겠습니다.
+`animationId` 변수를 추가하여 `requestAnimationFrame` 함수가 반환하는 식별자를 추적해봅시다. 대기 중인 애니메이션이 없을 때는 이 값을 `null`로 설정해주겠습니다.
 
 ```js
 let animationId = null;
 
-// `requestAnimationFrame`의 반환값이 `animationId`에 할당되는
-// 부분 외에는 기존과 동일한 함수입니다.
+// `requestAnimationFrame`의 반환값이 `animationId`에
+// 할당된다는 점 외에는 기존과 동일한 함수입니다.
 const renderLoop = () => {
   drawGrid();
   drawCells();
@@ -43,7 +43,7 @@ const isPaused = () => {
 };
 ```
 
-이제 재생/일시정지 버튼일 클릭 됐을 때 게임의 재생 여부를 확인할 수 있고, 마찬가지로 `renderLoop` 애니메이션을 다시 시작하거나 일시정지 할수도 있습니다. 추가로, 버튼이 수행하는 동작을 반영하여 버튼의 텍스트 아이콘을 업데이트 해주도록 하겠습니다.
+이제 재생/일시정지 버튼이 클릭됐을 때 게임의 재생 여부를 확인할 수 있게 됐습니다. 마찬가지로 `renderLoop` 함수를 통해 애니메이션을 다시 시작하거나 일시정지 시킬수도 있습니다. 추가로, 버튼을 클릭했을 때 표시되는 텍스트의 아이콘을 업데이트 해주도록 하겠습니다.
 
 ```js
 const playPauseButton = document.getElementById("play-pause");
@@ -68,20 +68,20 @@ playPauseButton.addEventListener("click", event => {
 });
 ```
 
-마지막으로, 추가한 버튼이 올바른 초기 텍스트 아이콘을 가질수 있도록 이전에 `requestAnimationFrame(renderLoop)`을 직접 불러서 빠르게 시작했던 부분을 `play` 함수를 대신 호출하여 시작하도록 바꿔주겠습니다.
+마지막으로, 추가한 버튼이 올바른 초기 텍스트 아이콘을 표시하도록 이전에 `requestAnimationFrame(renderLoop)`을 직접 불러서 빠르게 시작했던 부분을 `play` 함수를 대신 호출하도록 변경해보겠습니다.
 
 ```diff
 // 기존에는 `requestAnimationFrame(renderLoop)`를 호출하는 줄이었습니다.
 play();
 ```
 
-[http://localhost:8080/](http://localhost:8080/) 페이지를 새로고침하면 게임을 일시정지하고 다시 시작할수 있도록 버튼이 추가된 부분을 확인할 수 있습니다!
+[http://localhost:8080/](http://localhost:8080/) 페이지를 새로고침하면 일시정지/재생 버튼이 추가된 부분을 확인할 수 있습니다!
 
 ## `onclick` 이벤트로 세포 상태 전환하기
 
-이제 게임을 일시정지 할수 있게 됐으니 세포들을 클릭해서 상태를 바꿔볼수 있도록 해봅시다.
+이제 게임을 일시정지 할수 있게 됐으니 세포들을 클릭해서 상태를 바꿀수 있도록 코드를 수정해보겠습니다.
 
-클릭할 때 세포의 생존 여부를 전환할 수 있도록 코드를 작성해보겠습니다. `toggle` 메소드를 `wasm-game-of-life/src/lib.rs` 파일 내의 `Cell`에 추가해주겠습니다.
+세포를 클릭할 때, 클릭한 세포의 생존 여부를 전환할 수 있도록 코드를 작성해보겠습니다. `toggle` 메소드를 `wasm-game-of-life/src/lib.rs` 파일 내의 `Cell`에 추가해줍시다.
 
 ```rust
 impl Cell {
@@ -94,10 +94,10 @@ impl Cell {
 }
 ```
 
-주어진 행과 열에 위치한 세포의 상태를 전환(toggle)할수 있도록, 행과 열을 인덱스로 변환(translate)하고, 그 다음에 변환한 인덱스를 세포 벡터로 전환하겠습니다. 그 다음 변환된 인덱스에 위치하는 세포를 전환할수 있도록 메소드를 호출하겠습니다:
+주어진 행과 열에 위치한 세포의 상태를 전환할 수 있도록, 행과 열을 벡터의 인덱스로 변환하고, 변환한 인덱스를 세포 벡터로 변환하겠습니다. 세포 벡터가 준비됐다면 변환된 인덱스에 위치하는 세포를 전환할수 있도록 메소드를 호출해봅시다:
 
 ```rust
-/// Public 메소드, JavaScript로 익스포트 할수 있게 함.
+/// Public 메소드, JavaScript로 익스포트 할수 있도록 함.
 #[wasm_bindgen]
 impl Universe {
     // ...
@@ -109,9 +109,9 @@ impl Universe {
 }
 ```
 
-이 `impl` 블럭 내에 정의된 메소드는 JavaScript 코드에서 부를수 있도록 `#[wasm_bindgen]` 속성과 함께 정의됐습니다.
+이 `impl` 블럭 내에 정의된 메소드에 `#[wasm_bindgen]` 속성을 추가하여 JavaScript 코드에서 호출할수 있도록 했습니다.
 
-`wasm-game-of-life/www/index.js` 파일에서 `<canvas>` 요소의 클릭 이벤트를 수신(listening)하고 페이지의 상대 좌표(page-relative coordinates)를 캔버스 상대 좌표(canvas-relative coordinates)로 변환한 다음 `toggle_cell` 메소드를 호출해보고 마지막으로는 장면을 다시 그려보겠습니다.
+`wasm-game-of-life/www/index.js` 파일에서 `<canvas>` 요소의 클릭 이벤트를 수신(listening)해보겠습니다. 콜백 함수 내부에는 페이지의 상대 좌표를 캔버스 상대 좌표로 변환한 다음 `toggle_cell` 메소드를 호출하여 장면을 다시 그려볼수 있도록 코드를 작성해보겠습니다.
 
 ```js
 canvas.addEventListener("click", event => {
@@ -132,14 +132,14 @@ canvas.addEventListener("click", event => {
   drawCells();
 });
 ```
-`wasm-game-of-life` 디렉토리에서 `wasm-pack build` 명령어를 실행하여 다시 빌드한 다음, [http://localhost:8080/](http://localhost:8080/) 페이지를 새로고침해보세요. 이제 세포를 클릭해서 상태를 전환할수 있게 됐습니다. 한번 패턴을 직접 그려보세요!
+`wasm-game-of-life` 경로에서 `wasm-pack build` 명령어를 실행하여 다시 빌드한 다음, [http://localhost:8080/](http://localhost:8080/) 페이지를 새로고침해보세요. 이제 세포를 직접 클릭해서 상태를 전환할 수 있게 됐습니다. 패턴을 한번 그려보세요!
 
 ## 연습해보기
 
-* [`<input type="range">`][input-range] 위젯을 추가하여 몇개의 틱이 매 프레임마다 발생하는지 조절할수 있도록 해보세요.
+* [`<input type="range">`][input-range] 위젯을 추가하여 매 프레임마다 발생하는 틱의 수를 조절할 수 있도록 코드를 작성해보세요.
 
-* 클릭했을 때 세상을 랜덤한 초기 상태로 리셋할수 있도록 버튼을 추가해보세요. 버튼을 하나 더 만들어서 모든 세포가 죽은 상태로 시작할수 있도록 구현해봐도 좋습니다.
+* 세상을 랜덤한 초기 상태로 리셋할수 있도록 버튼을 하나 더 추가해보세요. 또 다른 버튼을 추가해서 모든 세포가 죽은 상태로 새로 시작할 수 있도록 구현해봐도 좋습니다.
 
-* Ctrl을 누른 상태로 세포를 클릭하면 (`Ctrl + 클릭`) 그 세포를 중심으로 [glider](https://en.wikipedia.org/wiki/Glider_(Conway%27s_Life)) 패턴이 추가되도록 구현해보세요. 추가로 Shift를 누른 상태로 클릭할 때는 (`Shift + Click`) pulsar 패턴을 추가해봐도 좋습니다.
+* Ctrl을 누른 상태로 세포를 클릭하면 (`Ctrl + 클릭`) 클릭한 세포를 중심으로 [glider](https://en.wikipedia.org/wiki/Glider_(Conway%27s_Life)) 패턴이 추가되도록 코드를 작성해보세요. Shift를 누른 상태로 클릭할 때는 (`Shift + Click`) pulsar 패턴을 그리도록 작성해봐도 좋습니다.
 
 [input-range]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range

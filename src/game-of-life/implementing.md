@@ -128,7 +128,7 @@ impl Universe {
 이제 현재 세대를 기반으로 다음 세대를 처리하는데 필요한 준비가 완료됐습니다! `match` 문을 사용해서 게임의 규칙을 보기 명확하게 나타내봅시다. 추가로 틱이 일어날 때 JavaScript가 컨트롤하도록 할 예정이기 때문에, `#[wasm_bindgen]` 블럭을 추가해서 이 메소드를 JavaScript 코드에 노출시켜보도록 하겠습니다.
 
 ```rust
-/// Public 메소드, JavaScript로 익스포트 할 수 있게 함.
+/// Public 메소드, JavaScript로 익스포트 할수 있도록 함.
 #[wasm_bindgen]
 impl Universe {
     pub fn tick(&mut self) {
@@ -192,7 +192,7 @@ impl fmt::Display for Universe {
 마지막으로 `render` 메소드와 함께 생성자를 정의해서 세포들이 살아나고 죽어가는 신기한 세상을 생성할 수 있도록 해보겠습니다.
 
 ```rust
-/// public 메소드, JavaScript로 익스포트 할수 있게 함.
+/// Public 메소드, JavaScript로 익스포트 할수 있도록 함.
 #[wasm_bindgen]
 impl Universe {
     // ...
@@ -226,7 +226,7 @@ impl Universe {
 
 드디어 Game of Life의 Rust 코드 구현이 끝났습니다!
 
-이제 `wasm-game-of-life` 디렉토리에서 `wasm-pack build`를 실행해서 WebAssembly 파일을 다시 컴파일해주세요.
+이제 `wasm-game-of-life` 경로에서 `wasm-pack build`를 실행해서 WebAssembly 파일을 다시 컴파일해주세요.
 
 ## JavaScript로 페이지 렌더링하기
 
@@ -289,7 +289,7 @@ const renderLoop = () => {
 requestAnimationFrame(renderLoop);
 ```
 
-다시 한번 (`npm run`을 `wasm-game-of-life/www` 디렉토리에서 실행한) 개발 서버가 아직 구동중인지 확인해주세요. [http://localhost:8080/](http://localhost:8080/) 페이지를 열면 다음 내용을 확인할수 있게 됩니다:
+다시 한번 (`npm run`을 `wasm-game-of-life/www` 경로에서 실행한) 개발 서버가 아직 구동중인지 확인해주세요. [http://localhost:8080/](http://localhost:8080/) 페이지를 열면 다음 내용을 확인할수 있게 됩니다:
 
 [![텍스트를 렌더하는 Game of Life 구현 스크린샷](../images/game-of-life/initial-game-of-life-pre.png)](../images/game-of-life/initial-game-of-life-pre.png)
 
@@ -313,7 +313,7 @@ Rust 코드에서 `String`을 생성 (및 할당) 하고 `wasm-bindgen`로 이 �
 Rust로 구현한 코드에서 필요한 정보를 얻어올 수 있도록 세상의 넓이, 너비, 세포 배열을 가리키는 포인터를 반환하는 getter 함수들을 조금 더 작성해보겠습니다. 이 함수들도 JavaScript 코드로 노출시켜야 하니 잘 확인해주고, `wasm-game-of-life/src/lib.rs` 파일에 다음 코드를 추가해주세요:
 
 ```rust
-/// Public 메소드, JavaScript로 익스포트 할수 있게 함.
+/// Public 메소드, JavaScript로 익스포트 할수 있도록 함.
 #[wasm_bindgen]
 impl Universe {
     // ...
@@ -441,13 +441,13 @@ requestAnimationFrame(renderLoop);
 
 ## 다 됐어요!
 
-최상단 `wasm-game-of-life` 디렉토리에서 다음 명령어를 실행하여 WebAssembly와 바인딩 파일 (bindings glue) 들을 다시 빌드해줍시다:
+최상단 `wasm-game-of-life` 경로에서 다음 명령어를 실행하여 WebAssembly와 바인딩 파일 (bindings glue) 들을 다시 빌드해줍시다:
 
 ```
 wasm-pack build
 ```
 
-다시 한번 개발 서버가 아직 구동중인지 확인해주세요. 구동중이지 않다면 `wasm-game-of-life/www` 디렉토리에서 다시 시작해주세요:
+다시 한번 개발 서버가 아직 구동중인지 확인해주세요. 구동중이지 않다면 `wasm-game-of-life/www` 경로에서 다시 시작해주세요:
 
 ```
 npm run start

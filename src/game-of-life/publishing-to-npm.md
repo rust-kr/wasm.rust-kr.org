@@ -14,7 +14,7 @@ wasm-pack login
 
 ## 배포하기
 
-`wasm-game-of-life` 디렉토리에서 `wasm-pack` 명령어를 실행하여 `wasm-game-of-life/pkg` 작성한 코드가 잘 빌드돼 있는지 확인해주세요:
+`wasm-game-of-life` 경로에서 `wasm-pack` 명령어를 실행하여 `wasm-game-of-life/pkg` 작성한 코드가 잘 빌드돼 있는지 확인해주세요:
 
 ```
 wasm-pack build
