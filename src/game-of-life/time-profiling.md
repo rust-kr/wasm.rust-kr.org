@@ -295,7 +295,7 @@ pub fn tick(&mut self) {
 
 [![Universe::tick 타이머 결과 값의 스크린샷](../images/game-of-life/console-time-in-universe-tick.png)](../images/game-of-life/console-time-in-universe-tick.png)
 
-사용하게 될 [테스트 기능 게이트 (test feature gate)](https://doc.rust-lang.org/unstable-book/library-features/test.html) 가 `nightly` 버전에 같이 포함돼 있기 때문에, `nightly` 컴파일러가 필요합니다. 그러면 벤치마킹에 이 기능을 한번 사용해보겠습니다. [cargo benchcmp][benchcmp]이라는 툴도 필요하니 설치해주도록 합시다. 참고로 cargo benchcmp는 `cargo bench`로 생성한 마이크로 벤치마크들(micro-benchmarks) 을 비교하는데 사용하는 작은 사이즈의 유틸리티입니다.
+사용하게 될 [테스트 기능 게이트 (test feature gate)](https://doc.rust-lang.org/unstable-book/library-features/test.html) 가 `nightly` 버전에 같이 포함돼 있기 때문에, `nightly` 컴파일러가 필요합니다. 그러면 벤치마킹에 이 기능을 한번 사용해보겠습니다. [cargo benchcmp][benchcmp]이라는 툴도 필요하니 설치해주도록 합시다. 참고로 cargo benchcmp는 `cargo bench`로 생성한 마이크로 벤치마킹을 비교하는데 사용하는 작은 사이즈의 유틸리티입니다.
 
 [benchcmp]: https://github.com/BurntSushi/cargo-benchcmp
 
