@@ -26,6 +26,6 @@
   - [`.wasm` 파일 사이즈 줄이기](./reference/code-size.md)
   - [JavaScript 상호 운용하기](./reference/js-ffi.md)
   - [어떤 Rust 크레이트들을 WebAssembly에서 바로 사용할수 있나요?](./reference/which-crates-work-with-wasm.md)
-  - [다목적 크레이트가 WebAssembly를 지원하도록 코드 추가하기](./reference/add-wasm-support-to-crate.md)
+  - [다목적 크레이트가 WebAssembly를 지원하도록 코드 수정하기](./reference/add-wasm-support-to-crate.md)
   - [Rust와 WebAssembly 코드를 실제 환경에 배포하기](./reference/deploying-to-production.md)
   - [번역본](./reference/translations.md)
