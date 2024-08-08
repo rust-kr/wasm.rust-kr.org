@@ -20,7 +20,7 @@ Game of Life는 무한한 세상에서 시작됩니다. 하지만 보통은 우�
 
 > ⚡ 다음 내용은 이 튜토리얼에서 다루는 내용 중에서도 아주 중요한 내용입니다. 이 내용을 이해하면서 얻어갈수 있는 부분이 아주 많습니다!
 
-JavaScript는 `Object`, `Array` 그리고 [DOM 노드(node)](https://developer.mozilla.org/ko/docs/Glossary/Node/DOM)들이 할당되는 가비지 콜렉터가 관리하는 힙을 사용하지만, 작성하게 될 Rust 코드의 선형 메모리는 별개의 공간을 사용하게 됩니다. WebAssembly는 현재로써는 가비지 콜렉터가 관리하는 힙에 직접 접근할수 없습니다. (2018년 4월 기준으로, ["인터페이스 타입" 제안][interface-types] 과 함께 변경될 전망이긴 합니다.) 반면에 JavaScript는 [`ArrayBuffer`][array-buf]나 스칼라 값 (scalar values / `u8`, `i32`, `f64`, 등...) 만으로라도 이 선형 메모리를 읽고 쓸수 있습니다. 이런 내용을 기반으로 모든 WebAssembly와 JavaScript 사이의 커뮤니케이션이 구성되게 됩니다.
+JavaScript는 `Object`, `Array` 그리고 [DOM 노드 (node)](https://developer.mozilla.org/ko/docs/Glossary/Node/DOM) 들이 할당되는 가비지 콜렉터가 관리하는 힙을 사용하지만, 작성하게 될 Rust 코드의 선형 메모리는 별개의 공간을 사용하게 됩니다. WebAssembly는 현재로써는 가비지 콜렉터가 관리하는 힙에 직접 접근할수 없습니다. (2018년 4월 기준으로, ["인터페이스 타입" 제안][interface-types] 과 함께 변경될 전망이긴 합니다.) 반면에 JavaScript는 [`ArrayBuffer`][array-buf]나 스칼라 값 (scalar values / `u8`, `i32`, `f64`, 등...) 만으로라도 이 선형 메모리를 읽고 쓸수 있습니다. 이런 내용을 기반으로 모든 WebAssembly와 JavaScript 사이의 커뮤니케이션이 구성되게 됩니다.
 
 [interface-types]: https://github.com/WebAssembly/interface-types/blob/master/proposals/interface-types/Explainer.md
 [array-buf]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer
