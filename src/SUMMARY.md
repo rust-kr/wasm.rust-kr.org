@@ -2,7 +2,7 @@
 
 - [소개](./introduction.md)
 - [왜 Rust로 WebAssembly 개발을 해야 하나요?](./why-rust-and-webassembly.md)
-- [배경 지식](./background-and-concepts.md)
+- [배경지식](./background-and-concepts.md)
   - [WebAssembly가 뭔가요?](./what-is-webassembly.md)
 --------------------------------------------------------------------------------
 - [튜토리얼](./game-of-life/introduction.md)
@@ -17,7 +17,7 @@
     - [`.wasm` 파일 사이즈 줄이기](./game-of-life/code-size.md)
     - [npm에 배포하기](./game-of-life/publishing-to-npm.md)
 --------------------------------------------------------------------------------
-- [레퍼런스](./reference/index.md)
+- [참조](./reference/index.md)
   - [알면 좋은 크레이트들](./reference/crates.md)
   - [알면 좋은 툴들](./reference/tools.md)
   - [프로젝트 템플릿](./reference/project-templates.md)
@@ -25,7 +25,7 @@
   - [타임 프로파일링](./reference/time-profiling.md)
   - [`.wasm` 파일 사이즈 줄이기](./reference/code-size.md)
   - [JavaScript 상호 운용하기](./reference/js-ffi.md)
-  - [어떤 Rust 크레이트들을 WebAssembly에서 바로 사용할수 있나요?](./reference/which-crates-work-with-wasm.md)
+  - [어떤 Rust 크레이트들을 WebAssembly에서 바로 사용할 수 있나요?](./reference/which-crates-work-with-wasm.md)
   - [다목적 크레이트가 WebAssembly를 지원하도록 코드 수정하기](./reference/add-wasm-support-to-crate.md)
   - [Rust와 WebAssembly 코드를 실제 환경에 배포하기](./reference/deploying-to-production.md)
   - [번역본](./reference/translations.md)
