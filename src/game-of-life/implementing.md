@@ -32,7 +32,7 @@ WebAssembly와 JavaScript 사이의 인터페이스를 설계할 때, 다음 내
 1. **JavaScript와 WebAssembly 선형 메모리 사이를 오가는 복사(copy) 최소화하기.**
    불필요한 복사는 불필요한 오버헤드를 발생시킵니다.
 
-2. **직렬화 (serializing)와 역직렬화(deserializing) 최소화하기.** 복사와 마찬가지로, 직렬화와 역직렬화도 오버헤드를 발생시킬 수 있고, 이러한 작업이 복사도 자주 발생시키게 됩니다. 한 곳에서 모든 직렬화 작업을 하는 대신 일반적으로 WebAssembly 선형 메모리의 알려진 위치로 [opaque handle](https://en.wikipedia.org/wiki/Opaque_data_type)들을 넘기는 방식으로 많은 오버헤드를 줄일수 있게 됩니다. 그리고 `wasm_bindgen`을 통해 JavaScript의 `Object`나 박싱된 Rust `struct`를 가리키는 opaque handle들을 더 쉽게 정의하고 사용할 수 있습니다.
+2. **직렬화(serializing)와 역직렬화(deserializing) 최소화하기.** 복사와 마찬가지로, 직렬화와 역직렬화도 오버헤드를 발생시킬 수 있고, 이러한 작업이 복사도 자주 발생시키게 됩니다. 한 곳에서 모든 직렬화 작업을 하는 대신 일반적으로 WebAssembly 선형 메모리의 알려진 위치로 [opaque handle](https://en.wikipedia.org/wiki/Opaque_data_type)들을 넘기는 방식으로 많은 오버헤드를 줄일수 있게 됩니다. 그리고 `wasm_bindgen`을 통해 JavaScript의 `Object`나 박싱된 Rust `struct`를 가리키는 opaque handle들을 더 쉽게 정의하고 사용할 수 있습니다.
 
 대부분의 경우에는, JavaScript와 WebAssembly를 오갈 때 사이즈가 크고 오래 살아있어야 하는 자료 구조를 WebAssembly 선형 메모리에 두고, 이러한 값들을 JavaScript에서 opaque handle로써 노출시키는 것이 좋은 인터페이스 설계입니다. JavaScript가 이러한 opaque handle를 통해 WebAssembly 함수를 호출하고, 데이터를 변형시키고, 무거운 컴퓨팅 작업을 하고, 값을 검색하고, 최종적으로 작은 사이즈의 복사할 수 있는 값을 반환하게 됩니다. 작은 값만 반환하게 되면 JavaScript 가비지 콜렉터가 관리하는 힙과 WebAssembly 선형 메모리 사이의 모든 값들을 앞뒤로 복사하고 직렬화할 필요가 없어지게 됩니다.
 
@@ -52,7 +52,7 @@ WebAssembly와 JavaScript 사이의 인터페이스를 설계할 때, 다음 내
 index(row, column, universe) = row * width(universe) + column
 ```
 
-세포들을 JavaScript에 노출시킬때 여러 가지 방법을 사용해볼수 있는데, 우선은 Rust `String` 타입의 값으로 세포들을 문자로 표시할 수 있도록 `Universe` 타입에 `std::fmt::Display` 트레이트(trait)를 구현해 주도록 합시다. 이 트레이트를 통해 Rust `String` 타입의 값을 WebAssembly 선형 메모리에서 JavaScript 가비지 콜렉터가 관리하는 힙으로 복사할 수 있게 됩니다. 그 다음, 복사된 값을 HTML `textConent`에 표시해 보도록 하겠습니다. 이 챕터 후반에서는 이 구현에 덧붙여서 세포들을 힙에 복사하지 않도록 해보고 세포들을 `<canvas>`에 표시해볼 예정입니다.
+세포들을 JavaScript에 노출시킬때 여러 가지 방법을 사용해볼수 있는데, 우선은 Rust `String` 타입의 값으로 세포들을 문자로 표시할 수 있도록 `Universe` 타입에 `std::fmt::Display` 트레이트를 구현해 주도록 합시다. 이 트레이트를 통해 Rust `String` 타입의 값을 WebAssembly 선형 메모리에서 JavaScript 가비지 콜렉터가 관리하는 힙으로 복사할 수 있게 됩니다. 그 다음, 복사된 값을 HTML `textConent`에 표시해 보도록 하겠습니다. 이 챕터 후반에서는 이 구현에 덧붙여서 세포들을 힙에 복사하지 않도록 해보고 세포들을 `<canvas>`에 표시해볼 예정입니다.
 
 *하나 더 대신 해볼 법한 설계가 있는데, 세상 전체를 노출시키지 않고 매 틱마다 상태가 바뀌게 되는 세포들을 목록으로 만들어서 Rust 코드에서 JavaScript로 반환해 볼 수도 있습니다. 이 방법으로, JavaScript 코드에서 세상 전체를 순회할 필요 없이 일부만 순회할 수 있게 됩니다. 단점으로는, 이 델타 기반 (delta-based)의 설계는 구현하기가 조금 더 어렵습니다.*
 
