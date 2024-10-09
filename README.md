@@ -5,7 +5,7 @@
   <strong>이 간결한 책은 Rust와 WebAssembly를 함께 사용하는 방법을 다룹니다. 튜토리얼과 알찬 연습 예제들로 구성돼 있습니다.</strong>
 
   <h3>
-    <a href="https://pixelbracket.github.io/rust-wasm-book-ko/">책 읽기 (한국어)</a>
+    <a href="https://evasquare.github.io/rust-wasm-book-ko/">책 읽기 (한국어)</a>
     <span> | </span>
     <a href="https://rustwasm.github.io/docs/book/">책 읽기 (영어)</a>
     <span> | </span>
