@@ -1,9 +1,9 @@
 # 요약
 
 - [소개](./introduction.md)
-- [왜 Rust로 WebAssembly 개발을 해야 하나요?](./why-rust-and-webassembly.md)
+- [왜 러스트로 웹어셈블리 개발을 해야 하나요?](./why-rust-and-webassembly.md)
 - [배경지식](./background-and-concepts.md)
-  - [WebAssembly가 뭔가요?](./what-is-webassembly.md)
+  - [웹어셈블리가 뭔가요?](./what-is-webassembly.md)
 --------------------------------------------------------------------------------
 - [튜토리얼](./game-of-life/introduction.md)
     - [셋업](./game-of-life/setup.md)
@@ -24,8 +24,8 @@
   - [디버깅](./reference/debugging.md)
   - [타임 프로파일링](./reference/time-profiling.md)
   - [`.wasm` 파일 사이즈 줄이기](./reference/code-size.md)
-  - [JavaScript 상호 운용하기](./reference/js-ffi.md)
-  - [어떤 Rust 크레이트들을 WebAssembly에서 바로 사용할 수 있나요?](./reference/which-crates-work-with-wasm.md)
-  - [다목적 크레이트가 WebAssembly를 지원하도록 코드 수정하기](./reference/add-wasm-support-to-crate.md)
-  - [Rust와 WebAssembly 코드를 실제 환경에 배포하기](./reference/deploying-to-production.md)
+  - [자바스크립트 상호 운용하기](./reference/js-ffi.md)
+  - [어떤 러스트 크레이트들을 웹어셈블리에서 바로 사용할 수 있나요?](./reference/which-crates-work-with-wasm.md)
+  - [다목적 크레이트가 웹어셈블리를 지원하도록 코드 수정하기](./reference/add-wasm-support-to-crate.md)
+  - [러스트와 웹어셈블리 코드를 실제 환경에 배포하기](./reference/deploying-to-production.md)
   - [번역본](./reference/translations.md)

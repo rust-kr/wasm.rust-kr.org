@@ -1,6 +1,6 @@
 # 디버깅
 
-코드를 더 작성하기 전에, 디버깅 툴들을 조금 살펴보고 장전해 볼까요? 관심이 있다면 [Rust로 WebAssembly 바이너리를 생성하는 데 사용해 볼 수 있는 접근 방법들과 툴들에 대해 다루는 참조 페이지][reference-debugging]도 확인해 보세요!
+코드를 더 작성하기 전에, 디버깅 툴들을 조금 살펴보고 장전해 볼까요? 관심이 있다면 [러스트로 웹어셈블리 바이너리를 생성하는 데 사용해 볼 수 있는 접근 방법들과 툴들에 대해 다루는 참조 페이지][reference-debugging]도 확인해 보세요!
 
 [reference-debugging]: ../reference/debugging.html
 
@@ -53,7 +53,7 @@ macro_rules! log {
 }
 ```
 
-이제 Rust 코드에서 `log` 매크로를 호출해서 콘솔에 메세지를 로그 해봅시다. 예를 들어서, 세포의 상태, 이웃 수, 다음 틱 상태를 로그 할 수 있도록 `wasm-game-of-life/src/lib.rs` 파일을 수정해 주세요:
+이제 러스트 코드에서 `log` 매크로를 호출해서 콘솔에 메세지를 로그 해봅시다. 예를 들어서, 세포의 상태, 이웃 수, 다음 틱 상태를 로그 할 수 있도록 `wasm-game-of-life/src/lib.rs` 파일을 수정해 주세요:
 
 ```diff
 diff --git a/src/lib.rs b/src/lib.rs
@@ -87,9 +87,9 @@ index f757641..a30e107 100755
 
 ## 디버거를 사용하여 매 틱마다 일시정지 시키기
 
-[브라우저의 스탭핑 디버거 (stepping debugger) 는 Rust로 작성한 WebAssembly와 상호작용하는 JavaScript 코드를 살펴볼 때 유용합니다.](../reference/debugging.html#using-a-debugger)
+[브라우저의 스탭핑 디버거 (stepping debugger) 는 Rust로 작성한 웹어셈블리와 상호작용하는 자바스크립트 코드를 살펴볼 때 유용합니다.](../reference/debugging.html#using-a-debugger)
 
-예를 들어서, `universe.tick()` 호출 이전에 [JavaScript 코드에 `debugger;` 줄][dbg-stmt]을 추가하면 디버깅 툴을 사용하여 `renderLoop`의 매 순회마다 코드 실행을 일시정지시킬수 있게 됩니다.
+예를 들어서, `universe.tick()` 호출 이전에 [자바스크립트 코드에 `debugger;` 줄][dbg-stmt]을 추가하면 디버깅 툴을 사용하여 `renderLoop`의 매 순회마다 코드 실행을 일시정지시킬수 있게 됩니다.
 
 ```js
 const renderLoop = () => {
@@ -113,4 +113,4 @@ const renderLoop = () => {
 
 * 죽게 되거나 살아나게 되는 식으로 상태가 전환되는 각각 세포의 행과 열을 기록할 수 있도록 `tick` 함수를 로그 하는 코드를 추가해 보세요.
 
-* `Universe::new` 메소드에 `panic!()` 매크로를 추가해서 웹 브라우저의 JavaScript 디버깅 툴에서 패닉한 코드를 [퇴각검색(backtrace)](https://ko.wikipedia.org/wiki/퇴각검색) 할 수 있도록 수정해 보세요. 추가로 debug 심볼을 비활성화한 다음 `console_error_panic_hook` 선택적 종속성을 다시 빌드했을 때 스택 추적도 다시 확인해 보세요. 그렇게 유용하진 않은 것 같은데, 안 그런가요?
+* `Universe::new` 메소드에 `panic!()` 매크로를 추가해서 웹 브라우저의 자바스크립트 디버깅 툴에서 패닉한 코드를 [퇴각검색(backtrace)](https://ko.wikipedia.org/wiki/퇴각검색) 할 수 있도록 수정해 보세요. 추가로 debug 심볼을 비활성화한 다음 `console_error_panic_hook` 선택적 종속성을 다시 빌드했을 때 스택 추적도 다시 확인해 보세요. 그렇게 유용하진 않은 것 같은데, 안 그런가요?

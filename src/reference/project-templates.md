@@ -4,7 +4,7 @@
 
 ## `wasm-pack-template`
 
-[`wasm-pack`][wasm-pack]으로 셋업 된 [이 템플릿][wasm-pack-template]은 Rust와 WebAssembly 프로젝트를 손쉽게 시작할 수 있도록 준비돼 있습니다.
+[`wasm-pack`][wasm-pack]으로 셋업 된 [이 템플릿][wasm-pack-template]은 러스트와 웹어셈블리 프로젝트를 손쉽게 시작할 수 있도록 준비돼 있습니다.
 
 `cargo generate` 명령어를 실행하여 프로젝트 템플릿을 클론해보세요:
 
@@ -29,7 +29,7 @@ npm init wasm-app
 
 ## `rust-webpack-template`
 
-[이 템플릿][rust-webpack-template]은 Rust 코드를 WebAssembly로 컴파일하고 출력된 파일들을 Webpack의 [`rust-loader`][rust-loader]를 사용해서 바로 파이프라인으로 후킹 하여 연결할 수 있도록 거의 모든 보일러플레이트들을 대신 설정해 줍니다.
+[이 템플릿][rust-webpack-template]은 Rust 코드를 웹어셈블리로 컴파일하고 출력된 파일들을 webpack의 [`rust-loader`][rust-loader]를 사용해서 바로 파이프라인으로 후킹 하여 연결할 수 있도록 거의 모든 보일러플레이트들을 대신 설정해 줍니다.
 
 `npm init` 명령어로 사용해 보세요:
 

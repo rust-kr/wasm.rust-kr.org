@@ -1,6 +1,6 @@
 # 타임 프로파일링
 
-이 섹션은 Rust와 WebAssembly을 사용하여 성능을 덜 쓰면서도 지연 시간도 줄일 수 있도록 페이지를 프로파일링하는 방법에 대해 다룹니다.
+이 섹션은 러스트와 웹어셈블리를 사용하여 성능을 덜 쓰면서도 지연 시간도 줄일 수 있도록 페이지를 프로파일링하는 방법에 대해 다룹니다.
 
 > ⚡ 프로파일링을 할 때에는 항상 최적화된 빌드를 사용해주세요! `wasm-pack build` 명령어를 사용하고 있다면 이러한 최적화 옵션이 기본적으로 활성화돼있으니 참고해  주세요.
 
@@ -36,19 +36,19 @@ fn now() -> f64 {
 
 모든 웹 브라우저의 개발자 도구는 프로파일러를 포함하고 있습니다. 이러한 프로파일러들은 "call tree"나 "flame graph"와 같은 일반적인 시각 자료와 함께 어떤 함수들이 가장 많은 시간을 소비하는지 표시해 줍니다.
 
-"name" 커스텀 섹션이 wasm 바이너리에 포함되도록 [debug 심볼을 포함해서 빌드][symbols]하면 프로파일러가 `wasm-function[123]`와 같이 복잡하고 불투명한 이름 대신 Rust 함수 이름을 대신 표시하게 됩니다.
+"name" 커스텀 섹션이 웹어셈블리 바이너리에 포함되도록 [debug 심볼을 포함해서 빌드][symbols]하면 프로파일러가 `wasm-function[123]`와 같이 복잡하고 불투명한 이름 대신 Rust 함수 이름을 대신 표시하게 됩니다.
 
-이러한 프로파일러들은 인라인 함수를 **표시하지 않는다는** 점을 기억해 주세요. Rust와 LLVM는 인라인 작업을 매우 무겁게 수행하기 때문에 이러한 작업을 해주더라도 결괏값이 조금은 읽기 어려울수 있습니다.
+이러한 프로파일러들은 인라인 함수를 **표시하지 않는다는** 점을 기억해 주세요. 러스트와 LLVM는 인라인 작업을 매우 무겁게 수행하기 때문에 이러한 작업을 해주더라도 결괏값이 조금은 읽기 어려울수 있습니다.
 
 [symbols]: ./debugging.html#building-with-debug-symbols
 
-[![Rust 심볼을 표시하는 프로파일러 스크린샷](../images/game-of-life/profiler-with-rust-names.png)](../images/game-of-life/profiler-with-rust-names.png)
+[![러스트 심볼을 표시하는 프로파일러 스크린샷](../images/game-of-life/profiler-with-rust-names.png)](../images/game-of-life/profiler-with-rust-names.png)
 
 #### 추가 자료
 
 * [Firefox 개발자 도구 — 성능](https://developer.mozilla.org/en-US/docs/Tools/Performance)
 * [Microsoft Edge 개발자 도구 — 성능](https://docs.microsoft.com/en-us/microsoft-edge/devtools-guide/performance)
-* [Chrome DevTools JavaScript 프로파일러](https://developers.google.com/web/tools/chrome-devtools/rendering-tools/js-execution)
+* [Chrome DevTools 자바스크립트 프로파일러](https://developers.google.com/web/tools/chrome-devtools/rendering-tools/js-execution)
 
 ### `console.time`와 `console.timeEnd` 함수
 
